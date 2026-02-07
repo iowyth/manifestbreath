@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ================================================================
+         SITE TITLE & DESCRIPTION
+         Update these for SEO and browser tab
+         ================================================================ -->
     <title>iowyth hezel ulthiin | Manifest Breath</title>
     <meta name="description" content="Portfolio of iowyth hezel ulthiin — academic, visual artist, dancer, musician, poet, and textile artist.">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- ================================================================
+         SIDEBAR NAVIGATION
+         - Logo: Change "ihu" to your initials
+         - Social links: Update URLs to your profiles
+         ================================================================ -->
     <nav class="sidebar" id="nav">
         <a href="#home" class="sidebar-logo">ihu</a>
         <ul class="sidebar-menu">
@@ -22,6 +32,7 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="sidebar-social">
+            <!-- Instagram link -->
             <a href="https://instagram.com/stichomancer" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -29,6 +40,7 @@
                     <circle cx="18" cy="6" r="1"/>
                 </svg>
             </a>
+            <!-- Substack link -->
             <a href="https://iowyth.substack.com" target="_blank" rel="noopener noreferrer" aria-label="Substack">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 4h16M4 8h16M4 12h10M4 16h6M4 20h8"/>
@@ -38,6 +50,13 @@
     </nav>
 
     <main class="main-content">
+
+        <!-- ============================================================
+             HERO SECTION
+             - hero-image: Replace src with your photo (or local: images/hero.jpg)
+             - hero-title: Your name
+             - hero-subtitle: Your tagline
+             ============================================================ -->
         <section class="panel hero" id="home">
             <div class="hero-bg">
                 <img src="https://static.wixstatic.com/media/c63912_faadf0a069b64c8484da21e106ff903d~mv2.jpg/v1/crop/x_249,y_0,w_783,h_848/fill/w_783,h_848,al_c,q_85,enc_avif,quality_auto/7%20(1).jpg" alt="iowyth hezel ulthiin" class="hero-image">
@@ -49,19 +68,41 @@
             </div>
         </section>
 
+        <!-- ============================================================
+             ABOUT SECTION
+             - lead: Opening statement (styled larger)
+             - Additional <p> tags for more paragraphs
+             - Delete the placeholder-note when done
+             ============================================================ -->
         <section class="panel about" id="about">
             <h2 class="section-title">About</h2>
             <div class="about-text">
                 <p class="lead">I am a multi-disciplinary artist and academic whose practice spans visual art, dance, music, poetry, essays, and textile work.</p>
                 <p>My work explores the intersections of technology and ancient wisdom, seeking to meld high and low understandings into understated, naturalistic applications in everyday life.</p>
                 <p>As a techno-pagan anarcho-primitivist, I draw from both digital frontiers and primal roots.</p>
+                <!-- DELETE THIS LINE when you've added your real bio -->
                 <p class="placeholder-note">[Replace with your bio]</p>
             </div>
         </section>
 
+        <!-- ============================================================
+             PUBLICATIONS SECTION
+
+             To add a new publication, copy this template:
+
+             <article class="publication-card">
+                 <span class="publication-year">YEAR</span>
+                 <h3 class="publication-title">Title of Work</h3>
+                 <p class="publication-venue">Journal or Conference</p>
+                 <p class="publication-abstract">Brief description.</p>
+                 <a href="URL" class="publication-link">Read →</a>
+             </article>
+             ============================================================ -->
         <section class="panel publications" id="publications">
             <h2 class="section-title">Publications</h2>
             <div class="publications-list">
+
+                <!-- PUBLICATION 1 -->
                 <article class="publication-card">
                     <span class="publication-year">2024</span>
                     <h3 class="publication-title">Publication Title</h3>
@@ -69,6 +110,8 @@
                     <p class="publication-abstract">Brief description of the publication.</p>
                     <a href="#" class="publication-link">Read →</a>
                 </article>
+
+                <!-- PUBLICATION 2 -->
                 <article class="publication-card">
                     <span class="publication-year">2023</span>
                     <h3 class="publication-title">Another Title</h3>
@@ -76,6 +119,8 @@
                     <p class="publication-abstract">Brief description of the publication.</p>
                     <a href="#" class="publication-link">Read →</a>
                 </article>
+
+                <!-- PUBLICATION 3 -->
                 <article class="publication-card">
                     <span class="publication-year">2022</span>
                     <h3 class="publication-title">Earlier Work</h3>
@@ -83,24 +128,63 @@
                     <p class="publication-abstract">Brief description of the publication.</p>
                     <a href="#" class="publication-link">Read →</a>
                 </article>
+
+                <!-- ADD MORE PUBLICATIONS HERE -->
+
             </div>
         </section>
 
+        <!-- ============================================================
+             PORTFOLIO SECTION
+
+             To add a new work:
+             1. Add image to images/ folder (e.g., images/work-07.jpg)
+             2. Copy works/work-01.html to works/work-07.html
+             3. Update the new HTML file with your image path
+             4. Add a gallery item below:
+
+             <a href="works/work-07.html" class="gallery-item">
+                 <div class="gallery-thumb" style="background-image: url('../images/work-07.jpg')"></div>
+             </a>
+
+             Or without thumbnail image (shows gradient placeholder):
+             <a href="works/work-07.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+             ============================================================ -->
         <section class="panel portfolio" id="portfolio">
             <h2 class="section-title">Portfolio</h2>
             <div class="panel-inner">
                 <p class="artist-statement">[Your artist statement — a brief reflection on your practice and approach.]</p>
                 <div class="gallery-grid">
+
+                    <!-- WORK 1 -->
                     <a href="works/work-01.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+
+                    <!-- WORK 2 -->
                     <a href="works/work-02.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+
+                    <!-- WORK 3 -->
                     <a href="works/work-03.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+
+                    <!-- WORK 4 -->
                     <a href="works/work-04.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+
+                    <!-- WORK 5 -->
                     <a href="works/work-05.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+
+                    <!-- WORK 6 -->
                     <a href="works/work-06.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+
+                    <!-- ADD MORE WORKS HERE -->
+
                 </div>
             </div>
         </section>
 
+        <!-- ============================================================
+             BLOG SECTION
+             - Update the Substack URL if needed
+             - Or change to link to a different blog platform
+             ============================================================ -->
         <section class="panel blog" id="blog">
             <h2 class="section-title">Blog</h2>
             <div class="panel-inner">
@@ -114,11 +198,19 @@
             </div>
         </section>
 
+        <!-- ============================================================
+             CONTACT SECTION
+             - Update email in mailto: link
+             - Update social media URLs
+             - Add or remove contact methods as needed
+             ============================================================ -->
         <section class="panel contact" id="contact">
             <h2 class="section-title">Contact</h2>
             <div class="panel-inner">
                 <p class="contact-intro">Open to collaborations and conversations.</p>
                 <div class="contact-links">
+
+                    <!-- EMAIL -->
                     <a href="mailto:your.email@example.com" class="contact-link">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -126,6 +218,8 @@
                         </svg>
                         <span>email</span>
                     </a>
+
+                    <!-- INSTAGRAM -->
                     <a href="https://instagram.com/stichomancer" target="_blank" rel="noopener noreferrer" class="contact-link">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -134,12 +228,15 @@
                         </svg>
                         <span>@stichomancer</span>
                     </a>
+
+                    <!-- SUBSTACK -->
                     <a href="https://iowyth.substack.com" target="_blank" rel="noopener noreferrer" class="contact-link">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M4 4h16M4 8h16M4 12h10M4 16h6M4 20h8"/>
                         </svg>
                         <span>substack</span>
                     </a>
+
                 </div>
             </div>
         </section>

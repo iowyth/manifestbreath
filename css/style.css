@@ -1,29 +1,41 @@
 /* ==========================================================================
    Manifest Breath - Portfolio of iowyth hezel ulthiin
-   Horizontal Flow Layout - Content flows left to right like a sideways page
+
+   HOW TO CUSTOMIZE COLORS:
+   Change any of the color values below to update the entire site.
+   Use a color picker or hex codes. The site will update everywhere.
    ========================================================================== */
 
 :root {
-    /* Primary palette */
-    --lime: #a4e542;
-    --lime-light: #c5f076;
-    --lime-dark: #7fb832;
+    /* ======================================================================
+       PRIMARY COLORS - Change these to customize your theme
+       ====================================================================== */
 
+    /* LIME - Used for: logo, active links, buttons, accents */
+    --lime: #a4e542;
+    --lime-light: #c5f076;    /* Hover states */
+    --lime-dark: #7fb832;     /* Borders, shadows */
+
+    /* PEACH - Used for: hover states, secondary accents */
     --peach: #ffcba4;
     --peach-light: #ffddc4;
     --peach-dark: #e5a87a;
 
+    /* ROSE - Used for: placeholder notes, tertiary accents */
     --rose: #f4a4a4;
     --rose-light: #f8c4c4;
     --rose-dark: #d87a7a;
 
-    /* Water tones */
-    --water-deep: #1a3a4a;
+    /* WATER/TEAL - Used for: sidebar, hero background, headings */
+    --water-deep: #1a3a4a;    /* Main dark color */
     --water-mid: #2d5a6e;
     --water-light: #7ec8e3;
     --water-pale: #b8e4f0;
 
-    /* Opalescent gradient */
+    /* ======================================================================
+       GRADIENT - The shimmery opalescent effect on gallery thumbnails
+       Adjust colors or percentages to change the look
+       ====================================================================== */
     --opal-gradient: linear-gradient(
         135deg,
         var(--lime) 0%,
@@ -32,31 +44,42 @@
         var(--water-light) 100%
     );
 
-    /* Neutrals */
+    /* ======================================================================
+       NEUTRALS - Background and text colors
+       ====================================================================== */
     --white: #ffffff;
-    --off-white: #faf9f7;
-    --gray-100: #f5f4f2;
-    --gray-200: #e8e6e3;
-    --gray-300: #d1cec9;
-    --gray-600: #6b6560;
-    --gray-800: #2d2a26;
+    --off-white: #faf9f7;     /* Main background */
+    --gray-100: #f5f4f2;      /* Alternate section backgrounds */
+    --gray-200: #e8e6e3;      /* Borders */
+    --gray-300: #d1cec9;      /* Inactive text */
+    --gray-600: #6b6560;      /* Body text */
+    --gray-800: #2d2a26;      /* Headings */
     --black: #1a1816;
 
-    /* Typography */
-    --font-display: 'Silkscreen', monospace;
+    /* ======================================================================
+       TYPOGRAPHY - Font families
+       To change fonts, update the Google Fonts link in index.html too
+       ====================================================================== */
+    --font-display: 'Silkscreen', monospace;  /* Headings, buttons, nav */
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-    /* Spacing */
-    --space-xs: 0.25rem;
-    --space-sm: 0.5rem;
-    --space-md: 1rem;
-    --space-lg: 2rem;
-    --space-xl: 4rem;
+    /* ======================================================================
+       SPACING - Consistent spacing throughout
+       ====================================================================== */
+    --space-xs: 0.25rem;   /* 4px */
+    --space-sm: 0.5rem;    /* 8px */
+    --space-md: 1rem;      /* 16px */
+    --space-lg: 2rem;      /* 32px */
+    --space-xl: 4rem;      /* 64px */
 
-    /* Sidebar */
+    /* ======================================================================
+       LAYOUT
+       ====================================================================== */
     --sidebar-width: 180px;
 
-    /* Transitions */
+    /* ======================================================================
+       ANIMATIONS
+       ====================================================================== */
     --transition-fast: 150ms ease;
     --transition-base: 300ms ease;
 }
@@ -465,9 +488,17 @@ button {
 .gallery-thumb {
     width: 100%;
     height: 100%;
+    /* Default gradient shown when no image is set */
     background: var(--opal-gradient);
-    background-size: 200% 200%;
+    background-size: cover;
+    background-position: center;
+    /* Shimmer animation only plays if no image is set */
     animation: shimmer 8s ease-in-out infinite;
+}
+
+/* When using inline background-image, disable shimmer */
+.gallery-thumb[style*="background-image"] {
+    animation: none;
 }
 
 .gallery-thumb img {
