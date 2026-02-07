@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <nav class="sidebar" id="nav">
         <a href="#home" class="sidebar-logo">ihu</a>
         <ul class="sidebar-menu">
@@ -24,10 +23,16 @@
         </ul>
         <div class="sidebar-social">
             <a href="https://instagram.com/stichomancer" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="18" cy="6" r="1"/>
+                </svg>
             </a>
             <a href="https://iowyth.substack.com" target="_blank" rel="noopener noreferrer" aria-label="Substack">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16M4 8h16M4 12h10M4 16h6M4 20h8"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16M4 8h16M4 12h10M4 16h6M4 20h8"/>
+                </svg>
             </a>
         </div>
     </nav>
@@ -50,6 +55,7 @@
                 <p class="lead">I am a multi-disciplinary artist and academic whose practice spans visual art, dance, music, poetry, essays, and textile work.</p>
                 <p>My work explores the intersections of technology and ancient wisdom, seeking to meld high and low understandings into understated, naturalistic applications in everyday life.</p>
                 <p>As a techno-pagan anarcho-primitivist, I draw from both digital frontiers and primal roots.</p>
+                <p class="placeholder-note">[Replace with your bio]</p>
             </div>
         </section>
 
@@ -67,6 +73,14 @@
                     <span class="publication-year">2023</span>
                     <h3 class="publication-title">Another Title</h3>
                     <p class="publication-venue">Conference Name</p>
+                    <p class="publication-abstract">Brief description of the publication.</p>
+                    <a href="#" class="publication-link">Read →</a>
+                </article>
+                <article class="publication-card">
+                    <span class="publication-year">2022</span>
+                    <h3 class="publication-title">Earlier Work</h3>
+                    <p class="publication-venue">Journal Name</p>
+                    <p class="publication-abstract">Brief description of the publication.</p>
                     <a href="#" class="publication-link">Read →</a>
                 </article>
             </div>
@@ -75,12 +89,14 @@
         <section class="panel portfolio" id="portfolio">
             <h2 class="section-title">Portfolio</h2>
             <div class="panel-inner">
-                <p class="artist-statement">[Your artist statement]</p>
+                <p class="artist-statement">[Your artist statement — a brief reflection on your practice and approach.]</p>
                 <div class="gallery-grid">
-                    <a href="#" class="gallery-item"><div class="gallery-thumb"></div></a>
-                    <a href="#" class="gallery-item"><div class="gallery-thumb"></div></a>
-                    <a href="#" class="gallery-item"><div class="gallery-thumb"></div></a>
-                    <a href="#" class="gallery-item"><div class="gallery-thumb"></div></a>
+                    <a href="works/work-01.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+                    <a href="works/work-02.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+                    <a href="works/work-03.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+                    <a href="works/work-04.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+                    <a href="works/work-05.html" class="gallery-item"><div class="gallery-thumb"></div></a>
+                    <a href="works/work-06.html" class="gallery-item"><div class="gallery-thumb"></div></a>
                 </div>
             </div>
         </section>
@@ -89,7 +105,12 @@
             <h2 class="section-title">Blog</h2>
             <div class="panel-inner">
                 <p class="blog-intro">Thoughts and reflections on my Substack.</p>
-                <a href="https://iowyth.substack.com" target="_blank" class="blog-link">Visit Substack</a>
+                <a href="https://iowyth.substack.com" target="_blank" rel="noopener noreferrer" class="blog-link">
+                    <span>Visit Substack</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                    </svg>
+                </a>
             </div>
         </section>
 
@@ -98,8 +119,18 @@
             <div class="panel-inner">
                 <p class="contact-intro">Open to collaborations and conversations.</p>
                 <div class="contact-links">
-                    <a href="mailto:your.email@example.com" class="contact-link"><span>email</span></a>
-                    <a href="https://instagram.com/stichomancer" target="_blank" class="contact-link"><span>@stichomancer</span></a>
+                    <a href="mailto:your.email@example.com" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6L12 13 2 6"/>
+                        </svg>
+                        <span>email</span>
+                    </a>
+                    <a href="https://instagram.com/stichomancer" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1"/>
+                        </svg>
+                        <span>@stichomancer</span>
+                    </a>
                 </div>
             </div>
         </section>
