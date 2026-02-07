@@ -1,14 +1,97 @@
 /**
  * Manifest Breath - Main JavaScript
- * Handles navigation, portfolio tabs, and scroll animations
+ * Horizontal scrolling navigation + 90s bitmap aesthetic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    initHorizontalScroll();
     initNavigation();
     initPortfolioTabs();
-    initScrollReveal();
-    initSmoothScroll();
+    initScrollProgress();
 });
+
+/**
+ * Convert vertical scroll to horizontal
+ */
+function initHorizontalScroll() {
+    const sections = document.querySelectorAll('body > section, body > .section, body > .footer');
+
+    // Enable horizontal scrolling with mouse wheel
+    document.addEventListener('wheel', (e) => {
+        // Don't hijack scroll if user is scrolling within an overflow element
+        if (e.target.closest('.publications-list, .portfolio-grid')) {
+            return;
+        }
+
+        e.preventDefault();
+        document.documentElement.scrollLeft += e.deltaY;
+        document.body.scrollLeft += e.deltaY;
+    }, { passive: false });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const scrollAmount = window.innerWidth * 0.8;
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            smoothScrollBy(scrollAmount);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            smoothScrollBy(-scrollAmount);
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            smoothScrollTo(0);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            smoothScrollTo(document.body.scrollWidth);
+        }
+    });
+
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - scroll right
+                smoothScrollBy(window.innerWidth);
+            } else {
+                // Swipe right - scroll left
+                smoothScrollBy(-window.innerWidth);
+            }
+        }
+    }
+}
+
+/**
+ * Smooth horizontal scroll helper
+ */
+function smoothScrollBy(amount) {
+    window.scrollBy({
+        left: amount,
+        behavior: 'smooth'
+    });
+}
+
+function smoothScrollTo(position) {
+    window.scrollTo({
+        left: position,
+        behavior: 'smooth'
+    });
+}
 
 /**
  * Navigation functionality
@@ -17,21 +100,8 @@ function initNavigation() {
     const nav = document.getElementById('nav');
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
-
-    // Scroll behavior for nav background
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        if (currentScroll > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-
-        lastScroll = currentScroll;
-    });
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    const sections = document.querySelectorAll('section[id]');
 
     // Mobile menu toggle
     if (navToggle && navMenu) {
@@ -47,37 +117,59 @@ function initNavigation() {
                 navToggle.classList.remove('active');
             });
         });
+    }
 
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!nav.contains(e.target) && navMenu.classList.contains('open')) {
-                navMenu.classList.remove('open');
-                navToggle.classList.remove('active');
+    // Smooth scroll to section on nav click
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            if (targetSection) {
+                const targetPosition = targetSection.offsetLeft;
+                smoothScrollTo(targetPosition);
+            }
+        });
+    });
+
+    // Update active nav link based on scroll position
+    function updateActiveNav() {
+        const scrollPos = window.scrollX || document.documentElement.scrollLeft;
+
+        sections.forEach(section => {
+            const sectionLeft = section.offsetLeft;
+            const sectionWidth = section.offsetWidth;
+
+            if (scrollPos >= sectionLeft - sectionWidth / 2 &&
+                scrollPos < sectionLeft + sectionWidth / 2) {
+                const id = section.getAttribute('id');
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
             }
         });
     }
 
-    // Active link highlighting based on scroll position
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-menu a');
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
 
-    window.addEventListener('scroll', () => {
-        let current = '';
-        const scrollPos = window.pageYOffset + 100;
+    // Handle anchor links (like hero scroll button)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
+            if (targetId === '#') return;
 
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                current = section.getAttribute('id');
-            }
-        });
+            const targetElement = document.querySelector(targetId);
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
+            if (targetElement) {
+                smoothScrollTo(targetElement.offsetLeft);
             }
         });
     });
@@ -110,79 +202,48 @@ function initPortfolioTabs() {
 }
 
 /**
- * Scroll reveal animations
+ * Scroll progress indicator
  */
-function initScrollReveal() {
-    const revealElements = document.querySelectorAll('.publication-card, .portfolio-item, .about-content');
+function initScrollProgress() {
+    const sections = document.querySelectorAll('section[id]');
 
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal', 'visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+    // Create progress indicator
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'scroll-progress';
+
+    sections.forEach((section, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'scroll-progress-dot';
+        dot.setAttribute('aria-label', `Go to ${section.id}`);
+        dot.dataset.index = index;
+
+        dot.addEventListener('click', () => {
+            smoothScrollTo(section.offsetLeft);
         });
 
-        revealElements.forEach(el => {
-            el.classList.add('reveal');
-            observer.observe(el);
-        });
-    } else {
-        // Fallback for older browsers
-        revealElements.forEach(el => el.classList.add('reveal', 'visible'));
-    }
-}
+        progressContainer.appendChild(dot);
+    });
 
-/**
- * Smooth scroll for anchor links
- */
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
+    document.body.appendChild(progressContainer);
 
-            if (targetId === '#') return;
+    // Update active dot
+    function updateProgressDots() {
+        const scrollPos = window.scrollX || document.documentElement.scrollLeft;
+        const dots = progressContainer.querySelectorAll('.scroll-progress-dot');
 
-            const targetElement = document.querySelector(targetId);
+        sections.forEach((section, index) => {
+            const sectionLeft = section.offsetLeft;
+            const sectionWidth = section.offsetWidth;
 
-            if (targetElement) {
-                const navHeight = document.getElementById('nav').offsetHeight;
-                const targetPosition = targetElement.offsetTop - navHeight;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
+            if (scrollPos >= sectionLeft - sectionWidth / 2 &&
+                scrollPos < sectionLeft + sectionWidth / 2) {
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
                 });
             }
         });
-    });
+    }
+
+    window.addEventListener('scroll', updateProgressDots);
+    updateProgressDots();
 }
-
-/**
- * Add subtle parallax effect to hero (optional enhancement)
- */
-function initParallax() {
-    const hero = document.querySelector('.hero');
-    const heroImage = document.querySelector('.hero-image');
-
-    if (!hero || !heroImage) return;
-
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroHeight = hero.offsetHeight;
-
-        if (scrolled < heroHeight) {
-            const parallaxOffset = scrolled * 0.4;
-            heroImage.style.transform = `translateY(${parallaxOffset}px)`;
-        }
-    });
-}
-
-// Uncomment to enable parallax:
-// initParallax();
