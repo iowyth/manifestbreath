@@ -138,12 +138,13 @@ button {
     position: fixed;
     left: var(--space-lg);
     top: var(--space-lg);
-    width: var(--sidebar-width);
+    width: auto;
+    min-width: 120px;
     background: transparent;
-    border-radius: 16px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    padding: var(--space-lg);
+    padding: var(--space-md);
     z-index: 1000;
     border: 2px solid var(--lime);
 }
@@ -154,7 +155,7 @@ button {
     font-weight: 700;
     color: var(--lime);
     text-transform: lowercase;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
     transition: color var(--transition-fast);
 }
 
@@ -164,7 +165,7 @@ button {
 
 .sidebar-menu {
     list-style: none;
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-sm);
 }
 
 .sidebar-menu li {
