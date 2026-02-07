@@ -155,7 +155,7 @@ button {
     font-weight: 700;
     color: var(--lime);
     text-transform: lowercase;
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
     transition: color var(--transition-fast);
 }
 
@@ -165,11 +165,11 @@ button {
 
 .sidebar-menu {
     list-style: none;
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
 }
 
 .sidebar-menu li {
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
 }
 
 .sidebar-menu a {
@@ -179,7 +179,7 @@ button {
     color: var(--gray-300);
     text-transform: lowercase;
     display: block;
-    padding: var(--space-xs) 0;
+    padding: 2px 0;
     border-left: 2px solid transparent;
     padding-left: var(--space-sm);
     transition: all var(--transition-fast);
