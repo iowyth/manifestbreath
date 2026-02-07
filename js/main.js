@@ -1,66 +1,25 @@
 /**
  * Manifest Breath - Main JavaScript
- * Left sidebar + horizontal snap scrolling
- *
- * Navigation:
- * - Mouse wheel = scroll vertically within section content
- * - Arrow keys = move between sections horizontally
- * - Nav clicks = jump to section
+ * Horizontal scrolling site (like a normal page, but sideways)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    initKeyboardNav();
+    initHorizontalScroll();
     initClickNav();
     initActiveLink();
 });
 
 /**
- * Keyboard navigation between sections
+ * Convert wheel to horizontal scroll (natural, like a sideways page)
  */
-function initKeyboardNav() {
+function initHorizontalScroll() {
     const mainContent = document.querySelector('.main-content');
-    const panels = document.querySelectorAll('.panel');
-    if (!mainContent || !panels.length) return;
+    if (!mainContent) return;
 
-    let isScrolling = false;
-
-    function getCurrentIndex() {
-        const scrollPos = mainContent.scrollLeft;
-        const panelWidth = panels[0].offsetWidth;
-        return Math.round(scrollPos / panelWidth);
-    }
-
-    function scrollToPanel(index) {
-        if (index < 0) index = 0;
-        if (index >= panels.length) index = panels.length - 1;
-
-        const targetPanel = panels[index];
-        if (targetPanel) {
-            mainContent.scrollTo({
-                left: targetPanel.offsetLeft - mainContent.offsetLeft,
-                behavior: 'smooth'
-            });
-        }
-    }
-
-    document.addEventListener('keydown', (e) => {
-        // Don't interfere if user is typing in an input
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-        if (isScrolling) return;
-
-        if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            isScrolling = true;
-            scrollToPanel(getCurrentIndex() + 1);
-            setTimeout(() => { isScrolling = false; }, 600);
-        } else if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            isScrolling = true;
-            scrollToPanel(getCurrentIndex() - 1);
-            setTimeout(() => { isScrolling = false; }, 600);
-        }
-    });
+    mainContent.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        mainContent.scrollLeft += e.deltaY;
+    }, { passive: false });
 }
 
 /**
