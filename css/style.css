@@ -139,15 +139,13 @@ button {
     left: var(--space-lg);
     top: var(--space-lg);
     width: var(--sidebar-width);
-    background: rgba(26, 58, 74, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: transparent;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
     padding: var(--space-lg);
     z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--lime);
 }
 
 .sidebar-logo {
@@ -156,7 +154,7 @@ button {
     font-weight: 700;
     color: var(--lime);
     text-transform: lowercase;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-md);
     transition: color var(--transition-fast);
 }
 
@@ -388,11 +386,11 @@ button {
 /* Publications - single horizontal row */
 .publications-list {
     display: flex;
-    gap: var(--space-lg);
+    gap: var(--space-md);
     overflow-x: auto;
     overflow-y: hidden;
-    max-width: calc(100vw - var(--sidebar-width) - var(--space-xl) - 10rem);
     padding-bottom: var(--space-sm);
+    padding-right: var(--space-lg);
 }
 
 .publications-list::-webkit-scrollbar {
@@ -400,10 +398,12 @@ button {
 }
 
 .publication-card {
-    flex: 0 0 280px;
-    min-width: 280px;
+    flex: 0 0 240px;
+    min-width: 240px;
+    max-height: 280px;
+    overflow: hidden;
     background: var(--white);
-    padding: var(--space-lg);
+    padding: var(--space-md);
     border: 2px solid var(--gray-200);
     transition: border-color var(--transition-base);
 }
@@ -703,7 +703,7 @@ button {
 
     .sidebar-logo {
         font-size: 0.875rem;
-        margin-bottom: var(--space-lg);
+        margin-bottom: var(--space-sm);
     }
 
     .sidebar-menu a {
@@ -735,13 +735,9 @@ button {
         margin-right: var(--space-lg);
     }
 
-    .publications-list {
-        max-width: calc(100vw - var(--sidebar-width) - var(--space-xl) - 4rem);
-    }
-
     .publication-card {
-        flex: 0 0 220px;
-        min-width: 220px;
+        flex: 0 0 200px;
+        min-width: 200px;
     }
 
     .gallery-grid {
