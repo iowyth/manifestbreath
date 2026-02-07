@@ -188,45 +188,44 @@ button {
 }
 
 /* ==========================================================================
-   Main Content - Horizontal Flow
-   Using inline-block + white-space: nowrap for reliable horizontal layout
+   Main Content - Horizontal Scroll with Viewport-Sized Panels
+   Each panel fills the screen; content adapts within
    ========================================================================== */
 
 .main-content {
     margin-left: var(--sidebar-width);
     height: 100vh;
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
-    white-space: nowrap;
-    font-size: 0; /* Eliminate inline-block gaps */
+    display: flex;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
 }
 
-/* Each section flows horizontally as inline-block */
+/* Each panel is viewport-sized */
 .panel {
-    display: inline-block;
-    vertical-align: top;
-    white-space: normal;
-    font-size: 1rem; /* Restore font size */
+    flex: 0 0 calc(100vw - var(--sidebar-width));
+    width: calc(100vw - var(--sidebar-width));
     height: 100vh;
     padding: var(--space-xl);
+    display: flex;
+    align-items: center;
+    scroll-snap-align: start;
+    overflow: hidden;
 }
 
-/* Inner content of panels arranged horizontally */
-.panel-inner,
-.publications-list,
-.about-text,
-.gallery-grid,
-.contact-links,
-.blog .panel-inner,
-.contact .panel-inner {
-    display: inline-block;
-    vertical-align: middle;
+/* Panel inner content - uses grid for adaptive layout */
+.panel-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-lg);
+    max-height: calc(100vh - 8rem);
 }
 
-/* Section title - rotated vertical text */
+/* Section title - rotated vertical text on left edge */
 .section-title {
-    display: inline-block;
-    vertical-align: middle;
+    flex-shrink: 0;
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
@@ -237,6 +236,7 @@ button {
     transform: rotate(180deg);
     margin-right: var(--space-xl);
     white-space: nowrap;
+    align-self: center;
 }
 
 .section-title::after {
@@ -254,9 +254,9 @@ button {
 
 .hero {
     background: var(--water-deep);
-    min-width: 100vw;
     position: relative;
     justify-content: center;
+    align-items: center;
     padding: 0;
 }
 
@@ -324,9 +324,6 @@ button {
 }
 
 .about-text {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: normal;
     max-width: 500px;
 }
 
@@ -362,22 +359,21 @@ button {
     background: var(--gray-100);
 }
 
+/* Publications grid - wraps to fit viewport */
 .publications-list {
-    white-space: nowrap;
-    font-size: 0; /* Eliminate inline-block gaps */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-lg);
+    max-width: calc(100vw - var(--sidebar-width) - 12rem);
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
 }
 
 .publication-card {
-    display: inline-block;
-    vertical-align: top;
-    white-space: normal;
-    font-size: 1rem; /* Restore font size */
     background: var(--white);
     padding: var(--space-lg);
     border: 2px solid var(--gray-200);
     transition: border-color var(--transition-base);
-    width: 280px;
-    margin-right: var(--space-lg);
 }
 
 .publication-card:hover {
@@ -434,37 +430,36 @@ button {
 }
 
 .portfolio .panel-inner {
-    white-space: nowrap;
-    font-size: 0; /* Eliminate inline-block gaps */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-xl);
+    max-width: calc(100vw - var(--sidebar-width) - 12rem);
 }
 
 .artist-statement {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: normal;
+    flex-shrink: 0;
     font-size: 0.875rem;
     color: var(--gray-600);
     font-style: italic;
-    width: 250px;
+    max-width: 220px;
     line-height: 1.8;
-    margin-right: var(--space-xl);
 }
 
+/* Gallery grid - wraps to fit viewport */
 .gallery-grid {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: nowrap;
-    font-size: 0; /* Eliminate inline-block gaps */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-sm);
+    flex: 1;
+    max-height: calc(100vh - 10rem);
+    overflow-y: auto;
 }
 
 .gallery-item {
-    display: inline-block;
-    vertical-align: middle;
-    width: 150px;
-    height: 150px;
+    aspect-ratio: 1;
     overflow: hidden;
     transition: transform var(--transition-fast);
-    margin-right: var(--space-sm);
 }
 
 .gallery-item:hover {
@@ -499,23 +494,20 @@ button {
 }
 
 .blog .panel-inner {
-    white-space: nowrap;
-    font-size: 0; /* Eliminate inline-block gaps */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
 }
 
 .blog-intro {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: normal;
     font-size: 1rem;
     color: var(--gray-600);
-    max-width: 300px;
-    margin-right: var(--space-xl);
+    max-width: 400px;
 }
 
 .blog-link {
     display: inline-flex;
-    vertical-align: middle;
     align-items: center;
     gap: var(--space-sm);
     font-family: var(--font-display);
@@ -527,7 +519,6 @@ button {
     text-transform: lowercase;
     color: var(--water-deep);
     transition: all var(--transition-fast);
-    white-space: nowrap;
 }
 
 .blog-link:hover {
@@ -554,29 +545,26 @@ button {
 }
 
 .contact .panel-inner {
-    white-space: nowrap;
-    font-size: 0; /* Eliminate inline-block gaps */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
 }
 
 .contact-intro {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: normal;
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.9);
-    max-width: 250px;
-    margin-right: var(--space-xl);
+    max-width: 350px;
 }
 
 .contact-links {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
 }
 
 .contact-link {
     display: inline-flex;
-    vertical-align: middle;
     align-items: center;
     gap: var(--space-sm);
     padding: var(--space-md) var(--space-lg);
@@ -584,8 +572,6 @@ button {
     border: 2px solid rgba(255, 255, 255, 0.2);
     color: var(--white);
     transition: all var(--transition-fast);
-    white-space: nowrap;
-    margin-right: var(--space-md);
 }
 
 .contact-link:hover {
@@ -665,14 +651,26 @@ button {
         height: 16px;
     }
 
+    .panel {
+        padding: var(--space-lg);
+    }
+
     .section-title {
         font-size: 1rem;
         margin-right: var(--space-lg);
     }
 
-    .gallery-item {
-        width: 120px;
-        height: 120px;
+    .publications-list,
+    .portfolio .panel-inner {
+        max-width: calc(100vw - var(--sidebar-width) - 6rem);
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    .contact-links {
+        flex-direction: column;
     }
 }
 
