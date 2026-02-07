@@ -1,6 +1,6 @@
 /**
- * Manifest Breath - Main JavaScript
- * Horizontal scrolling site (like a normal page, but sideways)
+ * Manifest Breath - Horizontal scroll site
+ * Wheel scrolls horizontally like a sideways page
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,36 +10,47 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Convert wheel to horizontal scroll (natural, like a sideways page)
+ * Smooth horizontal scroll from wheel input
  */
 function initHorizontalScroll() {
-    const mainContent = document.querySelector('.main-content');
-    if (!mainContent) return;
+    const main = document.querySelector('.main-content');
+    if (!main) return;
 
-    mainContent.addEventListener('wheel', (e) => {
+    // Wheel to horizontal scroll
+    main.addEventListener('wheel', (e) => {
         e.preventDefault();
-        mainContent.scrollLeft += e.deltaY;
+        // Use both deltaY and deltaX for better trackpad support
+        const delta = e.deltaY !== 0 ? e.deltaY : e.deltaX;
+        main.scrollLeft += delta;
     }, { passive: false });
+
+    // Also allow keyboard scrolling
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+            main.scrollLeft += 100;
+        } else if (e.key === 'ArrowLeft') {
+            main.scrollLeft -= 100;
+        }
+    });
 }
 
 /**
- * Click navigation
+ * Click nav to scroll to section
  */
 function initClickNav() {
-    const navLinks = document.querySelectorAll('.sidebar-menu a');
-    const mainContent = document.querySelector('.main-content');
+    const links = document.querySelectorAll('.sidebar-menu a');
+    const main = document.querySelector('.main-content');
 
-    navLinks.forEach(link => {
+    links.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
             if (!href.startsWith('#')) return;
 
             e.preventDefault();
             const target = document.querySelector(href);
-
-            if (target && mainContent) {
-                mainContent.scrollTo({
-                    left: target.offsetLeft - mainContent.offsetLeft,
+            if (target && main) {
+                main.scrollTo({
+                    left: target.offsetLeft - main.offsetLeft,
                     behavior: 'smooth'
                 });
             }
@@ -48,32 +59,31 @@ function initClickNav() {
 }
 
 /**
- * Update active nav link on scroll
+ * Update active nav link based on scroll position
  */
 function initActiveLink() {
-    const navLinks = document.querySelectorAll('.sidebar-menu a');
-    const mainContent = document.querySelector('.main-content');
-    const panels = document.querySelectorAll('.panel');
+    const links = document.querySelectorAll('.sidebar-menu a');
+    const main = document.querySelector('.main-content');
+    const sections = document.querySelectorAll('.panel');
 
-    if (!mainContent || !panels.length) return;
+    if (!main || !sections.length) return;
 
-    const updateActiveLink = () => {
-        const scrollPos = mainContent.scrollLeft;
-        const panelWidth = panels[0].offsetWidth;
-        const currentIndex = Math.round(scrollPos / panelWidth);
+    const update = () => {
+        const scrollPos = main.scrollLeft + main.offsetWidth / 3;
 
-        if (panels[currentIndex]) {
-            const id = panels[currentIndex].getAttribute('id');
+        sections.forEach(section => {
+            const start = section.offsetLeft - main.offsetLeft;
+            const end = start + section.offsetWidth;
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${id}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
+            if (scrollPos >= start && scrollPos < end) {
+                const id = section.getAttribute('id');
+                links.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                });
+            }
+        });
     };
 
-    mainContent.addEventListener('scroll', updateActiveLink);
-    updateActiveLink();
+    main.addEventListener('scroll', update);
+    update();
 }

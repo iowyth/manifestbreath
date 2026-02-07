@@ -1,6 +1,6 @@
 /* ==========================================================================
    Manifest Breath - Portfolio of iowyth hezel ulthiin
-   Left Sidebar Nav + Horizontal Scrolling + 90s Bitmap Aesthetic
+   Horizontal Flow Layout - Content flows left to right like a sideways page
    ========================================================================== */
 
 :root {
@@ -54,7 +54,7 @@
     --space-xl: 4rem;
 
     /* Sidebar */
-    --sidebar-width: 200px;
+    --sidebar-width: 180px;
 
     /* Transitions */
     --transition-fast: 150ms ease;
@@ -74,10 +74,9 @@
     padding: 0;
 }
 
-html {
-    overflow-x: auto;
-    overflow-y: hidden;
+html, body {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -88,8 +87,6 @@ body {
     color: var(--gray-800);
     background: var(--off-white);
     -webkit-font-smoothing: antialiased;
-    height: 100%;
-    display: flex;
 }
 
 img {
@@ -129,7 +126,7 @@ button {
 
 .sidebar-logo {
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--lime);
     text-transform: lowercase;
@@ -152,12 +149,12 @@ button {
 
 .sidebar-menu a {
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 400;
     color: var(--gray-300);
     text-transform: lowercase;
     display: block;
-    padding: var(--space-sm) 0;
+    padding: var(--space-xs) 0;
     border-left: 2px solid transparent;
     padding-left: var(--space-sm);
     transition: all var(--transition-fast);
@@ -186,66 +183,46 @@ button {
 }
 
 .sidebar-social svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 /* ==========================================================================
-   Main Content - Horizontal Scroll
+   Main Content - Horizontal Flow
    ========================================================================== */
 
 .main-content {
     margin-left: var(--sidebar-width);
-    display: flex;
     height: 100vh;
-    overflow-x: auto;
+    overflow-x: scroll;
     overflow-y: hidden;
-}
-
-.panel {
-    min-width: calc(100vw - var(--sidebar-width));
-    width: calc(100vw - var(--sidebar-width));
-    height: 100vh;
-    flex-shrink: 0;
     display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+/* Each section flows horizontally */
+.panel {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.panel-inner {
-    max-width: 800px;
-    width: 100%;
+    height: 100vh;
     padding: var(--space-xl);
+    flex-shrink: 0;
 }
 
-/* Panel dividers */
-.panel::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 15%;
-    height: 70%;
-    width: 3px;
-    background: var(--opal-gradient);
-}
-
-.panel:last-child::after {
-    display: none;
-}
-
-/* ==========================================================================
-   Section Titles
-   ========================================================================== */
-
+/* Section title - rotated or inline */
 .section-title {
     font-family: var(--font-display);
-    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-size: 1.5rem;
     font-weight: 700;
     text-transform: lowercase;
-    margin-bottom: var(--space-lg);
     color: var(--water-deep);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    margin-right: var(--space-xl);
+    white-space: nowrap;
 }
 
 .section-title::after {
@@ -263,6 +240,10 @@ button {
 
 .hero {
     background: var(--water-deep);
+    min-width: 100vw;
+    position: relative;
+    justify-content: center;
+    padding: 0;
 }
 
 .hero-bg {
@@ -283,9 +264,9 @@ button {
     inset: 0;
     background: linear-gradient(
         90deg,
-        rgba(26, 58, 74, 0.7) 0%,
+        rgba(26, 58, 74, 0.8) 0%,
         rgba(26, 58, 74, 0.3) 50%,
-        rgba(26, 58, 74, 0.7) 100%
+        rgba(26, 58, 74, 0.6) 100%
     );
 }
 
@@ -299,7 +280,7 @@ button {
 
 .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 5vw, 3.5rem);
+    font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 700;
     text-transform: lowercase;
     margin-bottom: var(--space-md);
@@ -309,14 +290,14 @@ button {
 
 .hero-subtitle {
     font-family: var(--font-display);
-    font-size: clamp(0.625rem, 1.5vw, 0.875rem);
+    font-size: clamp(0.625rem, 1.5vw, 1rem);
     font-weight: 400;
     letter-spacing: 0.15em;
     text-transform: lowercase;
     color: var(--peach);
 }
 
-.hero::after {
+.hero .section-title {
     display: none;
 }
 
@@ -326,6 +307,10 @@ button {
 
 .about {
     background: var(--off-white);
+}
+
+.about-text {
+    max-width: 500px;
 }
 
 .about-text .lead {
@@ -344,7 +329,7 @@ button {
 
 .placeholder-note {
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--rose-dark);
     background: var(--rose-light);
     padding: var(--space-sm) var(--space-md);
@@ -362,8 +347,9 @@ button {
 
 .publications-list {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+    flex-direction: row;
+    gap: var(--space-lg);
+    align-items: flex-start;
 }
 
 .publication-card {
@@ -371,6 +357,8 @@ button {
     padding: var(--space-lg);
     border: 2px solid var(--gray-200);
     transition: border-color var(--transition-base);
+    min-width: 280px;
+    max-width: 320px;
 }
 
 .publication-card:hover {
@@ -379,14 +367,14 @@ button {
 
 .publication-year {
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: var(--lime-dark);
 }
 
 .publication-title {
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 700;
     color: var(--gray-800);
     margin: var(--space-xs) 0 var(--space-sm);
@@ -394,21 +382,21 @@ button {
 }
 
 .publication-venue {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--gray-600);
     font-style: italic;
     margin-bottom: var(--space-sm);
 }
 
 .publication-abstract {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--gray-600);
     margin-bottom: var(--space-md);
 }
 
 .publication-link {
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--water-mid);
     border-bottom: 2px solid transparent;
     transition: border-color var(--transition-fast);
@@ -419,37 +407,47 @@ button {
 }
 
 /* ==========================================================================
-   Portfolio - Clean Image Grid
+   Portfolio - Horizontal Image Grid
    ========================================================================== */
 
 .portfolio {
     background: var(--off-white);
 }
 
+.portfolio .panel-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
 .artist-statement {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     color: var(--gray-600);
     font-style: italic;
-    margin-bottom: var(--space-lg);
-    max-width: 600px;
+    max-width: 300px;
     line-height: 1.8;
+    flex-shrink: 0;
 }
 
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-direction: row;
     gap: var(--space-sm);
+    align-items: center;
 }
 
 .gallery-item {
     display: block;
-    aspect-ratio: 1;
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0;
     overflow: hidden;
     transition: transform var(--transition-fast);
 }
 
 .gallery-item:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 .gallery-thumb {
@@ -479,10 +477,17 @@ button {
     background: var(--gray-100);
 }
 
+.blog .panel-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
 .blog-intro {
     font-size: 1rem;
     color: var(--gray-600);
-    margin-bottom: var(--space-lg);
+    max-width: 300px;
 }
 
 .blog-link {
@@ -493,11 +498,12 @@ button {
     padding: var(--space-md) var(--space-xl);
     background: var(--lime);
     border: 3px solid var(--lime-dark);
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: lowercase;
     color: var(--water-deep);
     transition: all var(--transition-fast);
+    white-space: nowrap;
 }
 
 .blog-link:hover {
@@ -507,8 +513,8 @@ button {
 }
 
 .blog-link svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 /* ==========================================================================
@@ -523,27 +529,35 @@ button {
     color: var(--lime);
 }
 
+.contact .panel-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
 .contact-intro {
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.9);
-    margin-bottom: var(--space-lg);
+    max-width: 250px;
 }
 
 .contact-links {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: var(--space-md);
 }
 
 .contact-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: var(--space-sm);
     padding: var(--space-md) var(--space-lg);
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.2);
     color: var(--white);
     transition: all var(--transition-fast);
+    white-space: nowrap;
 }
 
 .contact-link:hover {
@@ -552,14 +566,14 @@ button {
 }
 
 .contact-link svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     opacity: 0.8;
 }
 
 .contact-link span {
     font-family: var(--font-display);
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     text-transform: lowercase;
 }
 
@@ -568,8 +582,8 @@ button {
    ========================================================================== */
 
 ::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
+    height: 8px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -580,47 +594,57 @@ button {
     background: var(--opal-gradient);
 }
 
+::-webkit-scrollbar-thumb:hover {
+    background: var(--lime);
+}
+
 /* ==========================================================================
    Mobile Responsive
    ========================================================================== */
 
 @media (max-width: 768px) {
     :root {
-        --sidebar-width: 60px;
+        --sidebar-width: 50px;
     }
 
     .sidebar {
-        padding: var(--space-md);
+        padding: var(--space-sm);
         align-items: center;
     }
 
     .sidebar-logo {
-        font-size: 1rem;
+        font-size: 0.875rem;
         margin-bottom: var(--space-lg);
     }
 
     .sidebar-menu a {
         font-size: 0;
-        padding: var(--space-sm);
+        padding: var(--space-xs);
         border-left: none;
-        border-bottom: 2px solid transparent;
     }
 
     .sidebar-menu a::first-letter {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 
     .sidebar-social {
         flex-direction: column;
-        gap: var(--space-sm);
+        gap: var(--space-xs);
     }
 
-    .panel-inner {
-        padding: var(--space-lg);
+    .sidebar-social svg {
+        width: 16px;
+        height: 16px;
     }
 
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .section-title {
+        font-size: 1rem;
+        margin-right: var(--space-lg);
+    }
+
+    .gallery-item {
+        width: 120px;
+        height: 120px;
     }
 }
 
@@ -646,41 +670,38 @@ button {
     align-items: center;
     justify-content: center;
     background: var(--black);
-    padding: var(--space-xl);
 }
 
 .work-page .main-content {
     margin-left: var(--sidebar-width);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     padding: var(--space-xl);
+    overflow: visible;
 }
 
 .work-container {
-    max-width: 90vw;
-    max-height: 80vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .work-media {
-    max-width: 100%;
-    max-height: 70vh;
+    max-width: calc(100vw - var(--sidebar-width) - 8rem);
+    max-height: 80vh;
     object-fit: contain;
 }
 
 .work-media video {
-    max-width: 100%;
-    max-height: 70vh;
+    max-width: calc(100vw - var(--sidebar-width) - 8rem);
+    max-height: 80vh;
 }
 
 .work-back {
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--gray-300);
     text-transform: lowercase;
     margin-top: var(--space-lg);
