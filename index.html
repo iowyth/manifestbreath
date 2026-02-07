@@ -11,50 +11,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="nav" id="nav">
-        <div class="nav-container">
-            <a href="#home" class="nav-logo">ihu</a>
-            <button class="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu">
-                <li><a href="#about">About</a></li>
-                <li><a href="#publications">Publications</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero" id="home">
-        <div class="hero-bg">
-            <img src="https://static.wixstatic.com/media/c63912_faadf0a069b64c8484da21e106ff903d~mv2.jpg/v1/crop/x_249,y_0,w_783,h_848/fill/w_783,h_848,al_c,q_85,enc_avif,quality_auto/7%20(1).jpg" alt="iowyth hezel ulthiin" class="hero-image">
-            <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-content">
-            <h1 class="hero-title">iowyth hezel ulthiin</h1>
-            <p class="hero-subtitle">scholar · artist · weaver of worlds</p>
-            <a href="#about" class="hero-scroll">
-                <span>explore</span>
+    <nav class="sidebar" id="nav">
+        <a href="#home" class="sidebar-logo">ihu</a>
+        <ul class="sidebar-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#publications">Publications</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="sidebar-social">
+            <a href="https://instagram.com/stichomancer" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <rect x="2" y="2" width="20" height="20" rx="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="18" cy="6" r="1"/>
+                </svg>
+            </a>
+            <a href="https://iowyth.substack.com" target="_blank" rel="noopener noreferrer" aria-label="Substack">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16M4 8h16M4 12h10M4 16h6M4 20h8"/>
                 </svg>
             </a>
         </div>
-        <div class="wave-divider">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 C200,120 400,0 600,60 C800,120 1000,0 1200,60 L1200,120 L0,120 Z"></path>
-            </svg>
-        </div>
-    </section>
+    </nav>
 
-    <section class="section about" id="about">
-        <div class="container">
-            <h2 class="section-title">About</h2>
-            <div class="about-content">
+    <main class="main-content">
+        <section class="panel hero" id="home">
+            <div class="hero-bg">
+                <img src="https://static.wixstatic.com/media/c63912_faadf0a069b64c8484da21e106ff903d~mv2.jpg/v1/crop/x_249,y_0,w_783,h_848/fill/w_783,h_848,al_c,q_85,enc_avif,quality_auto/7%20(1).jpg" alt="iowyth hezel ulthiin" class="hero-image">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title">iowyth hezel ulthiin</h1>
+                <p class="hero-subtitle">scholar · artist · weaver of worlds</p>
+            </div>
+        </section>
+
+        <section class="panel about" id="about">
+            <div class="panel-inner">
+                <h2 class="section-title">About</h2>
                 <div class="about-text">
                     <p class="lead">I am a multi-disciplinary artist and academic whose practice spans visual art, dance, music, poetry, essays, and textile work.</p>
                     <p>My work explores the intersections of technology and ancient wisdom, seeking to meld high and low understandings into understated, naturalistic applications in everyday life. As a techno-pagan anarcho-primitivist, I draw from both digital frontiers and primal roots.</p>
@@ -62,205 +59,84 @@
                     <p class="placeholder-note">[Replace this placeholder text with your actual bio]</p>
                 </div>
             </div>
-        </div>
-        <div class="wave-divider wave-divider--reverse">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200,120 L0,120 Z"></path>
-            </svg>
-        </div>
-    </section>
+        </section>
 
-    <section class="section publications" id="publications">
-        <div class="container">
-            <h2 class="section-title">Publications</h2>
-            <div class="publications-list">
-                <article class="publication-card">
-                    <span class="publication-year">2024</span>
-                    <h3 class="publication-title">Publication Title Here</h3>
-                    <p class="publication-venue">Journal/Conference Name</p>
-                    <p class="publication-abstract">Brief description of the publication and its key contributions to the field.</p>
-                    <a href="#" class="publication-link">Read more →</a>
-                </article>
-                <article class="publication-card">
-                    <span class="publication-year">2023</span>
-                    <h3 class="publication-title">Another Publication Title</h3>
-                    <p class="publication-venue">Journal/Conference Name</p>
-                    <p class="publication-abstract">Brief description of the publication and its key contributions to the field.</p>
-                    <a href="#" class="publication-link">Read more →</a>
-                </article>
-                <article class="publication-card">
-                    <span class="publication-year">2022</span>
-                    <h3 class="publication-title">Earlier Publication Title</h3>
-                    <p class="publication-venue">Journal/Conference Name</p>
-                    <p class="publication-abstract">Brief description of the publication and its key contributions to the field.</p>
-                    <a href="#" class="publication-link">Read more →</a>
-                </article>
+        <section class="panel publications" id="publications">
+            <div class="panel-inner">
+                <h2 class="section-title">Publications</h2>
+                <div class="publications-list">
+                    <article class="publication-card">
+                        <span class="publication-year">2024</span>
+                        <h3 class="publication-title">Publication Title Here</h3>
+                        <p class="publication-venue">Journal/Conference Name</p>
+                        <p class="publication-abstract">Brief description of the publication and its key contributions to the field.</p>
+                        <a href="#" class="publication-link">Read more →</a>
+                    </article>
+                    <article class="publication-card">
+                        <span class="publication-year">2023</span>
+                        <h3 class="publication-title">Another Publication Title</h3>
+                        <p class="publication-venue">Journal/Conference Name</p>
+                        <p class="publication-abstract">Brief description of the publication and its key contributions to the field.</p>
+                        <a href="#" class="publication-link">Read more →</a>
+                    </article>
+                    <article class="publication-card">
+                        <span class="publication-year">2022</span>
+                        <h3 class="publication-title">Earlier Publication Title</h3>
+                        <p class="publication-venue">Journal/Conference Name</p>
+                        <p class="publication-abstract">Brief description of the publication and its key contributions to the field.</p>
+                        <a href="#" class="publication-link">Read more →</a>
+                    </article>
+                </div>
                 <p class="placeholder-note">[Replace these placeholder publications with your actual publications]</p>
             </div>
-        </div>
-        <div class="wave-divider">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 C200,120 400,0 600,60 C800,120 1000,0 1200,60 L1200,120 L0,120 Z"></path>
-            </svg>
-        </div>
-    </section>
+        </section>
 
-    <section class="section portfolio" id="portfolio">
-        <div class="container">
-            <h2 class="section-title">Portfolio</h2>
-            <div class="portfolio-tabs">
-                <button class="tab-btn active" data-tab="visual-art">Visual Art</button>
-                <button class="tab-btn" data-tab="dance">Dance</button>
-                <button class="tab-btn" data-tab="music">Music</button>
-                <button class="tab-btn" data-tab="writing">Poetry & Essays</button>
-                <button class="tab-btn" data-tab="textile">Textile Art</button>
+        <section class="panel portfolio" id="portfolio">
+            <div class="panel-inner">
+                <h2 class="section-title">Portfolio</h2>
+                <p class="artist-statement">
+                    [Your artist statement here — a brief reflection on your practice, themes, and approach to visual work.]
+                </p>
+                <div class="gallery-grid">
+                    <a href="works/work-01.html" class="gallery-item">
+                        <div class="gallery-thumb"></div>
+                    </a>
+                    <a href="works/work-02.html" class="gallery-item">
+                        <div class="gallery-thumb"></div>
+                    </a>
+                    <a href="works/work-03.html" class="gallery-item">
+                        <div class="gallery-thumb"></div>
+                    </a>
+                    <a href="works/work-04.html" class="gallery-item">
+                        <div class="gallery-thumb"></div>
+                    </a>
+                    <a href="works/work-05.html" class="gallery-item">
+                        <div class="gallery-thumb"></div>
+                    </a>
+                    <a href="works/work-06.html" class="gallery-item">
+                        <div class="gallery-thumb"></div>
+                    </a>
+                </div>
+                <p class="placeholder-note">[Replace placeholder thumbnails with your actual images]</p>
             </div>
-            <div class="portfolio-content">
-                <div class="tab-panel active" id="visual-art">
-                    <div class="portfolio-grid">
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Visual Art 1</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Artwork Title</h3>
-                                <p>Medium, Year</p>
-                            </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Visual Art 2</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Artwork Title</h3>
-                                <p>Medium, Year</p>
-                            </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Visual Art 3</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Artwork Title</h3>
-                                <p>Medium, Year</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-panel" id="dance">
-                    <div class="portfolio-grid">
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Dance 1</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Performance Title</h3>
-                                <p>Venue, Year</p>
-                            </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Dance 2</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Performance Title</h3>
-                                <p>Venue, Year</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-panel" id="music">
-                    <div class="portfolio-grid">
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Music 1</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Track/Album Title</h3>
-                                <p>Year</p>
-                            </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Music 2</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Track/Album Title</h3>
-                                <p>Year</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-panel" id="writing">
-                    <div class="portfolio-grid portfolio-grid--writing">
-                        <div class="portfolio-item portfolio-item--text">
-                            <h3>Poem or Essay Title</h3>
-                            <p class="excerpt">Opening lines or excerpt from the piece...</p>
-                            <a href="#" class="read-more">Read full piece →</a>
-                        </div>
-                        <div class="portfolio-item portfolio-item--text">
-                            <h3>Poem or Essay Title</h3>
-                            <p class="excerpt">Opening lines or excerpt from the piece...</p>
-                            <a href="#" class="read-more">Read full piece →</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-panel" id="textile">
-                    <div class="portfolio-grid">
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Textile 1</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Textile Work Title</h3>
-                                <p>Materials, Year</p>
-                            </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <div class="portfolio-item-placeholder">
-                                <span>Textile 2</span>
-                            </div>
-                            <div class="portfolio-item-info">
-                                <h3>Textile Work Title</h3>
-                                <p>Materials, Year</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p class="placeholder-note">[Replace placeholder items with your actual portfolio pieces]</p>
-        </div>
-        <div class="wave-divider wave-divider--reverse">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200,120 L0,120 Z"></path>
-            </svg>
-        </div>
-    </section>
+        </section>
 
-    <section class="section blog" id="blog">
-        <div class="container">
-            <h2 class="section-title">Blog</h2>
-            <div class="blog-content">
+        <section class="panel blog" id="blog">
+            <div class="panel-inner">
+                <h2 class="section-title">Blog</h2>
                 <p class="blog-intro">Thoughts, reflections, and deeper explorations on my Substack.</p>
                 <a href="https://iowyth.substack.com" target="_blank" rel="noopener noreferrer" class="blog-link">
-                    <span class="blog-link-text">Visit my Substack</span>
+                    <span>Visit my Substack</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M7 17L17 7M17 7H7M17 7V17"/>
                     </svg>
                 </a>
             </div>
-        </div>
-        <div class="wave-divider">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 C200,120 400,0 600,60 C800,120 1000,0 1200,60 L1200,120 L0,120 Z"></path>
-            </svg>
-        </div>
-    </section>
+        </section>
 
-    <section class="section contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact</h2>
-            <div class="contact-content">
+        <section class="panel contact" id="contact">
+            <div class="panel-inner">
+                <h2 class="section-title">Contact</h2>
                 <p class="contact-intro">I'm open to collaborations, commissions, and conversations.</p>
                 <div class="contact-links">
                     <a href="mailto:your.email@example.com" class="contact-link">
@@ -286,14 +162,8 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 iowyth hezel ulthiin. All rights reserved.</p>
-        </div>
-    </footer>
+        </section>
+    </main>
 
     <script src="js/main.js"></script>
 </body>
