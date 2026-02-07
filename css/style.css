@@ -136,26 +136,26 @@ button {
 
 .sidebar {
     position: fixed;
-    left: var(--space-lg);
-    top: var(--space-lg);
+    left: var(--space-md);
+    top: var(--space-md);
     width: auto;
-    min-width: 120px;
+    min-width: 80px;
     background: transparent;
-    border-radius: 12px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    padding: var(--space-md);
+    padding: var(--space-sm);
     z-index: 1000;
     border: 2px solid var(--lime);
 }
 
 .sidebar-logo {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--lime);
     text-transform: lowercase;
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
     transition: color var(--transition-fast);
 }
 
@@ -165,23 +165,23 @@ button {
 
 .sidebar-menu {
     list-style: none;
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
 }
 
 .sidebar-menu li {
-    margin-bottom: var(--space-xs);
+    margin-bottom: 1px;
 }
 
 .sidebar-menu a {
     font-family: var(--font-display);
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-weight: 400;
     color: var(--gray-300);
     text-transform: lowercase;
     display: block;
-    padding: 2px 0;
+    padding: 1px 0;
     border-left: 2px solid transparent;
-    padding-left: var(--space-sm);
+    padding-left: var(--space-xs);
     transition: all var(--transition-fast);
 }
 
@@ -208,8 +208,8 @@ button {
 }
 
 .sidebar-social svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
 }
 
 /* ==========================================================================
@@ -317,6 +317,7 @@ button {
     text-align: center;
     color: var(--white);
     padding: var(--space-xl);
+    margin-top: 30vh;
 }
 
 .hero-title {
