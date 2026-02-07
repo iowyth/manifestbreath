@@ -189,6 +189,7 @@ button {
 
 /* ==========================================================================
    Main Content - Horizontal Flow
+   Using inline-block + white-space: nowrap for reliable horizontal layout
    ========================================================================== */
 
 .main-content {
@@ -196,25 +197,36 @@ button {
     height: 100vh;
     overflow-x: scroll;
     overflow-y: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    white-space: nowrap;
+    font-size: 0; /* Eliminate inline-block gaps */
 }
 
-/* Each section flows horizontally */
+/* Each section flows horizontally as inline-block */
 .panel {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    font-size: 1rem; /* Restore font size */
     height: 100vh;
     padding: var(--space-xl);
-    flex-shrink: 0;
-    /* Allow panel to be as wide as its content */
 }
 
-/* Section title - rotated or inline */
+/* Inner content of panels arranged horizontally */
+.panel-inner,
+.publications-list,
+.about-text,
+.gallery-grid,
+.contact-links,
+.blog .panel-inner,
+.contact .panel-inner {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Section title - rotated vertical text */
 .section-title {
+    display: inline-block;
+    vertical-align: middle;
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
@@ -312,6 +324,9 @@ button {
 }
 
 .about-text {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
     max-width: 500px;
 }
 
@@ -348,20 +363,21 @@ button {
 }
 
 .publications-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: var(--space-lg);
-    align-items: stretch;
+    white-space: nowrap;
+    font-size: 0; /* Eliminate inline-block gaps */
 }
 
 .publication-card {
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    font-size: 1rem; /* Restore font size */
     background: var(--white);
     padding: var(--space-lg);
     border: 2px solid var(--gray-200);
     transition: border-color var(--transition-base);
     width: 280px;
-    flex-shrink: 0;
+    margin-right: var(--space-lg);
 }
 
 .publication-card:hover {
@@ -418,37 +434,37 @@ button {
 }
 
 .portfolio .panel-inner {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: var(--space-xl);
+    white-space: nowrap;
+    font-size: 0; /* Eliminate inline-block gaps */
 }
 
 .artist-statement {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
     font-size: 0.875rem;
     color: var(--gray-600);
     font-style: italic;
     width: 250px;
-    flex-shrink: 0;
     line-height: 1.8;
+    margin-right: var(--space-xl);
 }
 
 .gallery-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: var(--space-sm);
-    align-items: center;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-size: 0; /* Eliminate inline-block gaps */
 }
 
 .gallery-item {
-    display: block;
+    display: inline-block;
+    vertical-align: middle;
     width: 150px;
     height: 150px;
-    flex-shrink: 0;
     overflow: hidden;
     transition: transform var(--transition-fast);
+    margin-right: var(--space-sm);
 }
 
 .gallery-item:hover {
@@ -483,20 +499,23 @@ button {
 }
 
 .blog .panel-inner {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-xl);
+    white-space: nowrap;
+    font-size: 0; /* Eliminate inline-block gaps */
 }
 
 .blog-intro {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
     font-size: 1rem;
     color: var(--gray-600);
     max-width: 300px;
+    margin-right: var(--space-xl);
 }
 
 .blog-link {
     display: inline-flex;
+    vertical-align: middle;
     align-items: center;
     gap: var(--space-sm);
     font-family: var(--font-display);
@@ -535,26 +554,29 @@ button {
 }
 
 .contact .panel-inner {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-xl);
+    white-space: nowrap;
+    font-size: 0; /* Eliminate inline-block gaps */
 }
 
 .contact-intro {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.9);
     max-width: 250px;
+    margin-right: var(--space-xl);
 }
 
 .contact-links {
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-md);
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 .contact-link {
     display: inline-flex;
+    vertical-align: middle;
     align-items: center;
     gap: var(--space-sm);
     padding: var(--space-md) var(--space-lg);
@@ -563,6 +585,7 @@ button {
     color: var(--white);
     transition: all var(--transition-fast);
     white-space: nowrap;
+    margin-right: var(--space-md);
 }
 
 .contact-link:hover {
