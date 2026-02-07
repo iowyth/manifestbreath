@@ -1,38 +1,44 @@
 [
     {
-        "id": "work-01",
+        "id": "atlantis",
         "type": "image",
-        "src": "images/work-01.jpg",
-        "title": "Work 1"
+        "src": "images/atlantis.jpg",
+        "title": "Atlantis (2016)",
+        "description": "Wavelength Music Festival, Artscape Gibraltar Point"
     },
     {
-        "id": "work-02",
+        "id": "autumn",
         "type": "image",
-        "src": "images/work-02.jpg",
-        "title": "Work 2"
+        "src": "images/autumn.jpg",
+        "title": "Autumn (2017)",
+        "description": "Odonis Odonis + Beliefs, The Garrison"
     },
     {
-        "id": "work-03",
+        "id": "ghost-bride",
         "type": "image",
-        "src": "images/work-03.jpg",
-        "title": "Work 3"
+        "src": "images/ghost-bride.jpg",
+        "title": "Corpse Bride (2013)",
+        "description": "Ghost Hole V, Artscape Gibraltar Point"
     },
     {
-        "id": "work-04",
+        "id": "virgin-sacrifice",
         "type": "image",
-        "src": "images/work-04.jpg",
-        "title": "Work 4"
+        "src": "images/virgin-sacrifice.jpg",
+        "title": "Virgin Sacrifice (2013)",
+        "description": "The Still Sun, Unit 2"
     },
     {
-        "id": "work-05",
+        "id": "teke",
         "type": "image",
-        "src": "images/work-05.jpg",
-        "title": "Work 5"
+        "src": "images/teke.jpg",
+        "title": "Teke (2012)",
+        "description": "Dada Reboot, Nuit Blanche"
     },
     {
-        "id": "work-06",
+        "id": "forest-clearing",
         "type": "image",
-        "src": "images/work-06.jpg",
-        "title": "Work 6"
+        "src": "images/forest-clearing.jpg",
+        "title": "Forest Clearing (2016)",
+        "description": "Earth Spirituality Residency, Artscape GP"
     }
 ]

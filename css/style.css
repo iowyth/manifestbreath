@@ -136,15 +136,18 @@ button {
 
 .sidebar {
     position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    left: var(--space-lg);
+    top: var(--space-lg);
     width: var(--sidebar-width);
-    background: var(--water-deep);
+    background: rgba(26, 58, 74, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     padding: var(--space-lg);
     z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-logo {
@@ -163,7 +166,7 @@ button {
 
 .sidebar-menu {
     list-style: none;
-    flex: 1;
+    margin-bottom: var(--space-lg);
 }
 
 .sidebar-menu li {
@@ -216,7 +219,7 @@ button {
    ========================================================================== */
 
 .main-content {
-    margin-left: var(--sidebar-width);
+    margin-left: calc(var(--sidebar-width) + var(--space-xl));
     height: 100vh;
     overflow-x: auto;
     overflow-y: hidden;
@@ -227,8 +230,8 @@ button {
 
 /* Each panel is viewport-sized */
 .panel {
-    flex: 0 0 calc(100vw - var(--sidebar-width));
-    width: calc(100vw - var(--sidebar-width));
+    flex: 0 0 calc(100vw - var(--sidebar-width) - var(--space-xl));
+    width: calc(100vw - var(--sidebar-width) - var(--space-xl));
     height: 100vh;
     padding: var(--space-xl);
     display: flex;
@@ -382,17 +385,23 @@ button {
     background: var(--gray-100);
 }
 
-/* Publications grid - wraps to fit viewport */
+/* Publications - single horizontal row */
 .publications-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    display: flex;
     gap: var(--space-lg);
-    max-width: calc(100vw - var(--sidebar-width) - 12rem);
-    max-height: calc(100vh - 8rem);
-    overflow-y: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: calc(100vw - var(--sidebar-width) - var(--space-xl) - 10rem);
+    padding-bottom: var(--space-sm);
+}
+
+.publications-list::-webkit-scrollbar {
+    height: 4px;
 }
 
 .publication-card {
+    flex: 0 0 280px;
+    min-width: 280px;
     background: var(--white);
     padding: var(--space-lg);
     border: 2px solid var(--gray-200);
@@ -685,8 +694,11 @@ button {
     }
 
     .sidebar {
+        left: var(--space-sm);
+        top: var(--space-sm);
         padding: var(--space-sm);
         align-items: center;
+        border-radius: 12px;
     }
 
     .sidebar-logo {
@@ -724,7 +736,12 @@ button {
     }
 
     .publications-list {
-        max-width: calc(100vw - var(--sidebar-width) - 6rem);
+        max-width: calc(100vw - var(--sidebar-width) - var(--space-xl) - 4rem);
+    }
+
+    .publication-card {
+        flex: 0 0 220px;
+        min-width: 220px;
     }
 
     .gallery-grid {
@@ -783,13 +800,13 @@ button {
 }
 
 .work-media {
-    max-width: calc(100vw - var(--sidebar-width) - 8rem);
+    max-width: calc(100vw - var(--sidebar-width) - var(--space-xl) - 6rem);
     max-height: 80vh;
     object-fit: contain;
 }
 
 .work-media video {
-    max-width: calc(100vw - var(--sidebar-width) - 8rem);
+    max-width: calc(100vw - var(--sidebar-width) - var(--space-xl) - 6rem);
     max-height: 80vh;
 }
 
