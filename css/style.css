@@ -76,7 +76,7 @@
        LAYOUT
        ====================================================================== */
     --sidebar-width: 180px;
-    --header-height: 10rem;  /* Height of the top header row - proportional */
+    --header-height: 9rem;
 
     /* ======================================================================
        ANIMATIONS
@@ -695,7 +695,7 @@ button {
 @media (max-width: 768px) {
     :root {
         --sidebar-width: 50px;
-        --header-height: 7rem;
+        --header-height: 6rem;
     }
 
     .sidebar {
