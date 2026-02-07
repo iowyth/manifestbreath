@@ -76,6 +76,7 @@
        LAYOUT
        ====================================================================== */
     --sidebar-width: 180px;
+    --header-height: 160px;  /* Height of the top header row */
 
     /* ======================================================================
        ANIMATIONS
@@ -108,6 +109,7 @@ body {
     font-weight: 300;
     line-height: 1.7;
     color: var(--gray-800);
+    background: var(--off-white);
     background: var(--off-white);
     -webkit-font-smoothing: antialiased;
 }
@@ -218,7 +220,8 @@ button {
 
 .main-content {
     margin-left: 0;
-    height: 100vh;
+    margin-top: var(--header-height);
+    height: calc(100vh - var(--header-height));
     overflow-x: auto;
     overflow-y: hidden;
     display: flex;
@@ -226,15 +229,15 @@ button {
     scroll-behavior: smooth;
 }
 
-/* Each panel is viewport-sized */
+/* Each panel is viewport-sized, fitting below the header */
 .panel {
     flex: 0 0 100vw;
     width: 100vw;
-    height: 100vh;
-    padding: var(--space-xl);
-    padding-left: calc(var(--sidebar-width) + var(--space-xl) + var(--space-lg));
+    height: calc(100vh - var(--header-height));
+    padding: var(--space-lg);
+    padding-left: var(--space-md);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     scroll-snap-align: start;
     overflow: hidden;
 }
@@ -243,9 +246,9 @@ button {
 .panel-inner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: var(--space-lg);
-    max-height: calc(100vh - 8rem);
+    max-height: calc(100vh - var(--header-height) - 4rem);
 }
 
 /* Section title - rotated vertical text on left edge */
@@ -259,9 +262,9 @@ button {
     writing-mode: vertical-rl;
     text-orientation: mixed;
     transform: rotate(180deg);
-    margin-right: var(--space-xl);
+    margin-right: var(--space-lg);
     white-space: nowrap;
-    align-self: center;
+    align-self: flex-start;
 }
 
 .section-title::after {
@@ -280,10 +283,10 @@ button {
 .hero {
     background: var(--water-deep);
     position: relative;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    padding-left: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: var(--space-lg);
+    padding-left: var(--space-md);
 }
 
 .hero-bg {
@@ -313,10 +316,8 @@ button {
 .hero-content {
     position: relative;
     z-index: 1;
-    text-align: center;
+    text-align: left;
     color: var(--white);
-    padding: var(--space-xl);
-    margin-top: 30vh;
 }
 
 .hero-title {
@@ -694,6 +695,7 @@ button {
 @media (max-width: 768px) {
     :root {
         --sidebar-width: 50px;
+        --header-height: 120px;
     }
 
     .sidebar {
@@ -730,12 +732,13 @@ button {
     }
 
     .panel {
-        padding: var(--space-lg);
+        padding: var(--space-md);
+        padding-left: var(--space-sm);
     }
 
     .section-title {
         font-size: 1rem;
-        margin-right: var(--space-lg);
+        margin-right: var(--space-md);
     }
 
     .publication-card {
