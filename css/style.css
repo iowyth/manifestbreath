@@ -217,7 +217,7 @@ button {
    ========================================================================== */
 
 .main-content {
-    margin-left: calc(var(--sidebar-width) + var(--space-xl));
+    margin-left: 0;
     height: 100vh;
     overflow-x: auto;
     overflow-y: hidden;
@@ -228,10 +228,11 @@ button {
 
 /* Each panel is viewport-sized */
 .panel {
-    flex: 0 0 calc(100vw - var(--sidebar-width) - var(--space-xl));
-    width: calc(100vw - var(--sidebar-width) - var(--space-xl));
+    flex: 0 0 100vw;
+    width: 100vw;
     height: 100vh;
     padding: var(--space-xl);
+    padding-left: calc(var(--sidebar-width) + var(--space-xl) + var(--space-lg));
     display: flex;
     align-items: center;
     scroll-snap-align: start;
@@ -282,6 +283,7 @@ button {
     justify-content: center;
     align-items: center;
     padding: 0;
+    padding-left: 0;
 }
 
 .hero-bg {
