@@ -507,6 +507,42 @@ button {
     object-fit: cover;
 }
 
+/* Play icon for video thumbnails */
+.video-play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-play-icon::after {
+    content: '';
+    border-style: solid;
+    border-width: 8px 0 8px 14px;
+    border-color: transparent transparent transparent white;
+    margin-left: 3px;
+}
+
+.gallery-item:hover .video-play-icon {
+    background: var(--lime);
+}
+
+.gallery-item:hover .video-play-icon::after {
+    border-color: transparent transparent transparent var(--water-deep);
+}
+
+/* Ensure gallery-thumb is positioned for overlay */
+.gallery-thumb {
+    position: relative;
+}
+
 @keyframes shimmer {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }

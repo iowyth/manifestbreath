@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHorizontalScroll();
     initClickNav();
     initActiveLink();
+    initPortfolio();
 });
 
 /**
@@ -86,4 +87,87 @@ function initActiveLink() {
 
     main.addEventListener('scroll', update);
     update();
+}
+
+/**
+ * ==========================================================================
+ * PORTFOLIO: Load works from works.json
+ *
+ * Supports:
+ * - Images: { type: "image", src: "images/photo.jpg", title: "Title" }
+ * - Vimeo:  { type: "vimeo", vimeoId: "123456789", title: "Title" }
+ * ==========================================================================
+ */
+async function initPortfolio() {
+    const grid = document.querySelector('.gallery-grid');
+    if (!grid) return;
+
+    try {
+        const response = await fetch('works.json');
+        if (!response.ok) return;
+
+        const works = await response.json();
+
+        // Clear existing placeholder items
+        grid.innerHTML = '';
+
+        // Build gallery from works.json
+        for (const work of works) {
+            const item = await createGalleryItem(work);
+            if (item) grid.appendChild(item);
+        }
+    } catch (e) {
+        // works.json not found or invalid - keep existing HTML gallery
+        console.log('Portfolio: Using HTML gallery (works.json not found)');
+    }
+}
+
+/**
+ * Create a gallery item element
+ */
+async function createGalleryItem(work) {
+    const link = document.createElement('a');
+    link.href = `works/${work.id}.html`;
+    link.className = 'gallery-item';
+
+    const thumb = document.createElement('div');
+    thumb.className = 'gallery-thumb';
+
+    if (work.type === 'image' && work.src) {
+        // Image: use as background
+        thumb.style.backgroundImage = `url('${work.src}')`;
+        thumb.style.backgroundSize = 'cover';
+        thumb.style.backgroundPosition = 'center';
+    } else if (work.type === 'vimeo' && work.vimeoId) {
+        // Vimeo: fetch thumbnail from oEmbed API
+        try {
+            const vimeoData = await fetchVimeoThumbnail(work.vimeoId);
+            if (vimeoData.thumbnail) {
+                thumb.style.backgroundImage = `url('${vimeoData.thumbnail}')`;
+                thumb.style.backgroundSize = 'cover';
+                thumb.style.backgroundPosition = 'center';
+            }
+            // Add play icon overlay for videos
+            thumb.innerHTML = '<div class="video-play-icon"></div>';
+        } catch (e) {
+            // Keep gradient placeholder if Vimeo fetch fails
+        }
+    }
+
+    link.appendChild(thumb);
+    return link;
+}
+
+/**
+ * Fetch Vimeo video thumbnail using oEmbed
+ */
+async function fetchVimeoThumbnail(vimeoId) {
+    const response = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vimeoId}`);
+    if (!response.ok) throw new Error('Vimeo fetch failed');
+
+    const data = await response.json();
+    return {
+        thumbnail: data.thumbnail_url,
+        title: data.title
+    };
 }

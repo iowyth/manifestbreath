@@ -1,0 +1,38 @@
+[
+    {
+        "id": "work-01",
+        "type": "image",
+        "src": "images/work-01.jpg",
+        "title": "Work 1"
+    },
+    {
+        "id": "work-02",
+        "type": "image",
+        "src": "images/work-02.jpg",
+        "title": "Work 2"
+    },
+    {
+        "id": "work-03",
+        "type": "image",
+        "src": "images/work-03.jpg",
+        "title": "Work 3"
+    },
+    {
+        "id": "work-04",
+        "type": "image",
+        "src": "images/work-04.jpg",
+        "title": "Work 4"
+    },
+    {
+        "id": "work-05",
+        "type": "image",
+        "src": "images/work-05.jpg",
+        "title": "Work 5"
+    },
+    {
+        "id": "work-06",
+        "type": "image",
+        "src": "images/work-06.jpg",
+        "title": "Work 6"
+    }
+]

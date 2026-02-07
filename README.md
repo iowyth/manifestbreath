@@ -29,7 +29,42 @@ A horizontal-scrolling portfolio site for iowyth hezel ulthiin.
 </article>
 ```
 
-### Add a Portfolio Work
+### Add Portfolio Works (Easy Way - works.json)
+
+The portfolio loads automatically from `works.json`. Just edit that file:
+
+```json
+[
+    {
+        "id": "my-photo",
+        "type": "image",
+        "src": "images/my-photo.jpg",
+        "title": "Photo Title"
+    },
+    {
+        "id": "my-video",
+        "type": "vimeo",
+        "vimeoId": "123456789",
+        "title": "Video Title"
+    }
+]
+```
+
+**For images:**
+1. Add image to `images/` folder
+2. Add entry to `works.json` with `"type": "image"`
+3. Create `works/my-photo.html` (copy from `works/work-01.html`)
+
+**For Vimeo videos:**
+1. Get your Vimeo video ID (the number in `vimeo.com/123456789`)
+2. Add entry to `works.json` with `"type": "vimeo"` and `"vimeoId"`
+3. Create `works/my-video.html` (copy from `works/vimeo-template.html`)
+4. Thumbnail is fetched automatically from Vimeo
+
+### Add Portfolio Works (Manual Way)
+
+If you prefer editing HTML directly:
+
 1. Add your image to the `images/` folder (e.g., `images/my-work.jpg`)
 2. Copy `works/work-01.html` to a new file (e.g., `works/my-work.html`)
 3. In the new file, update the image path:
@@ -42,6 +77,8 @@ A horizontal-scrolling portfolio site for iowyth hezel ulthiin.
        <div class="gallery-thumb" style="background-image: url('images/my-work.jpg'); background-size: cover;"></div>
    </a>
    ```
+
+Note: If `works.json` exists, it will override the HTML gallery.
 
 ### Update Contact Info
 1. Open `index.html`
@@ -86,14 +123,16 @@ Change any hex code to update colors site-wide.
 ```
 manifestbreath/
 ├── index.html          ← Main page (edit content here)
+├── works.json          ← Portfolio items (easiest way to update)
 ├── css/
 │   └── style.css       ← Styles (edit colors at top)
 ├── js/
-│   └── main.js         ← Scroll behavior (no need to edit)
+│   └── main.js         ← Scroll + portfolio loading
 ├── images/             ← Put your images here
 │   └── (your images)
 └── works/              ← Individual portfolio pages
-    ├── work-01.html    ← Template for portfolio items
+    ├── work-01.html    ← Template for images
+    ├── vimeo-template.html  ← Template for Vimeo videos
     └── (more works)
 ```
 
