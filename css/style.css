@@ -138,14 +138,14 @@ button {
     position: fixed;
     left: var(--space-md);
     top: var(--space-md);
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
     background: transparent;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 8px;
+    padding: 12px;
     z-index: 1000;
     border: 2px solid var(--lime);
 }
@@ -156,7 +156,7 @@ button {
     font-weight: 700;
     color: var(--lime);
     text-transform: lowercase;
-    margin-bottom: 2px;
+    line-height: 1;
     transition: color var(--transition-fast);
 }
 
@@ -166,22 +166,24 @@ button {
 
 .sidebar-menu {
     list-style: none;
-    margin-bottom: 0;
 }
 
 .sidebar-menu li {
-    margin-bottom: 1px;
+    margin-bottom: 2px;
+}
+
+.sidebar-menu li:last-child {
+    margin-bottom: 0;
 }
 
 .sidebar-menu a {
     font-family: var(--font-display);
-    font-size: 0.55rem;
+    font-size: 0.65rem;
     font-weight: 400;
     color: var(--gray-300);
     text-transform: lowercase;
     display: block;
-    padding: 1px 0;
-    border-left: none;
+    line-height: 1.2;
     transition: all var(--transition-fast);
 }
 
