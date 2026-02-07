@@ -166,29 +166,30 @@ button {
 .sidebar-menu {
     list-style: none;
     margin-bottom: 2px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 6px;
 }
 
 .sidebar-menu li {
-    margin-bottom: 1px;
+    margin: 0;
 }
 
 .sidebar-menu a {
     font-family: var(--font-display);
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     font-weight: 400;
     color: var(--gray-300);
     text-transform: lowercase;
     display: block;
     padding: 1px 0;
-    border-left: 2px solid transparent;
-    padding-left: var(--space-xs);
+    border-left: none;
     transition: all var(--transition-fast);
 }
 
 .sidebar-menu a:hover,
 .sidebar-menu a.active {
     color: var(--lime);
-    border-left-color: var(--lime);
 }
 
 .sidebar-social {
