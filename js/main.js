@@ -80,87 +80,105 @@ const pages = [
 ];
 
 /**
- * Render a page to HTML based on its type
- * @param {Object} page - The page data
- * @param {string} slideDirection - 'left', 'right', 'up', 'down' or null
+ * Generate HTML content for a page based on its type
  */
-function renderPage(page, slideDirection = null) {
-    const card = document.getElementById('content-card');
-    if (!card) return;
-
-    // Remove old type and slide classes
-    card.className = 'card';
-
-    // Add slide direction class (content comes FROM the direction you're moving)
-    if (slideDirection === 'left') card.classList.add('slide-from-left');
-    else if (slideDirection === 'right') card.classList.add('slide-from-right');
-    else if (slideDirection === 'up') card.classList.add('slide-from-top');
-    else if (slideDirection === 'down') card.classList.add('slide-from-bottom');
-
-    let content = '';
-
+function generatePageContent(page) {
     switch (page.type) {
         case 'intro':
-            card.classList.add('intro');
-            content = `
-                <h1>${page.title}</h1>
-                ${page.content}
-            `;
-            break;
+            return `<h1>${page.title}</h1>${page.content}`;
 
         case 'publication':
-            card.classList.add('publication');
-            content = `
+            return `
                 <h1>${page.title}</h1>
                 <p class="venue">${page.venue}</p>
                 <p class="year">${page.year}</p>
                 <p>${page.description}</p>
                 <a href="${page.link}" target="_blank" rel="noopener noreferrer" class="read-link">Read →</a>
             `;
-            break;
 
         case 'image':
-            card.classList.add('image');
-            content = `
+            return `
                 <img src="${page.src}" alt="${page.title}">
                 <h2>${page.title}</h2>
                 <p class="caption">${page.caption || ''}</p>
             `;
-            break;
 
         case 'video':
-            card.classList.add('video');
-            content = `
+            return `
                 <div class="video-embed">
                     <iframe src="${page.embedUrl}" allowfullscreen></iframe>
                 </div>
                 <h2>${page.title}</h2>
                 <p>${page.description || ''}</p>
             `;
-            break;
 
         case 'code':
-            card.classList.add('code');
             const tags = (page.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('');
-            content = `
+            return `
                 <h1>${page.title}</h1>
                 <div class="tech-stack">${tags}</div>
                 <p>${page.description}</p>
                 <a href="${page.repo}" target="_blank" rel="noopener noreferrer" class="repo-link">View Repository →</a>
             `;
-            break;
 
         case 'text':
         default:
-            content = `
-                <h1>${page.title}</h1>
-                ${page.content}
-            `;
-            break;
+            return `<h1>${page.title}</h1>${page.content}`;
+    }
+}
+
+/**
+ * Render a page with slide animation
+ * @param {Object} page - The page data
+ * @param {string} direction - 'left', 'right', 'up', 'down' or null
+ */
+function renderPage(page, direction = null) {
+    const card = document.getElementById('content-card');
+    if (!card) return;
+
+    // Update card type class
+    card.className = 'card';
+    if (page.type === 'intro') card.classList.add('intro');
+    else if (page.type === 'publication') card.classList.add('publication');
+    else if (page.type === 'image') card.classList.add('image');
+    else if (page.type === 'video') card.classList.add('video');
+    else if (page.type === 'code') card.classList.add('code');
+
+    const content = generatePageContent(page);
+
+    // No animation for initial load
+    if (!direction) {
+        card.innerHTML = `<div class="card-inner">${content}</div>`;
+        return;
     }
 
-    // Wrap content for animation
-    card.innerHTML = `<div class="card-inner">${content}</div>`;
+    // Get the old content
+    const oldContent = card.querySelector('.card-inner');
+
+    // Create new content element
+    const newContent = document.createElement('div');
+    newContent.className = 'card-inner';
+    newContent.innerHTML = content;
+
+    // Determine animation classes based on direction
+    // Direction = where you're navigating TO, content comes FROM that direction
+    const slideInClass = `slide-in-from-${direction}`;
+    const slideOutClass = direction === 'left' ? 'slide-out-to-right' :
+                          direction === 'right' ? 'slide-out-to-left' :
+                          direction === 'up' ? 'slide-out-to-bottom' :
+                          'slide-out-to-top';
+
+    // Animate old content out
+    if (oldContent) {
+        oldContent.classList.add(slideOutClass);
+        oldContent.addEventListener('animationend', () => {
+            oldContent.remove();
+        }, { once: true });
+    }
+
+    // Add and animate new content in
+    newContent.classList.add(slideInClass);
+    card.appendChild(newContent);
 }
 
 /**

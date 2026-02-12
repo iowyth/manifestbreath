@@ -60,41 +60,75 @@ body {
     position: relative;
 }
 
-/* Card content animation */
+/* Card content wrapper */
 .card-inner {
-    height: 100%;
+    position: absolute;
+    inset: 1.5rem;
     overflow: auto;
 }
 
-/* Slide directions */
-.card.slide-from-right .card-inner {
-    animation: slideFromRight 0.4s ease-out;
+/* Incoming content animations */
+.card-inner.slide-in-from-right {
+    animation: slideInFromRight 0.4s ease-out forwards;
 }
-.card.slide-from-left .card-inner {
-    animation: slideFromLeft 0.4s ease-out;
+.card-inner.slide-in-from-left {
+    animation: slideInFromLeft 0.4s ease-out forwards;
 }
-.card.slide-from-top .card-inner {
-    animation: slideFromTop 0.4s ease-out;
+.card-inner.slide-in-from-top {
+    animation: slideInFromTop 0.4s ease-out forwards;
 }
-.card.slide-from-bottom .card-inner {
-    animation: slideFromBottom 0.4s ease-out;
+.card-inner.slide-in-from-bottom {
+    animation: slideInFromBottom 0.4s ease-out forwards;
 }
 
-@keyframes slideFromRight {
+/* Outgoing content animations */
+.card-inner.slide-out-to-left {
+    animation: slideOutToLeft 0.4s ease-out forwards;
+}
+.card-inner.slide-out-to-right {
+    animation: slideOutToRight 0.4s ease-out forwards;
+}
+.card-inner.slide-out-to-top {
+    animation: slideOutToTop 0.4s ease-out forwards;
+}
+.card-inner.slide-out-to-bottom {
+    animation: slideOutToBottom 0.4s ease-out forwards;
+}
+
+/* Slide in keyframes */
+@keyframes slideInFromRight {
     from { transform: translateX(100%); }
     to { transform: translateX(0); }
 }
-@keyframes slideFromLeft {
+@keyframes slideInFromLeft {
     from { transform: translateX(-100%); }
     to { transform: translateX(0); }
 }
-@keyframes slideFromTop {
+@keyframes slideInFromTop {
     from { transform: translateY(-100%); }
     to { transform: translateY(0); }
 }
-@keyframes slideFromBottom {
+@keyframes slideInFromBottom {
     from { transform: translateY(100%); }
     to { transform: translateY(0); }
+}
+
+/* Slide out keyframes */
+@keyframes slideOutToLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+}
+@keyframes slideOutToRight {
+    from { transform: translateX(0); }
+    to { transform: translateX(100%); }
+}
+@keyframes slideOutToTop {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100%); }
+}
+@keyframes slideOutToBottom {
+    from { transform: translateY(0); }
+    to { transform: translateY(100%); }
 }
 
 /* Content type templates */
