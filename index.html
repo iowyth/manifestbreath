@@ -13,10 +13,14 @@
     </header>
 
     <main class="content">
-        <article class="card">
-            <h1>Welcome</h1>
-            <p>Press any arrow key to navigate. The eye watches.</p>
-        </article>
+        <div class="card" id="content-card">
+            <!-- Content loads here dynamically -->
+        </div>
+        <nav class="persistent-links">
+            <a href="https://iowyth.substack.com" target="_blank" rel="noopener noreferrer">substack</a>
+            <span class="divider">·</span>
+            <a href="#" id="contact-link" data-user="iowyth.ulthiin" data-domain="gmail.com">contact</a>
+        </nav>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

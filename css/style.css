@@ -7,6 +7,7 @@
 :root {
     --bg: #f5f5f0;
     --text: #1a1a1a;
+    --card-size: min(400px, 80vw);
 }
 
 body {
@@ -14,6 +15,9 @@ body {
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Eye Navigation */
@@ -38,23 +42,141 @@ body {
 
 /* Content area */
 .content {
-    padding: 2rem;
-    max-width: 600px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 1rem 2rem;
 }
 
+/* Square card */
 .card {
+    width: var(--card-size);
+    height: var(--card-size);
     background: white;
     border: 2px solid var(--text);
-    padding: 2rem;
+    padding: 1.5rem;
+    overflow: auto;
 }
 
+/* Content type templates */
 .card h1 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.card h2 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #444;
 }
 
 .card p {
+    font-size: 0.9rem;
     line-height: 1.6;
     color: #444;
+    margin-bottom: 0.75rem;
+}
+
+.card a {
+    color: var(--text);
+}
+
+/* Publication template */
+.card.publication .venue {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.card.publication .year {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.card.publication .read-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+}
+
+/* Image template */
+.card.image img {
+    width: 100%;
+    height: auto;
+    max-height: 60%;
+    object-fit: contain;
+    margin-bottom: 0.75rem;
+}
+
+.card.image .caption {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Video template */
+.card.video .video-embed {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    margin-bottom: 0.75rem;
+}
+
+.card.video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Code project template */
+.card.code .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.card.code .tech-tag {
+    font-size: 0.75rem;
+    background: var(--bg);
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #ddd;
+}
+
+.card.code .repo-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+}
+
+/* Welcome/intro template */
+.card.intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Persistent links */
+.persistent-links {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.persistent-links a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.persistent-links a:hover {
+    color: var(--text);
+}
+
+.persistent-links .divider {
+    color: #ccc;
 }
