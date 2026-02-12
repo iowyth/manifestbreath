@@ -72,9 +72,9 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
 
 /*
  * PANEL LAYOUT:
- * Content must clear the sidebar BOTH horizontally AND vertically.
- * The sidebar occupies a box in the top-left corner.
- * Content lives in the remaining space.
+ * Top of viewport is a "header zone" where the sidebar lives.
+ * Content lives BELOW that zone, spanning the full width.
+ * Header height = sidebar height (roughly equal to width) + margins
  */
 .panel {
     flex: 0 0 100vw;
@@ -84,17 +84,14 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
     align-items: flex-start;
     justify-content: flex-start;
     /*
-     * Horizontal: clear sidebar width + margin + gap
-     * Vertical: clear sidebar height (estimated as width since it's roughly square) + margin + gap
+     * Top padding clears the header zone (sidebar + margins)
+     * Left/right padding is just for content aesthetics
      */
-    padding-left: max(
-        calc(var(--sidebar-margin) + var(--sidebar-width-preferred) + var(--content-gap)),
-        calc(var(--sidebar-margin) + var(--sidebar-width-max) + var(--content-gap))
-    );
     padding-top: max(
         calc(var(--sidebar-margin) + var(--sidebar-width-preferred) + var(--content-gap)),
         calc(var(--sidebar-margin) + var(--sidebar-width-max) + var(--content-gap))
     );
+    padding-left: var(--content-gap);
     padding-right: var(--content-gap);
     padding-bottom: var(--content-gap);
     position: relative;
