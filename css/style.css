@@ -7,8 +7,6 @@
 :root {
     --bg: #f5f5f0;
     --text: #1a1a1a;
-    --eye-size: 80px;
-    --iris-size: 32px;
 }
 
 body {
@@ -27,45 +25,8 @@ body {
     gap: 0.5rem;
 }
 
-.eyeball {
-    width: var(--eye-size);
-    height: var(--eye-size);
-    border-radius: 50%;
-    position: relative;
-    overflow: hidden;
-    /* 3D shading - light from top-left */
-    background: radial-gradient(
-        circle at 30% 30%,
-        #fff 0%,
-        #f0f0f0 30%,
-        #d0d0d0 70%,
-        #a0a0a0 100%
-    );
-    box-shadow:
-        inset -4px -4px 12px rgba(0,0,0,0.2),
-        inset 2px 2px 8px rgba(255,255,255,0.8),
-        4px 4px 12px rgba(0,0,0,0.3);
-}
-
-.iris {
-    width: var(--iris-size);
-    height: var(--iris-size);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    /* 3D shading on the iris too */
-    background: radial-gradient(
-        circle at 35% 35%,
-        #444 0%,
-        #1a1a1a 50%,
-        #000 100%
-    );
-    box-shadow:
-        inset 1px 1px 3px rgba(255,255,255,0.3),
-        2px 2px 4px rgba(0,0,0,0.3);
+#eyeball-canvas {
+    /* Canvas handles its own rendering */
 }
 
 .nav-hint {
