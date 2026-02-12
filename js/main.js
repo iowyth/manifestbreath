@@ -22,6 +22,8 @@ function initEyeball() {
     const maxOffset = 0.35;
 
     function updateIris() {
+        const eyeball = document.querySelector('.eyeball');
+
         // Project spherical coordinates to 2D
         // x = sin(theta) * cos(phi) — horizontal position
         // y = sin(phi) — vertical position
@@ -35,15 +37,30 @@ function initEyeball() {
         const offsetX = x * maxOffset * 100;
         const offsetY = y * maxOffset * 100;
 
-        // Scale based on depth (closer = bigger, further = smaller)
-        const scale = 0.7 + (Math.max(0, z) * 0.3);
+        // Foreshortening: iris becomes elliptical based on viewing angle
+        // scaleX shrinks when iris is at left/right edges
+        // scaleY shrinks when iris is at top/bottom edges
+        const scaleX = Math.max(0.2, Math.abs(z));
+        const scaleY = Math.max(0.2, Math.sqrt(z * z + x * x)); // vertical foreshortening
 
-        // Opacity: visible when z > 0 (front), fades as it goes to edge, hidden when behind
-        // Fade starts at z = 0.3, fully hidden at z = 0
+        // Opacity: visible when z > 0 (front), hidden when behind
         const opacity = Math.max(0, Math.min(1, z * 3));
 
-        iris.style.transform = `translate(calc(-50% + ${offsetX}%), calc(-50% + ${offsetY}%)) scale(${scale})`;
+        iris.style.transform = `translate(calc(-50% + ${offsetX}%), calc(-50% + ${offsetY}%)) scale(${scaleX}, ${scaleY})`;
         iris.style.opacity = opacity;
+
+        // Rotate the eyeball's highlight to match sphere rotation
+        // The highlight should appear opposite to where the iris is going
+        const highlightX = 30 - (x * 20); // base 30%, shift with rotation
+        const highlightY = 30 - (y * 20); // base 30%, shift with rotation
+
+        eyeball.style.background = `radial-gradient(
+            circle at ${highlightX}% ${highlightY}%,
+            #fff 0%,
+            #f0f0f0 30%,
+            #d0d0d0 70%,
+            #a0a0a0 100%
+        )`;
     }
 
     document.addEventListener('keydown', (e) => {
