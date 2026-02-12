@@ -95,40 +95,40 @@ body {
     animation: slideOutToBottom 0.4s ease-out forwards;
 }
 
-/* Slide in keyframes */
+/* Slide in keyframes - use card size for consistent distance */
 @keyframes slideInFromRight {
-    from { transform: translateX(100%); }
+    from { transform: translateX(var(--card-size)); }
     to { transform: translateX(0); }
 }
 @keyframes slideInFromLeft {
-    from { transform: translateX(-100%); }
+    from { transform: translateX(calc(-1 * var(--card-size))); }
     to { transform: translateX(0); }
 }
 @keyframes slideInFromTop {
-    from { transform: translateY(-100%); }
+    from { transform: translateY(calc(-1 * var(--card-size))); }
     to { transform: translateY(0); }
 }
 @keyframes slideInFromBottom {
-    from { transform: translateY(100%); }
+    from { transform: translateY(var(--card-size)); }
     to { transform: translateY(0); }
 }
 
 /* Slide out keyframes */
 @keyframes slideOutToLeft {
     from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    to { transform: translateX(calc(-1 * var(--card-size))); }
 }
 @keyframes slideOutToRight {
     from { transform: translateX(0); }
-    to { transform: translateX(100%); }
+    to { transform: translateX(var(--card-size)); }
 }
 @keyframes slideOutToTop {
     from { transform: translateY(0); }
-    to { transform: translateY(-100%); }
+    to { transform: translateY(calc(-1 * var(--card-size))); }
 }
 @keyframes slideOutToBottom {
     from { transform: translateY(0); }
-    to { transform: translateY(100%); }
+    to { transform: translateY(var(--card-size)); }
 }
 
 /* Content type templates */
