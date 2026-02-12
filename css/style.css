@@ -71,28 +71,32 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
 }
 
 /*
- * PANEL LAYOUT FIX:
- * Content must ALWAYS clear the sidebar, regardless of viewport width.
- * Sidebar right edge = sidebar-margin + sidebar-width (clamped 100-200px)
- * We use max() to ensure padding clears even the maximum sidebar width.
+ * PANEL LAYOUT:
+ * Content must clear the sidebar BOTH horizontally AND vertically.
+ * The sidebar occupies a box in the top-left corner.
+ * Content lives in the remaining space.
  */
 .panel {
     flex: 0 0 100vw;
     height: 100vh;
     scroll-snap-align: start;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     /*
-     * CRITICAL: Use max() to ensure we always clear the sidebar
-     * Option 1: sidebar-margin + sidebar-preferred + gap (for large screens)
-     * Option 2: sidebar-margin + sidebar-max + gap (for medium screens where sidebar is clamped)
+     * Horizontal: clear sidebar width + margin + gap
+     * Vertical: clear sidebar height (estimated as width since it's roughly square) + margin + gap
      */
     padding-left: max(
         calc(var(--sidebar-margin) + var(--sidebar-width-preferred) + var(--content-gap)),
         calc(var(--sidebar-margin) + var(--sidebar-width-max) + var(--content-gap))
     );
+    padding-top: max(
+        calc(var(--sidebar-margin) + var(--sidebar-width-preferred) + var(--content-gap)),
+        calc(var(--sidebar-margin) + var(--sidebar-width-max) + var(--content-gap))
+    );
     padding-right: var(--content-gap);
+    padding-bottom: var(--content-gap);
     position: relative;
     box-sizing: border-box;
 }
