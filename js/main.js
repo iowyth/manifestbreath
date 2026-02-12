@@ -161,12 +161,12 @@ function renderPage(page, direction = null) {
     newContent.innerHTML = content;
 
     // Determine animation classes based on direction
-    // Direction = where you're navigating TO, content comes FROM that direction
-    const slideInClass = `slide-in-from-${direction}`;
-    const slideOutClass = direction === 'left' ? 'slide-out-to-right' :
-                          direction === 'right' ? 'slide-out-to-left' :
-                          direction === 'up' ? 'slide-out-to-bottom' :
-                          'slide-out-to-top';
+    // Map direction to CSS class names (up/down → top/bottom)
+    const directionMap = { left: 'left', right: 'right', up: 'top', down: 'bottom' };
+    const oppositeMap = { left: 'right', right: 'left', up: 'bottom', down: 'top' };
+
+    const slideInClass = `slide-in-from-${directionMap[direction]}`;
+    const slideOutClass = `slide-out-to-${oppositeMap[direction]}`;
 
     // Animate old content out
     if (oldContent) {
