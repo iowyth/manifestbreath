@@ -19,8 +19,10 @@
     --black: #1a1816;
     --font-display: 'Silkscreen', monospace;
     --font-body: 'Inter', sans-serif;
-    /* Proportional sizing - sidebar is 15% of viewport width */
-    --sidebar-width: 15vw;
+    /* Sidebar sizing */
+    --sidebar-width-preferred: 15vw;
+    --sidebar-width-min: 100px;
+    --sidebar-width-max: 200px;
     --sidebar-margin: 2vw;
     --content-gap: 3vw;
     --transition-fast: 150ms ease;
@@ -34,14 +36,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -webkit-font-smoothing: antialiased; background: var(--off-white); }
 
-/* SIDEBAR - YOUR ORIGINAL FLOATING BOX */
+/* SIDEBAR */
 .sidebar {
     position: fixed;
     left: var(--sidebar-margin);
     top: var(--sidebar-margin);
-    width: var(--sidebar-width);
-    min-width: 100px;
-    max-width: 200px;
+    width: clamp(var(--sidebar-width-min), var(--sidebar-width-preferred), var(--sidebar-width-max));
     background: transparent;
     border: 2px solid var(--lime);
     border-radius: 12px;
@@ -59,7 +59,7 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
 .sidebar-social { display: flex; gap: clamp(6px, 1vw, 10px); }
 .sidebar-social svg { width: clamp(12px, 1.5vw, 16px); height: clamp(12px, 1.5vw, 16px); color: var(--gray-300); }
 
-/* MAIN CONTENT - THE HORIZONTAL ROW */
+/* MAIN CONTENT */
 .main-content {
     display: flex;
     flex-direction: row;
@@ -70,15 +70,28 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
     scroll-snap-type: x mandatory;
 }
 
+/*
+ * PANEL LAYOUT FIX:
+ * Content must ALWAYS clear the sidebar, regardless of viewport width.
+ * Sidebar right edge = sidebar-margin + sidebar-width (clamped 100-200px)
+ * We use max() to ensure padding clears even the maximum sidebar width.
+ */
 .panel {
     flex: 0 0 100vw;
     height: 100vh;
     scroll-snap-align: start;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    /* Proportional padding - content on right side of page */
-    padding-left: calc(var(--sidebar-width) + var(--sidebar-margin) + var(--content-gap));
+    justify-content: flex-start;
+    /*
+     * CRITICAL: Use max() to ensure we always clear the sidebar
+     * Option 1: sidebar-margin + sidebar-preferred + gap (for large screens)
+     * Option 2: sidebar-margin + sidebar-max + gap (for medium screens where sidebar is clamped)
+     */
+    padding-left: max(
+        calc(var(--sidebar-margin) + var(--sidebar-width-preferred) + var(--content-gap)),
+        calc(var(--sidebar-margin) + var(--sidebar-width-max) + var(--content-gap))
+    );
     padding-right: var(--content-gap);
     position: relative;
     box-sizing: border-box;
@@ -93,6 +106,7 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
     margin-right: clamp(1rem, 2vw, 2rem);
     color: var(--water-deep);
     white-space: nowrap;
+    flex-shrink: 0;
 }
 .section-title::after { content: '_'; animation: blink 1s step-end infinite; }
 @keyframes blink { 50% { opacity: 0; } }
@@ -135,36 +149,7 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
 .contact .section-title { color: var(--lime); }
 .contact-link { display: inline-flex; align-items: center; gap: 10px; color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
 
-/* DOT NAVIGATION */
-.dot-nav {
-    position: fixed;
-    bottom: var(--space-lg);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 1000;
-    padding: 8px 16px;
-    background: rgba(26, 58, 74, 0.8);
-    border-radius: 20px;
-    backdrop-filter: blur(8px);
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--gray-300);
-    border: none;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    padding: 0;
-}
-
-.dot:hover { background: var(--peach); transform: scale(1.2); }
-.dot.active { background: var(--lime); transform: scale(1.3); }
-
-/* RESPONSIVE - Proportional units handle most scaling, just adjust grid layouts */
+/* RESPONSIVE - Adjust grid layouts for smaller screens */
 @media (max-width: 900px) {
     .gallery-grid { grid-template-columns: repeat(2, clamp(80px, 12vw, 120px)); grid-auto-rows: clamp(80px, 12vw, 120px); }
 }
@@ -172,6 +157,4 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
 @media (max-width: 600px) {
     .gallery-grid { grid-template-columns: repeat(2, clamp(70px, 15vw, 100px)); grid-auto-rows: clamp(70px, 15vw, 100px); }
     .publication-card { flex: 0 0 clamp(160px, 40vw, 220px); }
-    .dot-nav { bottom: 1rem; padding: 6px 12px; }
-    .dot { width: 8px; height: 8px; }
 }
