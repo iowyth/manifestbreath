@@ -1,6 +1,6 @@
 /**
  * 3D Eyeball using Three.js
- * A sphere with an iris texture that rotates with arrow keys
+ * A sphere with an iris (separate geometry) on its surface
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,62 +26,53 @@ function initEyeball() {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // Create eyeball texture with canvas
-    const textureCanvas = document.createElement('canvas');
-    textureCanvas.width = 512;
-    textureCanvas.height = 512;
-    const ctx = textureCanvas.getContext('2d');
+    // Eyeball group (so iris rotates with eyeball)
+    const eyeGroup = new THREE.Group();
+    scene.add(eyeGroup);
 
-    // Draw eyeball texture: white with iris
-    // Fill white
-    ctx.fillStyle = '#f5f5f5';
-    ctx.fillRect(0, 0, 512, 512);
-
-    // Draw iris in the center of the texture
-    // When mapped to sphere, center of texture = "front" of sphere
-    const irisX = 256;
-    const irisY = 256;
-    const irisRadius = 100;
-
-    // Iris gradient
-    const irisGradient = ctx.createRadialGradient(
-        irisX - 20, irisY - 20, 0,
-        irisX, irisY, irisRadius
-    );
-    irisGradient.addColorStop(0, '#333');
-    irisGradient.addColorStop(0.6, '#1a1a1a');
-    irisGradient.addColorStop(1, '#000');
-
-    ctx.beginPath();
-    ctx.arc(irisX, irisY, irisRadius, 0, Math.PI * 2);
-    ctx.fillStyle = irisGradient;
-    ctx.fill();
-
-    // Pupil
-    ctx.beginPath();
-    ctx.arc(irisX, irisY, irisRadius * 0.4, 0, Math.PI * 2);
-    ctx.fillStyle = '#000';
-    ctx.fill();
-
-    // Small highlight on pupil
-    ctx.beginPath();
-    ctx.arc(irisX - 15, irisY - 15, 8, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fill();
-
-    // Create texture from canvas
-    const texture = new THREE.CanvasTexture(textureCanvas);
-
-    // Sphere geometry and material
-    const geometry = new THREE.SphereGeometry(1, 64, 64);
-    const material = new THREE.MeshStandardMaterial({
-        map: texture,
+    // Eyeball sphere (white)
+    const eyeGeometry = new THREE.SphereGeometry(1, 64, 64);
+    const eyeMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf5f5f5,
         roughness: 0.3,
         metalness: 0.0
     });
+    const eyeball = new THREE.Mesh(eyeGeometry, eyeMaterial);
+    eyeGroup.add(eyeball);
 
-    const eyeball = new THREE.Mesh(geometry, material);
-    scene.add(eyeball);
+    // Iris - a flat circle positioned on the surface of the eyeball
+    const irisGeometry = new THREE.CircleGeometry(0.35, 64);
+    const irisMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1a1a1a,
+        roughness: 0.5,
+        metalness: 0.0
+    });
+    const iris = new THREE.Mesh(irisGeometry, irisMaterial);
+
+    // Position iris on the front surface of the eyeball
+    // Slightly in front to avoid z-fighting
+    iris.position.z = 1.01;
+    eyeGroup.add(iris);
+
+    // Pupil - smaller black circle on top of iris
+    const pupilGeometry = new THREE.CircleGeometry(0.15, 64);
+    const pupilMaterial = new THREE.MeshStandardMaterial({
+        color: 0x000000,
+        roughness: 0.3,
+        metalness: 0.0
+    });
+    const pupil = new THREE.Mesh(pupilGeometry, pupilMaterial);
+    pupil.position.z = 1.02;
+    eyeGroup.add(pupil);
+
+    // Highlight - tiny white circle
+    const highlightGeometry = new THREE.CircleGeometry(0.04, 32);
+    const highlightMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff
+    });
+    const highlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+    highlight.position.set(-0.06, 0.06, 1.03);
+    eyeGroup.add(highlight);
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -94,20 +85,20 @@ function initEyeball() {
     // Rotation state
     const rotationStep = Math.PI / 12;
 
-    // Keyboard controls
+    // Keyboard controls - rotate the whole group
     document.addEventListener('keydown', (e) => {
         switch (e.key) {
             case 'ArrowLeft':
-                eyeball.rotation.y -= rotationStep;
+                eyeGroup.rotation.y -= rotationStep;
                 break;
             case 'ArrowRight':
-                eyeball.rotation.y += rotationStep;
+                eyeGroup.rotation.y += rotationStep;
                 break;
             case 'ArrowUp':
-                eyeball.rotation.x -= rotationStep;
+                eyeGroup.rotation.x -= rotationStep;
                 break;
             case 'ArrowDown':
-                eyeball.rotation.x += rotationStep;
+                eyeGroup.rotation.x += rotationStep;
                 break;
             default:
                 return;
