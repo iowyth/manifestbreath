@@ -88,8 +88,8 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
      * Left/right padding is just for content aesthetics
      */
     padding-top: max(
-        calc(var(--sidebar-margin) + var(--sidebar-width-preferred) + var(--content-gap)),
-        calc(var(--sidebar-margin) + var(--sidebar-width-max) + var(--content-gap))
+        calc(var(--sidebar-margin) + var(--sidebar-width-preferred) + var(--content-gap) * 2),
+        calc(var(--sidebar-margin) + var(--sidebar-width-max) + var(--content-gap) * 2)
     );
     padding-left: var(--content-gap);
     padding-right: var(--content-gap);
