@@ -5,8 +5,9 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initHorizontalScroll();
+    initDotNav();
     initClickNav();
-    initActiveLink();
+    initActiveTracking();
     initPortfolio();
 });
 
@@ -17,21 +18,64 @@ function initHorizontalScroll() {
     const main = document.querySelector('.main-content');
     if (!main) return;
 
-    // Wheel to horizontal scroll
     main.addEventListener('wheel', (e) => {
         e.preventDefault();
-        // Use both deltaY and deltaX for better trackpad support
         const delta = e.deltaY !== 0 ? e.deltaY : e.deltaX;
         main.scrollLeft += delta;
     }, { passive: false });
+}
 
-    // Also allow keyboard scrolling
+/**
+ * Create dot navigation and keyboard nav
+ */
+function initDotNav() {
+    const main = document.querySelector('.main-content');
+    const panels = document.querySelectorAll('.panel');
+    if (!main || !panels.length) return;
+
+    // Create dot container
+    const dotNav = document.createElement('nav');
+    dotNav.className = 'dot-nav';
+
+    // Create dots for each panel
+    panels.forEach((panel, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot';
+        dot.setAttribute('aria-label', `Go to ${panel.id || 'section ' + (i + 1)}`);
+        dot.addEventListener('click', () => {
+            panel.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+        });
+        dotNav.appendChild(dot);
+    });
+
+    document.body.appendChild(dotNav);
+
+    // Keyboard navigation - snap to panels
+    let currentIndex = 0;
+    const goTo = (index) => {
+        if (index < 0 || index >= panels.length) return;
+        currentIndex = index;
+        panels[index].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+    };
+
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') {
-            main.scrollLeft += 100;
-        } else if (e.key === 'ArrowLeft') {
-            main.scrollLeft -= 100;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            goTo(currentIndex + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            goTo(currentIndex - 1);
         }
+    });
+
+    // Update currentIndex on scroll
+    main.addEventListener('scroll', () => {
+        const scrollPos = main.scrollLeft;
+        panels.forEach((panel, i) => {
+            if (scrollPos >= panel.offsetLeft - 50) {
+                currentIndex = i;
+            }
+        });
     });
 }
 
@@ -60,33 +104,41 @@ function initClickNav() {
 }
 
 /**
- * Update active nav link based on scroll position
+ * Track scroll position to update active states (nav + dots)
  */
-function initActiveLink() {
-    const links = document.querySelectorAll('.sidebar-menu a');
+function initActiveTracking() {
     const main = document.querySelector('.main-content');
-    const sections = document.querySelectorAll('.panel');
+    const panels = document.querySelectorAll('.panel');
+    const navLinks = document.querySelectorAll('.sidebar-menu a');
 
-    if (!main || !sections.length) return;
+    if (!main || !panels.length) return;
 
     const update = () => {
         const scrollPos = main.scrollLeft + main.offsetWidth / 3;
 
-        sections.forEach(section => {
-            const start = section.offsetLeft - main.offsetLeft;
-            const end = start + section.offsetWidth;
+        panels.forEach((panel, i) => {
+            const start = panel.offsetLeft;
+            const end = start + panel.offsetWidth;
+            const isActive = scrollPos >= start && scrollPos < end;
 
-            if (scrollPos >= start && scrollPos < end) {
-                const id = section.getAttribute('id');
-                links.forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-                });
+            // Update nav links
+            const id = panel.getAttribute('id');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === `#${id}`) {
+                    link.classList.toggle('active', isActive);
+                }
+            });
+
+            // Update dots
+            const dots = document.querySelectorAll('.dot-nav .dot');
+            if (dots[i]) {
+                dots[i].classList.toggle('active', isActive);
             }
         });
     };
 
     main.addEventListener('scroll', update);
-    update();
+    setTimeout(update, 100); // Initial update after dots created
 }
 
 /**

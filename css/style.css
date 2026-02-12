@@ -49,7 +49,7 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
 .sidebar-logo { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--lime); text-decoration: none; text-transform: lowercase; }
 .sidebar-menu { list-style: none; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
 .sidebar-menu a { font-family: var(--font-display); font-size: 0.7rem; color: var(--gray-300); text-decoration: none; text-transform: lowercase; transition: all var(--transition-fast); }
-.sidebar-menu a:hover { color: var(--lime); }
+.sidebar-menu a:hover, .sidebar-menu a.active { color: var(--lime); }
 .sidebar-social { display: flex; gap: 10px; }
 .sidebar-social svg { width: 16px; height: 16px; color: var(--gray-300); }
 
@@ -124,3 +124,32 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font-body); -web
 .contact { background: var(--water-deep); color: white; }
 .contact .section-title { color: var(--lime); }
 .contact-link { display: inline-flex; align-items: center; gap: 10px; color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
+
+/* DOT NAVIGATION */
+.dot-nav {
+    position: fixed;
+    bottom: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 1000;
+    padding: 8px 16px;
+    background: rgba(26, 58, 74, 0.8);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gray-300);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    padding: 0;
+}
+
+.dot:hover { background: var(--peach); transform: scale(1.2); }
+.dot.active { background: var(--lime); transform: scale(1.3); }
