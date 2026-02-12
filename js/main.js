@@ -81,18 +81,28 @@ const pages = [
 
 /**
  * Render a page to HTML based on its type
+ * @param {Object} page - The page data
+ * @param {string} slideDirection - 'left', 'right', 'up', 'down' or null
  */
-function renderPage(page) {
+function renderPage(page, slideDirection = null) {
     const card = document.getElementById('content-card');
     if (!card) return;
 
-    // Remove old type classes
+    // Remove old type and slide classes
     card.className = 'card';
+
+    // Add slide direction class (content comes FROM opposite direction)
+    if (slideDirection === 'left') card.classList.add('slide-from-right');
+    else if (slideDirection === 'right') card.classList.add('slide-from-left');
+    else if (slideDirection === 'up') card.classList.add('slide-from-bottom');
+    else if (slideDirection === 'down') card.classList.add('slide-from-top');
+
+    let content = '';
 
     switch (page.type) {
         case 'intro':
             card.classList.add('intro');
-            card.innerHTML = `
+            content = `
                 <h1>${page.title}</h1>
                 ${page.content}
             `;
@@ -100,7 +110,7 @@ function renderPage(page) {
 
         case 'publication':
             card.classList.add('publication');
-            card.innerHTML = `
+            content = `
                 <h1>${page.title}</h1>
                 <p class="venue">${page.venue}</p>
                 <p class="year">${page.year}</p>
@@ -111,7 +121,7 @@ function renderPage(page) {
 
         case 'image':
             card.classList.add('image');
-            card.innerHTML = `
+            content = `
                 <img src="${page.src}" alt="${page.title}">
                 <h2>${page.title}</h2>
                 <p class="caption">${page.caption || ''}</p>
@@ -120,7 +130,7 @@ function renderPage(page) {
 
         case 'video':
             card.classList.add('video');
-            card.innerHTML = `
+            content = `
                 <div class="video-embed">
                     <iframe src="${page.embedUrl}" allowfullscreen></iframe>
                 </div>
@@ -132,7 +142,7 @@ function renderPage(page) {
         case 'code':
             card.classList.add('code');
             const tags = (page.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('');
-            card.innerHTML = `
+            content = `
                 <h1>${page.title}</h1>
                 <div class="tech-stack">${tags}</div>
                 <p>${page.description}</p>
@@ -142,12 +152,15 @@ function renderPage(page) {
 
         case 'text':
         default:
-            card.innerHTML = `
+            content = `
                 <h1>${page.title}</h1>
                 ${page.content}
             `;
             break;
     }
+
+    // Wrap content for animation
+    card.innerHTML = `<div class="card-inner">${content}</div>`;
 }
 
 /**
@@ -163,17 +176,20 @@ function initContentNavigation() {
 
     let position = 0;
 
-    // Show first page
-    renderPage(pages[indices[position]]);
+    // Show first page (no animation)
+    renderPage(pages[indices[position]], null);
 
     // Expose navigation for eyeball to use
+    // direction: 'left', 'right', 'up', 'down'
     window.navigateContent = (direction) => {
-        if (direction > 0) {
+        const forward = (direction === 'right' || direction === 'down');
+
+        if (forward) {
             position = (position + 1) % indices.length;
         } else {
             position = (position - 1 + indices.length) % indices.length;
         }
-        renderPage(pages[indices[position]]);
+        renderPage(pages[indices[position]], direction);
     };
 }
 
@@ -255,44 +271,49 @@ function initEyeball() {
     directionalLight.position.set(2, 2, 3);
     scene.add(directionalLight);
 
-    // Rotation
+    // Smooth rotation
     const rotationStep = Math.PI / 12;
+    let targetRotationX = 0;
+    let targetRotationY = 0;
+    const lerpFactor = 0.1; // Smoothing factor (0-1, lower = smoother)
 
     // Keyboard controls
     document.addEventListener('keydown', (e) => {
-        let navigated = false;
+        let direction = null;
 
         switch (e.key) {
             case 'ArrowLeft':
-                eyeGroup.rotation.y -= rotationStep;
-                window.navigateContent(-1);
-                navigated = true;
+                targetRotationY -= rotationStep;
+                direction = 'left';
                 break;
             case 'ArrowRight':
-                eyeGroup.rotation.y += rotationStep;
-                window.navigateContent(1);
-                navigated = true;
+                targetRotationY += rotationStep;
+                direction = 'right';
                 break;
             case 'ArrowUp':
-                eyeGroup.rotation.x -= rotationStep;
-                window.navigateContent(-1);
-                navigated = true;
+                targetRotationX -= rotationStep;
+                direction = 'up';
                 break;
             case 'ArrowDown':
-                eyeGroup.rotation.x += rotationStep;
-                window.navigateContent(1);
-                navigated = true;
+                targetRotationX += rotationStep;
+                direction = 'down';
                 break;
         }
 
-        if (navigated) {
+        if (direction) {
             e.preventDefault();
+            window.navigateContent(direction);
         }
     });
 
-    // Animation loop
+    // Animation loop with smooth rotation
     function animate() {
         requestAnimationFrame(animate);
+
+        // Lerp toward target rotation
+        eyeGroup.rotation.x += (targetRotationX - eyeGroup.rotation.x) * lerpFactor;
+        eyeGroup.rotation.y += (targetRotationY - eyeGroup.rotation.y) * lerpFactor;
+
         renderer.render(scene, camera);
     }
 

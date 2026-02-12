@@ -57,6 +57,43 @@ body {
     border: 2px solid var(--text);
     padding: 1.5rem;
     overflow: auto;
+    position: relative;
+}
+
+/* Card content animation */
+.card-inner {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Slide directions */
+.card.slide-from-right .card-inner {
+    animation-name: slideFromRight;
+}
+.card.slide-from-left .card-inner {
+    animation-name: slideFromLeft;
+}
+.card.slide-from-top .card-inner {
+    animation-name: slideFromTop;
+}
+.card.slide-from-bottom .card-inner {
+    animation-name: slideFromBottom;
+}
+
+@keyframes slideFromRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideFromLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideFromTop {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideFromBottom {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Content type templates */
