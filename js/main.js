@@ -91,11 +91,11 @@ function renderPage(page, slideDirection = null) {
     // Remove old type and slide classes
     card.className = 'card';
 
-    // Add slide direction class (content comes FROM opposite direction)
-    if (slideDirection === 'left') card.classList.add('slide-from-right');
-    else if (slideDirection === 'right') card.classList.add('slide-from-left');
-    else if (slideDirection === 'up') card.classList.add('slide-from-bottom');
-    else if (slideDirection === 'down') card.classList.add('slide-from-top');
+    // Add slide direction class (content comes FROM the direction you're moving)
+    if (slideDirection === 'left') card.classList.add('slide-from-left');
+    else if (slideDirection === 'right') card.classList.add('slide-from-right');
+    else if (slideDirection === 'up') card.classList.add('slide-from-top');
+    else if (slideDirection === 'down') card.classList.add('slide-from-bottom');
 
     let content = '';
 
