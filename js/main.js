@@ -25,7 +25,7 @@ function initEyeball() {
         // Project spherical coordinates to 2D
         // x = sin(theta) * cos(phi) — horizontal position
         // y = sin(phi) — vertical position
-        // z = cos(theta) * cos(phi) — depth (for scale)
+        // z = cos(theta) * cos(phi) — depth (front/back of sphere)
 
         const x = Math.sin(theta) * Math.cos(phi);
         const y = Math.sin(phi);
@@ -36,10 +36,14 @@ function initEyeball() {
         const offsetY = y * maxOffset * 100;
 
         // Scale based on depth (closer = bigger, further = smaller)
-        // z ranges from -1 to 1, map to scale 0.7 to 1.0
-        const scale = 0.85 + (z * 0.15);
+        const scale = 0.7 + (Math.max(0, z) * 0.3);
+
+        // Opacity: visible when z > 0 (front), fades as it goes to edge, hidden when behind
+        // Fade starts at z = 0.3, fully hidden at z = 0
+        const opacity = Math.max(0, Math.min(1, z * 3));
 
         iris.style.transform = `translate(calc(-50% + ${offsetX}%), calc(-50% + ${offsetY}%)) scale(${scale})`;
+        iris.style.opacity = opacity;
     }
 
     document.addEventListener('keydown', (e) => {

@@ -30,27 +30,42 @@ body {
 .eyeball {
     width: var(--eye-size);
     height: var(--eye-size);
-    background: white;
     border-radius: 50%;
-    border: 3px solid var(--text);
     position: relative;
     overflow: hidden;
-    /* 3D space for rotation effect */
-    transform-style: preserve-3d;
-    perspective: 200px;
+    /* 3D shading - light from top-left */
+    background: radial-gradient(
+        circle at 30% 30%,
+        #fff 0%,
+        #f0f0f0 30%,
+        #d0d0d0 70%,
+        #a0a0a0 100%
+    );
+    box-shadow:
+        inset -4px -4px 12px rgba(0,0,0,0.2),
+        inset 2px 2px 8px rgba(255,255,255,0.8),
+        4px 4px 12px rgba(0,0,0,0.3);
 }
 
 .iris {
     width: var(--iris-size);
     height: var(--iris-size);
-    background: var(--text);
     border-radius: 50%;
     position: absolute;
-    /* Center by default */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    /* 3D shading on the iris too */
+    background: radial-gradient(
+        circle at 35% 35%,
+        #444 0%,
+        #1a1a1a 50%,
+        #000 100%
+    );
+    box-shadow:
+        inset 1px 1px 3px rgba(255,255,255,0.3),
+        2px 2px 4px rgba(0,0,0,0.3);
 }
 
 .nav-hint {
