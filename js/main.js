@@ -9,7 +9,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initClickNav();
     initActiveTracking();
     initPortfolio();
+    initEmailProtection();
 });
+
+/**
+ * Protect email from bots by assembling it from data attributes
+ */
+function initEmailProtection() {
+    const emailLink = document.getElementById('email-link');
+    if (!emailLink) return;
+
+    const user = emailLink.dataset.user;
+    const domain = emailLink.dataset.domain;
+    if (user && domain) {
+        emailLink.href = 'mailto:' + user + '@' + domain;
+    }
+}
 
 /**
  * Convert vertical wheel to horizontal scroll
