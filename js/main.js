@@ -1,7 +1,6 @@
 /**
- * 3D Eyeball Navigation
- * A sphere rendered on canvas with an iris on its surface
- * Arrow keys rotate the sphere in 3D
+ * 3D Eyeball using Three.js
+ * A sphere with an iris texture that rotates with arrow keys
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,161 +8,118 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initEyeball() {
-    const canvas = document.getElementById('eyeball-canvas');
-    if (!canvas) return;
+    const container = document.getElementById('eyeball-container');
+    if (!container) return;
 
-    const ctx = canvas.getContext('2d');
-    const size = canvas.width;
-    const centerX = size / 2;
-    const centerY = size / 2;
-    const radius = size * 0.4;
+    const size = 160;
 
-    // Camera/projection settings
-    const focalLength = 300;
-    const cameraZ = 200;
+    // Scene setup
+    const scene = new THREE.Scene();
 
-    // Rotation angles (in radians)
-    let rotationX = 0;
-    let rotationY = 0;
+    // Camera
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+    camera.position.z = 3;
 
-    // Rotation step per keypress
-    const step = Math.PI / 12;
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(size, size);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
 
-    // Iris position on sphere surface (starts facing forward)
-    // This is a point at the "north pole" of the sphere initially
-    const irisBasePosition = { x: 0, y: 0, z: radius };
-    const irisRadius = radius * 0.35;
+    // Create eyeball texture with canvas
+    const textureCanvas = document.createElement('canvas');
+    textureCanvas.width = 512;
+    textureCanvas.height = 512;
+    const ctx = textureCanvas.getContext('2d');
 
-    // 3D Rotation functions
-    function rotateX(point, angle) {
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        return {
-            x: point.x,
-            y: point.y * cos - point.z * sin,
-            z: point.y * sin + point.z * cos
-        };
-    }
+    // Draw eyeball texture: white with iris
+    // Fill white
+    ctx.fillStyle = '#f5f5f5';
+    ctx.fillRect(0, 0, 512, 512);
 
-    function rotateY(point, angle) {
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        return {
-            x: point.x * cos + point.z * sin,
-            y: point.y,
-            z: -point.x * sin + point.z * cos
-        };
-    }
+    // Draw iris in the center of the texture
+    // When mapped to sphere, center of texture = "front" of sphere
+    const irisX = 256;
+    const irisY = 256;
+    const irisRadius = 100;
 
-    // Project 3D point to 2D with perspective
-    function project(point) {
-        const scale = focalLength / (focalLength + cameraZ - point.z);
-        return {
-            x: centerX + point.x * scale,
-            y: centerY + point.y * scale,
-            scale: scale,
-            z: point.z // keep z for depth sorting
-        };
-    }
+    // Iris gradient
+    const irisGradient = ctx.createRadialGradient(
+        irisX - 20, irisY - 20, 0,
+        irisX, irisY, irisRadius
+    );
+    irisGradient.addColorStop(0, '#333');
+    irisGradient.addColorStop(0.6, '#1a1a1a');
+    irisGradient.addColorStop(1, '#000');
 
-    function draw() {
-        ctx.clearRect(0, 0, size, size);
+    ctx.beginPath();
+    ctx.arc(irisX, irisY, irisRadius, 0, Math.PI * 2);
+    ctx.fillStyle = irisGradient;
+    ctx.fill();
 
-        // Apply rotations to iris position
-        let irisPos = { ...irisBasePosition };
-        irisPos = rotateX(irisPos, rotationX);
-        irisPos = rotateY(irisPos, rotationY);
+    // Pupil
+    ctx.beginPath();
+    ctx.arc(irisX, irisY, irisRadius * 0.4, 0, Math.PI * 2);
+    ctx.fillStyle = '#000';
+    ctx.fill();
 
-        // Project iris to 2D
-        const iris2D = project(irisPos);
+    // Small highlight on pupil
+    ctx.beginPath();
+    ctx.arc(irisX - 15, irisY - 15, 8, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fill();
 
-        // Calculate iris apparent size (foreshortening)
-        // When iris is at edge, it appears as an ellipse
-        const irisDepthRatio = irisPos.z / radius; // -1 to 1
-        const irisApparentRadius = irisRadius * iris2D.scale * Math.max(0, irisDepthRatio);
+    // Create texture from canvas
+    const texture = new THREE.CanvasTexture(textureCanvas);
 
-        // Draw eyeball (white sphere with shading)
-        // Calculate highlight position based on rotation
-        const highlightX = centerX - rotationY * 10;
-        const highlightY = centerY - rotationX * 10;
+    // Sphere geometry and material
+    const geometry = new THREE.SphereGeometry(1, 64, 64);
+    const material = new THREE.MeshStandardMaterial({
+        map: texture,
+        roughness: 0.3,
+        metalness: 0.0
+    });
 
-        const gradient = ctx.createRadialGradient(
-            highlightX, highlightY, 0,
-            centerX, centerY, radius
-        );
-        gradient.addColorStop(0, '#ffffff');
-        gradient.addColorStop(0.3, '#f5f5f5');
-        gradient.addColorStop(0.7, '#d0d0d0');
-        gradient.addColorStop(1, '#a0a0a0');
+    const eyeball = new THREE.Mesh(geometry, material);
+    scene.add(eyeball);
 
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
 
-        // Draw iris only if it's on the front half of the sphere
-        if (irisPos.z > 0) {
-            // Iris gradient (dark with slight highlight)
-            const irisGradient = ctx.createRadialGradient(
-                iris2D.x - irisApparentRadius * 0.3,
-                iris2D.y - irisApparentRadius * 0.3,
-                0,
-                iris2D.x,
-                iris2D.y,
-                irisApparentRadius
-            );
-            irisGradient.addColorStop(0, '#333');
-            irisGradient.addColorStop(0.5, '#1a1a1a');
-            irisGradient.addColorStop(1, '#000');
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(2, 2, 3);
+    scene.add(directionalLight);
 
-            // Draw iris as ellipse (foreshortened circle)
-            ctx.beginPath();
-
-            // Calculate ellipse axes based on viewing angle
-            const ellipseScaleX = Math.abs(Math.cos(rotationY)) * 0.5 + 0.5;
-            const ellipseScaleY = Math.abs(Math.cos(rotationX)) * 0.5 + 0.5;
-
-            ctx.save();
-            ctx.translate(iris2D.x, iris2D.y);
-            ctx.scale(ellipseScaleX, ellipseScaleY);
-            ctx.beginPath();
-            ctx.arc(0, 0, irisApparentRadius, 0, Math.PI * 2);
-            ctx.restore();
-
-            ctx.fillStyle = irisGradient;
-            ctx.fill();
-        }
-
-        // Subtle edge shadow on the eyeball
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-    }
+    // Rotation state
+    const rotationStep = Math.PI / 12;
 
     // Keyboard controls
     document.addEventListener('keydown', (e) => {
         switch (e.key) {
             case 'ArrowLeft':
-                rotationY -= step;
+                eyeball.rotation.y -= rotationStep;
                 break;
             case 'ArrowRight':
-                rotationY += step;
+                eyeball.rotation.y += rotationStep;
                 break;
             case 'ArrowUp':
-                rotationX -= step;
+                eyeball.rotation.x -= rotationStep;
                 break;
             case 'ArrowDown':
-                rotationX += step;
+                eyeball.rotation.x += rotationStep;
                 break;
             default:
                 return;
         }
         e.preventDefault();
-        draw();
     });
 
-    // Initial draw
-    draw();
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+
+    animate();
 }
