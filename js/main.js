@@ -1,6 +1,6 @@
 /**
  * 3D Eyeball using Three.js
- * A sphere with an iris (separate geometry) on its surface
+ * A sphere with a curved iris (spherical cap) on its surface
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,38 +40,66 @@ function initEyeball() {
     const eyeball = new THREE.Mesh(eyeGeometry, eyeMaterial);
     eyeGroup.add(eyeball);
 
-    // Iris - a flat circle positioned on the surface of the eyeball
-    const irisGeometry = new THREE.CircleGeometry(0.35, 64);
+    // Iris - a spherical cap that follows the eyeball's curve
+    // SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
+    // thetaStart/thetaLength control the vertical arc (from top)
+    // We want a small cap at the "front" (which we'll rotate into position)
+    const irisRadius = 1.005; // Slightly larger than eyeball to sit on surface
+    const irisAngle = 0.35; // How much of the sphere the iris covers (radians)
+
+    const irisGeometry = new THREE.SphereGeometry(
+        irisRadius,
+        32, 32,
+        0, Math.PI * 2,  // full rotation around
+        0, irisAngle     // cap from top down to irisAngle
+    );
     const irisMaterial = new THREE.MeshStandardMaterial({
         color: 0x1a1a1a,
         roughness: 0.5,
-        metalness: 0.0
+        metalness: 0.0,
+        side: THREE.DoubleSide
     });
     const iris = new THREE.Mesh(irisGeometry, irisMaterial);
-
-    // Position iris on the front surface of the eyeball
-    // Slightly in front to avoid z-fighting
-    iris.position.z = 1.01;
+    // Rotate so the cap faces forward (+Z) instead of up (+Y)
+    iris.rotation.x = Math.PI / 2;
     eyeGroup.add(iris);
 
-    // Pupil - smaller black circle on top of iris
-    const pupilGeometry = new THREE.CircleGeometry(0.15, 64);
+    // Pupil - smaller spherical cap
+    const pupilRadius = 1.01;
+    const pupilAngle = 0.15;
+
+    const pupilGeometry = new THREE.SphereGeometry(
+        pupilRadius,
+        32, 32,
+        0, Math.PI * 2,
+        0, pupilAngle
+    );
     const pupilMaterial = new THREE.MeshStandardMaterial({
         color: 0x000000,
         roughness: 0.3,
-        metalness: 0.0
+        metalness: 0.0,
+        side: THREE.DoubleSide
     });
     const pupil = new THREE.Mesh(pupilGeometry, pupilMaterial);
-    pupil.position.z = 1.02;
+    pupil.rotation.x = Math.PI / 2;
     eyeGroup.add(pupil);
 
-    // Highlight - tiny white circle
-    const highlightGeometry = new THREE.CircleGeometry(0.04, 32);
+    // Highlight - tiny spherical cap
+    const highlightGeometry = new THREE.SphereGeometry(
+        1.015,
+        16, 16,
+        0, Math.PI * 2,
+        0, 0.04
+    );
     const highlightMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffffff
+        color: 0xffffff,
+        side: THREE.DoubleSide
     });
     const highlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
-    highlight.position.set(-0.06, 0.06, 1.03);
+    // Position highlight off-center
+    highlight.rotation.x = Math.PI / 2;
+    highlight.rotation.z = 0.15;
+    highlight.rotation.y = -0.15;
     eyeGroup.add(highlight);
 
     // Lighting
