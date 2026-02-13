@@ -49,96 +49,105 @@ body {
     padding: 0 1rem 2rem;
 }
 
-/* Square card */
+/* Square card - acts as viewport */
 .card {
     width: var(--card-size);
     height: var(--card-size);
     background: white;
     border: 2px solid var(--text);
-    padding: 1.5rem;
     overflow: hidden;
     position: relative;
 }
 
-/* Card content wrapper */
-.card-inner {
+/* Content panel - full size of card, slides in/out */
+.card-panel {
     position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    right: 1.5rem;
-    bottom: 1.5rem;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem;
+    background: white;
     overflow: auto;
-    background: white; /* Prevent seeing content behind */
+    will-change: transform;
 }
 
-/* Incoming animations */
-.card-inner.slide-in-from-right { animation: inRight 0.4s ease-out both; }
-.card-inner.slide-in-from-left { animation: inLeft 0.4s ease-out both; }
-.card-inner.slide-in-from-top { animation: inTop 0.4s ease-out both; }
-.card-inner.slide-in-from-bottom { animation: inBottom 0.4s ease-out both; }
+/* New panel slides in on top */
+.card-panel.incoming {
+    z-index: 2;
+}
 
-/* Outgoing animations */
-.card-inner.slide-out-to-left { animation: outLeft 0.4s ease-out both; }
-.card-inner.slide-out-to-right { animation: outRight 0.4s ease-out both; }
-.card-inner.slide-out-to-top { animation: outTop 0.4s ease-out both; }
-.card-inner.slide-out-to-bottom { animation: outBottom 0.4s ease-out both; }
+/* Old panel slides out behind */
+.card-panel.outgoing {
+    z-index: 1;
+}
 
-/* Use 450px - larger than max card size (400px) to ensure full off-screen */
-@keyframes inRight { from { transform: translateX(450px); } to { transform: translateX(0); } }
-@keyframes inLeft { from { transform: translateX(-450px); } to { transform: translateX(0); } }
-@keyframes inTop { from { transform: translateY(-450px); } to { transform: translateY(0); } }
-@keyframes inBottom { from { transform: translateY(450px); } to { transform: translateY(0); } }
+/* Slide animations - simple directions */
+.card-panel.from-right { animation: fromRight 0.35s ease-out forwards; }
+.card-panel.from-left { animation: fromLeft 0.35s ease-out forwards; }
+.card-panel.from-top { animation: fromTop 0.35s ease-out forwards; }
+.card-panel.from-bottom { animation: fromBottom 0.35s ease-out forwards; }
 
-@keyframes outRight { from { transform: translateX(0); } to { transform: translateX(450px); } }
-@keyframes outLeft { from { transform: translateX(0); } to { transform: translateX(-450px); } }
-@keyframes outTop { from { transform: translateY(0); } to { transform: translateY(-450px); } }
-@keyframes outBottom { from { transform: translateY(0); } to { transform: translateY(450px); } }
+.card-panel.to-right { animation: toRight 0.35s ease-out forwards; }
+.card-panel.to-left { animation: toLeft 0.35s ease-out forwards; }
+.card-panel.to-top { animation: toTop 0.35s ease-out forwards; }
+.card-panel.to-bottom { animation: toBottom 0.35s ease-out forwards; }
 
-/* Content type templates */
-.card h1 {
+@keyframes fromRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes fromLeft { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes fromTop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes fromBottom { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+@keyframes toRight { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes toLeft { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes toTop { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+@keyframes toBottom { from { transform: translateY(0); } to { transform: translateY(100%); } }
+
+/* Content styles */
+.card-panel h1 {
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
 }
 
-.card h2 {
+.card-panel h2 {
     font-size: 1rem;
     margin-bottom: 0.5rem;
     color: #444;
 }
 
-.card p {
+.card-panel p {
     font-size: 0.9rem;
     line-height: 1.6;
     color: #444;
     margin-bottom: 0.75rem;
 }
 
-.card a {
+.card-panel a {
     color: var(--text);
 }
 
 /* Publication template */
-.card.publication .venue {
+.card-panel.publication .venue {
     font-style: italic;
     font-size: 0.85rem;
     color: #666;
     margin-bottom: 0.5rem;
 }
 
-.card.publication .year {
+.card-panel.publication .year {
     font-size: 0.8rem;
     color: #888;
     margin-bottom: 1rem;
 }
 
-.card.publication .read-link {
+.card-panel.publication .read-link {
     display: inline-block;
     margin-top: 1rem;
     font-size: 0.85rem;
 }
 
 /* Image template */
-.card.image img {
+.card-panel.image img {
     width: 100%;
     height: auto;
     max-height: 60%;
@@ -146,48 +155,48 @@ body {
     margin-bottom: 0.75rem;
 }
 
-.card.image .caption {
+.card-panel.image .caption {
     font-size: 0.85rem;
     color: #666;
 }
 
 /* Video template */
-.card.video .video-embed {
+.card-panel.video .video-embed {
     width: 100%;
     aspect-ratio: 16/9;
     background: #000;
     margin-bottom: 0.75rem;
 }
 
-.card.video iframe {
+.card-panel.video iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
 
 /* Code project template */
-.card.code .tech-stack {
+.card-panel.code .tech-stack {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 1rem;
 }
 
-.card.code .tech-tag {
+.card-panel.code .tech-tag {
     font-size: 0.75rem;
     background: var(--bg);
     padding: 0.25rem 0.5rem;
     border: 1px solid #ddd;
 }
 
-.card.code .repo-link {
+.card-panel.code .repo-link {
     display: inline-block;
     margin-top: 1rem;
     font-size: 0.85rem;
 }
 
-/* Welcome/intro template */
-.card.intro {
+/* Intro template - centered */
+.card-panel.intro {
     display: flex;
     flex-direction: column;
     justify-content: center;

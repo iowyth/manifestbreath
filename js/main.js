@@ -136,49 +136,46 @@ function renderPage(page, direction = null) {
     const card = document.getElementById('content-card');
     if (!card) return;
 
-    // Update card type class
-    card.className = 'card';
-    if (page.type === 'intro') card.classList.add('intro');
-    else if (page.type === 'publication') card.classList.add('publication');
-    else if (page.type === 'image') card.classList.add('image');
-    else if (page.type === 'video') card.classList.add('video');
-    else if (page.type === 'code') card.classList.add('code');
-
     const content = generatePageContent(page);
 
     // No animation for initial load
     if (!direction) {
-        card.innerHTML = `<div class="card-inner">${content}</div>`;
+        const panel = document.createElement('div');
+        panel.className = `card-panel ${page.type}`;
+        panel.innerHTML = content;
+        card.innerHTML = '';
+        card.appendChild(panel);
         return;
     }
 
-    // Get the old content
-    const oldContent = card.querySelector('.card-inner');
+    // Get the old panel
+    const oldPanel = card.querySelector('.card-panel');
 
-    // Create new content element
-    const newContent = document.createElement('div');
-    newContent.className = 'card-inner';
-    newContent.innerHTML = content;
+    // Create new panel
+    const newPanel = document.createElement('div');
+    newPanel.className = `card-panel ${page.type} incoming`;
+    newPanel.innerHTML = content;
 
-    // Determine animation classes based on direction
-    // Map direction to CSS class names (up/down → top/bottom)
-    const directionMap = { left: 'left', right: 'right', up: 'top', down: 'bottom' };
-    const oppositeMap = { left: 'right', right: 'left', up: 'bottom', down: 'top' };
+    // Direction mappings
+    const inFrom = { left: 'from-left', right: 'from-right', up: 'from-top', down: 'from-bottom' };
+    const outTo = { left: 'to-right', right: 'to-left', up: 'to-bottom', down: 'to-top' };
 
-    const slideInClass = `slide-in-from-${directionMap[direction]}`;
-    const slideOutClass = `slide-out-to-${oppositeMap[direction]}`;
-
-    // Animate old content out
-    if (oldContent) {
-        oldContent.classList.add(slideOutClass);
-        oldContent.addEventListener('animationend', () => {
-            oldContent.remove();
+    // Animate old panel out
+    if (oldPanel) {
+        oldPanel.classList.add('outgoing', outTo[direction]);
+        oldPanel.addEventListener('animationend', () => {
+            oldPanel.remove();
         }, { once: true });
     }
 
-    // Add and animate new content in
-    newContent.classList.add(slideInClass);
-    card.appendChild(newContent);
+    // Add new panel and animate in
+    newPanel.classList.add(inFrom[direction]);
+    card.appendChild(newPanel);
+
+    // Clean up incoming class after animation
+    newPanel.addEventListener('animationend', () => {
+        newPanel.classList.remove('incoming', inFrom[direction]);
+    }, { once: true });
 }
 
 /**
