@@ -63,73 +63,36 @@ body {
 /* Card content wrapper */
 .card-inner {
     position: absolute;
-    inset: 1.5rem;
+    top: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: 1.5rem;
     overflow: auto;
+    background: white; /* Prevent seeing content behind */
 }
 
-/* Incoming content animations */
-.card-inner.slide-in-from-right {
-    animation: slideInFromRight 0.4s ease-out forwards;
-}
-.card-inner.slide-in-from-left {
-    animation: slideInFromLeft 0.4s ease-out forwards;
-}
-.card-inner.slide-in-from-top {
-    animation: slideInFromTop 0.4s ease-out forwards;
-}
-.card-inner.slide-in-from-bottom {
-    animation: slideInFromBottom 0.4s ease-out forwards;
-}
+/* Incoming animations */
+.card-inner.slide-in-from-right { animation: inRight 0.4s ease-out both; }
+.card-inner.slide-in-from-left { animation: inLeft 0.4s ease-out both; }
+.card-inner.slide-in-from-top { animation: inTop 0.4s ease-out both; }
+.card-inner.slide-in-from-bottom { animation: inBottom 0.4s ease-out both; }
 
-/* Outgoing content animations */
-.card-inner.slide-out-to-left {
-    animation: slideOutToLeft 0.4s ease-out forwards;
-}
-.card-inner.slide-out-to-right {
-    animation: slideOutToRight 0.4s ease-out forwards;
-}
-.card-inner.slide-out-to-top {
-    animation: slideOutToTop 0.4s ease-out forwards;
-}
-.card-inner.slide-out-to-bottom {
-    animation: slideOutToBottom 0.4s ease-out forwards;
-}
+/* Outgoing animations */
+.card-inner.slide-out-to-left { animation: outLeft 0.4s ease-out both; }
+.card-inner.slide-out-to-right { animation: outRight 0.4s ease-out both; }
+.card-inner.slide-out-to-top { animation: outTop 0.4s ease-out both; }
+.card-inner.slide-out-to-bottom { animation: outBottom 0.4s ease-out both; }
 
-/* Slide in keyframes - use card size for consistent distance */
-@keyframes slideInFromRight {
-    from { transform: translateX(var(--card-size)); }
-    to { transform: translateX(0); }
-}
-@keyframes slideInFromLeft {
-    from { transform: translateX(calc(-1 * var(--card-size))); }
-    to { transform: translateX(0); }
-}
-@keyframes slideInFromTop {
-    from { transform: translateY(calc(-1 * var(--card-size))); }
-    to { transform: translateY(0); }
-}
-@keyframes slideInFromBottom {
-    from { transform: translateY(var(--card-size)); }
-    to { transform: translateY(0); }
-}
+/* Use 450px - larger than max card size (400px) to ensure full off-screen */
+@keyframes inRight { from { transform: translateX(450px); } to { transform: translateX(0); } }
+@keyframes inLeft { from { transform: translateX(-450px); } to { transform: translateX(0); } }
+@keyframes inTop { from { transform: translateY(-450px); } to { transform: translateY(0); } }
+@keyframes inBottom { from { transform: translateY(450px); } to { transform: translateY(0); } }
 
-/* Slide out keyframes */
-@keyframes slideOutToLeft {
-    from { transform: translateX(0); }
-    to { transform: translateX(calc(-1 * var(--card-size))); }
-}
-@keyframes slideOutToRight {
-    from { transform: translateX(0); }
-    to { transform: translateX(var(--card-size)); }
-}
-@keyframes slideOutToTop {
-    from { transform: translateY(0); }
-    to { transform: translateY(calc(-1 * var(--card-size))); }
-}
-@keyframes slideOutToBottom {
-    from { transform: translateY(0); }
-    to { transform: translateY(var(--card-size)); }
-}
+@keyframes outRight { from { transform: translateX(0); } to { transform: translateX(450px); } }
+@keyframes outLeft { from { transform: translateX(0); } to { transform: translateX(-450px); } }
+@keyframes outTop { from { transform: translateY(0); } to { transform: translateY(-450px); } }
+@keyframes outBottom { from { transform: translateY(0); } to { transform: translateY(450px); } }
 
 /* Content type templates */
 .card h1 {
