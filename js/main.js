@@ -1,13 +1,71 @@
 /**
  * Manifest Breath
  * 3D Eyeball navigation with shuffled content pages
+ *
+ * Content is defined in content.js - edit that file to add/modify pages
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    initWaveBackground();
     initEmailProtection();
     initEyeball();
     initContentNavigation();
 });
+
+/**
+ * Animated wave background
+ */
+function initWaveBackground() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'wave-bg';
+    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
+    document.body.prepend(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Wave parameters
+    const waves = [
+        { y: 0.5, amplitude: 30, frequency: 0.015, speed: 0.02, color: 'rgba(180, 160, 200, 0.15)' },
+        { y: 0.55, amplitude: 25, frequency: 0.02, speed: 0.015, color: 'rgba(160, 140, 180, 0.12)' },
+        { y: 0.6, amplitude: 20, frequency: 0.025, speed: 0.025, color: 'rgba(200, 180, 220, 0.1)' }
+    ];
+
+    let time = 0;
+
+    function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        waves.forEach(wave => {
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+
+            for (let x = 0; x <= width; x += 5) {
+                const y = height * wave.y +
+                    Math.sin(x * wave.frequency + time * wave.speed * 60) * wave.amplitude +
+                    Math.sin(x * wave.frequency * 0.5 + time * wave.speed * 30) * wave.amplitude * 0.5;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.lineTo(width, height);
+            ctx.closePath();
+            ctx.fillStyle = wave.color;
+            ctx.fill();
+        });
+
+        time += 0.016;
+        requestAnimationFrame(draw);
+    }
+
+    draw();
+}
 
 /**
  * Protect email from bots
@@ -22,62 +80,6 @@ function initEmailProtection() {
         link.href = 'mailto:' + user + '@' + domain;
     }
 }
-
-/**
- * Content pages - each page has a type and content
- */
-const pages = [
-    {
-        type: 'intro',
-        title: 'iowyth hezel ulthiin',
-        content: '<p>scholar · artist · weaver of worlds</p><p>Press arrow keys to explore.</p>'
-    },
-    {
-        type: 'publication',
-        title: 'The Phenomenology of Dissensus',
-        venue: 'Review of Education, Pedagogy, and Cultural Studies',
-        year: '2024',
-        description: 'An exploration of epistemic communities and the phenomenology of belief in alternative cosmologies.',
-        link: 'https://www.tandfonline.com/doi/full/10.1080/10714413.2024.2427894'
-    },
-    {
-        type: 'publication',
-        title: 'Before and After Gravity',
-        venue: 'Canadian Journal of Theology, Mental Health and Disability',
-        year: '2024',
-        description: 'A series of intimate drawings exploring the sublime as a site of queer spiritual connection.',
-        link: 'https://jps.library.utoronto.ca/index.php/cjtmhd/article/view/44515'
-    },
-    {
-        type: 'publication',
-        title: 'The Witch: A Pedagogy of Immanence',
-        venue: 'Dio Press (Monograph)',
-        year: '2023',
-        description: 'A journey through trauma to resilience, seeking seeds of an Indigenous way of being within settler culture.',
-        link: 'https://www.diopress.com/the-witch'
-    },
-    {
-        type: 'publication',
-        title: 'The Capitol Riots',
-        venue: 'Routledge (Co-edited)',
-        year: '2022',
-        description: 'Digital Media, Disinformation, and Democracy Under Attack.',
-        link: 'https://www.routledge.com/The-Capitol-Riots-Digital-Media-Disinformation-and-Democracy-Under-Attack/Jeppesen-Hoechsmann-ulthiin-VanDyke-McKee/p/book/9781032246864'
-    },
-    {
-        type: 'publication',
-        title: 'Body as Prism',
-        venue: 'Canadian Journal of Environmental Education',
-        year: '2020',
-        description: 'Somatic pedagogy in the development of embodied ecological awareness.',
-        link: 'https://cjee.lakeheadu.ca/article/view/1655'
-    },
-    {
-        type: 'text',
-        title: 'About',
-        content: '<p>I am a performance artist and PhD student whose practice moves between dance, voice, illustration, and writing—examining participatory culture through a métis-crip-queer lens.</p><p>My work focuses on building horizontal power relations through community-based praxis, integrating creative expression with social justice and the utopic visioning of radical social alternatives.</p>'
-    }
-];
 
 /**
  * Generate HTML content for a page based on its type
@@ -131,8 +133,9 @@ function generatePageContent(page) {
  * Render a page with slide animation
  * @param {Object} page - The page data
  * @param {string} direction - 'left', 'right', 'up', 'down' or null
+ * @param {Function} onComplete - Callback when animation finishes
  */
-function renderPage(page, direction = null) {
+function renderPage(page, direction = null, onComplete = null) {
     const card = document.getElementById('content-card');
     if (!card) return;
 
@@ -145,6 +148,7 @@ function renderPage(page, direction = null) {
         panel.innerHTML = content;
         card.innerHTML = '';
         card.appendChild(panel);
+        if (onComplete) onComplete();
         return;
     }
 
@@ -172,9 +176,10 @@ function renderPage(page, direction = null) {
     newPanel.classList.add(inFrom[direction]);
     card.appendChild(newPanel);
 
-    // Clean up incoming class after animation
+    // Clean up incoming class after animation and signal completion
     newPanel.addEventListener('animationend', () => {
         newPanel.classList.remove('incoming', inFrom[direction]);
+        if (onComplete) onComplete();
     }, { once: true });
 }
 
@@ -182,14 +187,21 @@ function renderPage(page, direction = null) {
  * Content navigation with shuffle
  */
 function initContentNavigation() {
-    // Create shuffled order (Fisher-Yates)
-    const indices = pages.map((_, i) => i);
-    for (let i = indices.length - 1; i > 0; i--) {
+    // Find intro page index
+    const introIndex = pages.findIndex(p => p.type === 'intro');
+
+    // Create indices excluding intro, then shuffle (Fisher-Yates)
+    const otherIndices = pages.map((_, i) => i).filter(i => i !== introIndex);
+    for (let i = otherIndices.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [indices[i], indices[j]] = [indices[j], indices[i]];
+        [otherIndices[i], otherIndices[j]] = [otherIndices[j], otherIndices[i]];
     }
 
+    // Intro first, then shuffled others
+    const indices = introIndex !== -1 ? [introIndex, ...otherIndices] : otherIndices;
+
     let position = 0;
+    let isAnimating = false;
 
     // Show first page (no animation)
     renderPage(pages[indices[position]], null);
@@ -197,6 +209,11 @@ function initContentNavigation() {
     // Expose navigation for eyeball to use
     // direction: 'left', 'right', 'up', 'down'
     window.navigateContent = (direction) => {
+        // Ignore input during animation
+        if (isAnimating) return false;
+
+        isAnimating = true;
+
         const forward = (direction === 'right' || direction === 'down');
 
         if (forward) {
@@ -204,7 +221,11 @@ function initContentNavigation() {
         } else {
             position = (position - 1 + indices.length) % indices.length;
         }
-        renderPage(pages[indices[position]], direction);
+        renderPage(pages[indices[position]], direction, () => {
+            isAnimating = false;
+        });
+
+        return true;
     };
 }
 
@@ -253,9 +274,9 @@ function initEyeball() {
         0, irisAngle
     );
     const irisMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1a1a1a,
-        roughness: 0.5,
-        metalness: 0.0,
+        color: 0x9B7EBD,
+        roughness: 0.4,
+        metalness: 0.1,
         side: THREE.DoubleSide
     });
     const iris = new THREE.Mesh(irisGeometry, irisMaterial);
@@ -286,11 +307,17 @@ function initEyeball() {
     directionalLight.position.set(2, 2, 3);
     scene.add(directionalLight);
 
-    // Smooth rotation
-    const rotationStep = Math.PI / 12;
+    // Smooth rotation with realistic eye limits
+    const rotationStep = Math.PI / 12; // 15 degrees per step (smooth movement)
+    const maxRotation = 1.3;  // ~75 degrees - where iris disappears (back is one zone)
     let targetRotationX = 0;
     let targetRotationY = 0;
     const lerpFactor = 0.1; // Smoothing factor (0-1, lower = smoother)
+
+    // Clamp rotation to limits
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
 
     // Keyboard controls
     document.addEventListener('keydown', (e) => {
@@ -298,26 +325,32 @@ function initEyeball() {
 
         switch (e.key) {
             case 'ArrowLeft':
-                targetRotationY -= rotationStep;
                 direction = 'left';
                 break;
             case 'ArrowRight':
-                targetRotationY += rotationStep;
                 direction = 'right';
                 break;
             case 'ArrowUp':
-                targetRotationX -= rotationStep;
                 direction = 'up';
                 break;
             case 'ArrowDown':
-                targetRotationX += rotationStep;
                 direction = 'down';
                 break;
         }
 
         if (direction) {
             e.preventDefault();
-            window.navigateContent(direction);
+            // Only rotate eye if navigation succeeded (not blocked by animation)
+            if (window.navigateContent(direction)) {
+                if (direction === 'left') targetRotationY -= rotationStep;
+                if (direction === 'right') targetRotationY += rotationStep;
+                if (direction === 'up') targetRotationX -= rotationStep;
+                if (direction === 'down') targetRotationX += rotationStep;
+
+                // Clamp to eye limits - back of eye is one position
+                targetRotationX = clamp(targetRotationX, -maxRotation, maxRotation);
+                targetRotationY = clamp(targetRotationY, -maxRotation, maxRotation);
+            }
         }
     });
 

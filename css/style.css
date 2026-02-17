@@ -12,12 +12,17 @@
 
 body {
     font-family: system-ui, -apple-system, sans-serif;
-    background: var(--bg);
+    background: transparent;
     color: var(--text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* Wave background base */
+#wave-bg {
+    background: var(--bg);
 }
 
 /* Eye Navigation */
@@ -35,9 +40,9 @@ body {
 }
 
 .nav-hint {
-    font-size: 0.75rem;
+    font-family: 'Silkscreen', cursive;
+    font-size: 0.65rem;
     color: #888;
-    letter-spacing: 0.1em;
 }
 
 /* Content area */
@@ -66,9 +71,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 1.5rem;
+    padding: 1.25rem;
     background: white;
-    overflow: auto;
+    overflow: hidden;
     will-change: transform;
 }
 
@@ -103,47 +108,72 @@ body {
 @keyframes toTop { from { transform: translateY(0); } to { transform: translateY(-100%); } }
 @keyframes toBottom { from { transform: translateY(0); } to { transform: translateY(100%); } }
 
+/* All panels centered */
+.card-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
 /* Content styles */
 .card-panel h1 {
+    font-family: 'Silkscreen', cursive;
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
 }
 
 .card-panel h2 {
+    font-family: 'Silkscreen', cursive;
     font-size: 1rem;
     margin-bottom: 0.5rem;
     color: #444;
 }
 
 .card-panel p {
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
     color: #444;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    max-width: 85%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card-panel a {
     color: var(--text);
+    text-decoration: none;
+}
+
+/* Intro template - centered paragraphs */
+.card-panel.intro p {
+    text-align: center;
 }
 
 /* Publication template */
 .card-panel.publication .venue {
-    font-style: italic;
-    font-size: 0.85rem;
+    font-family: 'Silkscreen', cursive;
+    font-size: 0.7rem;
     color: #666;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+    text-align: center;
 }
 
 .card-panel.publication .year {
-    font-size: 0.8rem;
+    font-family: 'Silkscreen', cursive;
+    font-size: 0.7rem;
     color: #888;
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 .card-panel.publication .read-link {
+    font-family: 'Silkscreen', cursive;
     display: inline-block;
     margin-top: 1rem;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
 }
 
 /* Image template */
@@ -156,8 +186,10 @@ body {
 }
 
 .card-panel.image .caption {
-    font-size: 0.85rem;
+    font-family: 'Silkscreen', cursive;
+    font-size: 0.7rem;
     color: #666;
+    text-align: center;
 }
 
 /* Video template */
@@ -183,6 +215,7 @@ body {
 }
 
 .card-panel.code .tech-tag {
+    font-family: 'Silkscreen', cursive;
     font-size: 0.75rem;
     background: var(--bg);
     padding: 0.25rem 0.5rem;
@@ -190,29 +223,25 @@ body {
 }
 
 .card-panel.code .repo-link {
+    font-family: 'Silkscreen', cursive;
     display: inline-block;
     margin-top: 1rem;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
 }
 
-/* Intro template - centered */
-.card-panel.intro {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-}
 
 /* Persistent links */
 .persistent-links {
+    font-family: 'Silkscreen', cursive;
     display: flex;
     gap: 0.75rem;
     align-items: center;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
 }
 
 .persistent-links a {
     color: #666;
+    text-decoration: none;
     text-decoration: none;
     transition: color 0.2s;
 }
