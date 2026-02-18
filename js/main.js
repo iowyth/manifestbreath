@@ -124,11 +124,7 @@ function generatePageContent(page) {
             `;
 
         case 'interactive':
-            return `
-                <div class="interactive-container" data-interactive="${page.interactive}"></div>
-                <h2>${page.title}</h2>
-                <p>${page.description || ''}</p>
-            `;
+            return `<div class="interactive-container" data-interactive="${page.interactive}"></div>`;
 
         case 'text':
         default:
