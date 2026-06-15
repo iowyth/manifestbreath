@@ -601,11 +601,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const R = 2.0;
         const r = 0.7;
 
+        const numU = 20;
+        const numV = 10;
         const uArr = new Float32Array(numTracers);
         const vArr = new Float32Array(numTracers);
-        for (let i = 0; i < numTracers; i++) {
-            uArr[i] = (i / (numTracers - 1)) * 2 * Math.PI;
-            vArr[i] = (i / (numTracers - 1)) * 2 * Math.PI;
+        let gridIdx = 0;
+        for (let j = 0; j < numU; j++) {
+            const u = (j / (numU - 1)) * 2 * Math.PI;
+            for (let k = 0; k < numV; k++) {
+                const v = (k / (numV - 1)) * 2 * Math.PI;
+                if (gridIdx < numTracers) {
+                    uArr[gridIdx] = u;
+                    vArr[gridIdx] = v;
+                    gridIdx++;
+                }
+            }
         }
 
         const trailX = [], trailY = [], trailZ = [];
