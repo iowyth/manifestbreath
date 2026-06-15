@@ -75,4 +75,40 @@ const publications = [
         description: 'Somatic pedagogy in the development of embodied ecological awareness.',
         link: 'https://cjee.lakeheadu.ca/article/view/1655'
     },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Trauma-informed meditation: Processing the past',
+        venue: 'Spiral Nature Magazine',
+        year: '2018',
+        description: 'An exploration of how meditation can be approached to safely process personal trauma.',
+        link: 'https://www.spiralnature.com/magick/trauma-informed-meditation'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Mirror magick and self-love',
+        venue: 'Spiral Nature Magazine',
+        year: '2017',
+        description: 'An article exploring the mirror as a powerful tool for magical self-reflection and self-love.',
+        link: 'https://www.spiralnature.com/magick/mirror-magick-self-love'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Adding movement and energy to your magical practice',
+        venue: 'Spiral Nature Magazine',
+        year: '2017',
+        description: 'Discusses how bodily movement and dance can serve as a language for the subconscious and a tool for healing.',
+        link: 'https://www.spiralnature.com/magick/movement-energy-magical-practice'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Mental health and magical practice: Learning to know thyself',
+        venue: 'Spiral Nature Magazine',
+        year: '2017',
+        description: 'Reflections on integrating mental health awareness and self-knowledge into magical practice.',
+        link: 'https://www.spiralnature.com/magick/mental-health-magical-practice'
+    },
 ];
