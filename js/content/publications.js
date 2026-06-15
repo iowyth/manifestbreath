@@ -19,7 +19,7 @@ const publications = [
         venue: 'Journal of Alternative &<br>Community Media',
         year: '2025',
         description: 'A study proposing a new typology for classification of alternative media from a political economy perspective.',
-        link: 'https://intellectdiscover.com/content/journals/jacm'
+        link: 'https://doi.org/10.1386/jacm_00147_1'
     },
     {
         type: 'publication',
@@ -28,7 +28,7 @@ const publications = [
         venue: 'tripleC: Communication,<br>Capitalism & Critique',
         year: '2025',
         description: 'A critical analysis of digital platforms, alt-right communication methods, and alternative media strategies.',
-        link: 'https://www.triple-c.at/index.php/tripleC'
+        link: 'https://doi.org/10.31269/b3jpky66'
     },
     {
         type: 'publication',
@@ -82,7 +82,7 @@ const publications = [
         venue: 'Spiral Nature Magazine',
         year: '2017–2018',
         description: 'A collection of essays and articles exploring the intersections of mental health, somatic movement, and trauma-informed spirituality.',
-        link: 'https://www.spiralnature.com/author/chrysanthemum-white-alder/'
+        link: 'https://www.spiralnature.com/author/stichomancer/'
     },
     {
         type: 'publication',
