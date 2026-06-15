@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 speed: 0.02,
                 H1: 1.0, H2: 0.5, H3: 2.0,
                 B: 0.5, S: 0.15,
+                couplingPhase: 0.0, couplingVertical: 0.0,
                 color: 'rgba(180, 160, 200, 0.15)'
             },
             {
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 speed: 0.015,
                 H1: 1.0, H2: 0.5, H3: 2.0,
                 B: 0.5, S: 0.15,
+                couplingPhase: 0.08, couplingVertical: 0.35,
                 color: 'rgba(160, 140, 180, 0.12)'
             },
             {
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 speed: 0.025,
                 H1: 1.0, H2: 0.5, H3: 2.0,
                 B: 0.5, S: 0.15,
+                couplingPhase: 0.1, couplingVertical: 0.4,
                 color: 'rgba(200, 180, 220, 0.1)'
             }
         ];
@@ -71,21 +74,41 @@ document.addEventListener('DOMContentLoaded', () => {
         function draw() {
             ctx.clearRect(0, 0, width, height);
 
+            let prevDisplacements = null;
+
             waves.forEach(wave => {
                 ctx.beginPath();
                 ctx.moveTo(0, height);
 
+                const currentDisplacements = [];
+                let idx = 0;
+
                 for (let x = 0; x <= width; x += 5) {
-                    const angle = x * wave.frequency + time * wave.speed * 60;
+                    const prevYDisp = prevDisplacements ? prevDisplacements[idx] : 0;
+                    
+                    // Phase coupling: horizontal draft/pull from the layer above
+                    const couplingPhase = prevYDisp * wave.couplingPhase;
+                    const angle = x * wave.frequency + time * wave.speed * 60 + couplingPhase;
+                    
                     const yLocal = Math.sin(angle * wave.H1) + wave.B * Math.sin(angle * wave.H2) + wave.S * Math.sin(angle * wave.H3);
-                    const y = height * wave.y + yLocal * wave.amplitude;
+                    
+                    // Vertical coupling: cohesive height drag
+                    const couplingVertical = prevYDisp * wave.couplingVertical;
+                    const yDisp = yLocal * wave.amplitude + couplingVertical;
+                    
+                    currentDisplacements.push(yDisp);
+
+                    const y = height * wave.y + yDisp;
                     ctx.lineTo(x, y);
+                    idx++;
                 }
 
                 ctx.lineTo(width, height);
                 ctx.closePath();
                 ctx.fillStyle = wave.color;
                 ctx.fill();
+
+                prevDisplacements = currentDisplacements;
             });
 
             time += 0.016;
