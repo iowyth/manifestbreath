@@ -171,10 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `
                     <div class="contact-page">
                         <h1>${page.title}</h1>
-                        <p class="contact-intro">Feel free to reach out via email or subscribe to my Substack.</p>
+                        <p class="contact-intro">Feel free to reach out via email, subscribe to my Substack, or find me on social media.</p>
                         <div class="contact-links">
                             <a href="#" id="contact-link-dynamic" data-user="${page.emailUser}" data-domain="${page.emailDomain}" class="contact-btn">Email Me</a>
                             <a href="${page.substackUrl}" target="_blank" rel="noopener noreferrer" class="contact-btn">Substack</a>
+                            <a href="${page.instagramUrl}" target="_blank" rel="noopener noreferrer" class="contact-btn">Instagram</a>
+                            <a href="${page.blueskyUrl}" target="_blank" rel="noopener noreferrer" class="contact-btn">Bluesky</a>
                         </div>
                     </div>
                 `;

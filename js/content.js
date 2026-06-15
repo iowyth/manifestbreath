@@ -31,7 +31,9 @@ const connectPage = {
     title: 'Connect',
     emailUser: 'iowyth.ulthiin',
     emailDomain: 'gmail.com',
-    substackUrl: 'https://iowyth.substack.com'
+    substackUrl: 'https://iowyth.substack.com',
+    instagramUrl: 'https://www.instagram.com/stichomancer/',
+    blueskyUrl: 'https://bsky.app/profile/iowyth.bsky.social'
 };
 
 // The structured Grid
