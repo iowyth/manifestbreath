@@ -16,7 +16,7 @@ const publications = [
         type: 'publication',
         category: 'paper',
         title: 'Organizing media: A political economy typology of alternative media',
-        venue: 'Journal of Alternative & Community Media',
+        venue: 'Journal of Alternative &<br>Community Media',
         year: '2025',
         description: 'A study proposing a new typology for classification of alternative media from a political economy perspective.',
         link: 'https://intellectdiscover.com/content/journals/jacm'
@@ -25,7 +25,7 @@ const publications = [
         type: 'publication',
         category: 'paper',
         title: 'Transformative Media: A Critical Approach to Alt-right Media Appropriations',
-        venue: 'tripleC: Communication, Capitalism & Critique',
+        venue: 'tripleC: Communication,<br>Capitalism & Critique',
         year: '2025',
         description: 'A critical analysis of digital platforms, alt-right communication methods, and alternative media strategies.',
         link: 'https://www.triple-c.at/index.php/tripleC'
@@ -34,7 +34,7 @@ const publications = [
         type: 'publication',
         category: 'paper',
         title: 'The Phenomenology of Dissensus',
-        venue: 'Review of Education, Pedagogy, and Cultural Studies',
+        venue: 'Review of Education, Pedagogy,<br>and Cultural Studies',
         year: '2024',
         description: 'An exploration of epistemic communities and the phenomenology of belief in alternative cosmologies.',
         link: 'https://www.tandfonline.com/doi/full/10.1080/10714413.2024.2427894'
@@ -43,7 +43,7 @@ const publications = [
         type: 'publication',
         category: 'paper',
         title: 'Before and After Gravity',
-        venue: 'Canadian Journal of Theology, Mental Health and Disability',
+        venue: 'Canadian Journal of Theology,<br>Mental Health and Disability',
         year: '2024',
         description: 'A series of intimate drawings exploring the sublime as a site of queer spiritual connection.',
         link: 'https://jps.library.utoronto.ca/index.php/cjtmhd/article/view/44515'
@@ -70,7 +70,7 @@ const publications = [
         type: 'publication',
         category: 'paper',
         title: 'Body as Prism',
-        venue: 'Canadian Journal of Environmental Education',
+        venue: 'Canadian Journal of<br>Environmental Education',
         year: '2020',
         description: 'Somatic pedagogy in the development of embodied ecological awareness.',
         link: 'https://cjee.lakeheadu.ca/article/view/1655'
@@ -88,7 +88,7 @@ const publications = [
         type: 'publication',
         category: 'paper',
         title: 'Dialogical Consent Practices in Research With 2S-LGBTQ+ Youth',
-        venue: 'Diversity & Inclusion Research',
+        venue: 'Diversity &<br>Inclusion Research',
         year: '2025',
         description: 'Proposes a methodological framework for dialogical youth self-consent to support agency and participation for intersectional 2S-LGBTQ+ youth in community-engaged research.',
         link: 'https://doi.org/10.1002/dvr2.70026'
@@ -124,7 +124,7 @@ const publications = [
         type: 'publication',
         category: 'paper',
         title: 'Entre la libertad y el negacionismo',
-        venue: 'El algoritmo de la incertidumbre',
+        venue: 'El algoritmo de<br>la incertidumbre',
         year: '2021',
         description: 'An exploration of the tension between freedom of expression and denialism in the post-digital era, published in Spanish.',
         link: 'https://dialnet.unirioja.es/servlet/libro?codigo=814275'

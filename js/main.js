@@ -146,11 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function preventOrphans(str) {
-        if (!str || typeof str !== 'string') return '';
-        // Wrap the last two words in a span with white-space: nowrap to prevent orphans
-        return str.trim().replace(/(\S+\s+\S+)$/, '<span style="white-space: nowrap;">$1</span>');
-    }
+
 
     /**
      * Generate HTML content for a page based on its type
@@ -158,20 +154,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function generatePageContent(page) {
         switch (page.type) {
             case 'intro':
-                return `<h1>${preventOrphans(page.title)}</h1>${page.content}`;
+                return `<h1>${page.title}</h1>${page.content}`;
 
             case 'column-title':
                 return `
                     <div class="column-title-page">
-                        <h1>${preventOrphans(page.title)}</h1>
+                        <h1>${page.title}</h1>
                         <div class="nav-arrow-hint">↓ press down to browse</div>
                     </div>
                 `;
 
             case 'publication':
                 return `
-                    <h1>${preventOrphans(page.title)}</h1>
-                    <p class="venue">${preventOrphans(page.venue)}</p>
+                    <h1>${page.title}</h1>
+                    <p class="venue">${page.venue}</p>
                     <p class="year">${page.year}</p>
                     <p>${page.description}</p>
                     <a href="${page.link}" target="_blank" rel="noopener noreferrer" class="read-link">${page.linkText || 'Read'} →</a>
@@ -180,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'image':
                 return `
                     <img src="${page.src}" alt="${page.title}">
-                    <h2>${preventOrphans(page.title)}</h2>
+                    <h2>${page.title}</h2>
                     <p class="caption">${page.caption || ''}</p>
                 `;
 
@@ -189,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="video-embed">
                         <iframe src="${page.embedUrl}" allowfullscreen></iframe>
                     </div>
-                    <h2>${preventOrphans(page.title)}</h2>
+                    <h2>${page.title}</h2>
                     <p>${page.description || ''}</p>
                 `;
 
@@ -202,14 +198,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="audio-embed ${isDirectAudio ? 'direct-audio' : ''}">
                         ${playerElement}
                     </div>
-                    <h2>${preventOrphans(page.title)}</h2>
+                    <h2>${page.title}</h2>
                     <p>${page.description || ''}</p>
                 `;
 
             case 'code':
                 const tags = (page.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('');
                 return `
-                    <h1>${preventOrphans(page.title)}</h1>
+                    <h1>${page.title}</h1>
                     <div class="tech-stack">${tags}</div>
                     <p>${page.description}</p>
                     <a href="${page.repo}" target="_blank" rel="noopener noreferrer" class="repo-link">View Repository →</a>
@@ -217,13 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             case 'interactive':
                 return `<div class="interactive-container" data-interactive="${page.interactive}"></div>
-                        <h2>${preventOrphans(page.title)}</h2>
+                        <h2>${page.title}</h2>
                         <p>${page.description || ''}</p>`;
 
             case 'contact':
                 return `
                     <div class="contact-page">
-                        <h1>${preventOrphans(page.title)}</h1>
+                        <h1>${page.title}</h1>
                         <p class="contact-intro">Feel free to reach out via email, subscribe to my Substack, or find me on social media.</p>
                         <div class="contact-links">
                             <a href="#" id="contact-link-dynamic" data-user="${page.emailUser}" data-domain="${page.emailDomain}" class="contact-btn">Email Me</a>
@@ -236,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             case 'text':
             default:
-                return `<h1>${preventOrphans(page.title)}</h1>${page.content}`;
+                return `<h1>${page.title}</h1>${page.content}`;
         }
     }
 
