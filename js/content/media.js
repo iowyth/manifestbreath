@@ -26,7 +26,7 @@ const media = [
         title: 'SORCE Collective',
         venue: 'Website',
         year: '',
-        description: 'Sensory Ethnography and Radical Creative Engagement (SORCE) is a creative and experimental research group at Toronto Metropolitan University.',
+        description: 'Symbiotic Ontological Reflexive Community Emancipation (SORCE) is a research-creation collective based at Tkaronto Metropolitan University and York University.',
         link: 'https://iowyth.github.io/sorce',
         linkText: 'Visit'
     },
