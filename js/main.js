@@ -74,12 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 for (let x = 0; x <= width; x += 5) {
                     const u = x / width;
-                    const t = u * wave.L + time * wave.speed;
+                    const xScale = u * wave.L;
                     
-                    const yLocal = Math.sin(wave.H1 * t) + wave.B * Math.sin(wave.H2 * t) + wave.S * Math.sin(wave.H3 * t);
-                    const zLocal = Math.sin(wave.H2 * t) + wave.S * Math.cos(wave.H3 * t);
-                    const theta = wave.twist * t;
-                    const yTwisted = yLocal * Math.cos(theta) - zLocal * Math.sin(theta);
+                    const t1 = xScale * wave.H1 + time * wave.speed;
+                    const t2 = xScale * wave.H2 + time * wave.speed * 1.6;
+                    const t3 = xScale * wave.H3 + time * wave.speed * 2.2;
+                    const tz = xScale * wave.H2 + time * wave.speed * 0.8;
+                    const tTwist = xScale * wave.twist + time * wave.speed * 0.5;
+
+                    const yLocal = Math.sin(t1) + wave.B * Math.sin(t2) + wave.S * Math.sin(t3);
+                    const zLocal = Math.sin(tz) + wave.S * Math.cos(t3);
+                    const yTwisted = yLocal * Math.cos(tTwist) - zLocal * Math.sin(tTwist);
                     
                     const y = height * wave.y + yTwisted * wave.amplitude;
                     ctx.lineTo(x, y);
