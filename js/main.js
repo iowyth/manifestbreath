@@ -677,10 +677,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const totalPoints = trailLength * numTracers;
         const positions = new Float32Array(totalPoints * 3);
-        const colors = new Float32Array(totalPoints * 4); // RGBA
+        const colors = new Float32Array(totalPoints * 3); // RGB
+        const alphas = new Float32Array(totalPoints);     // Alpha
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 4));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
 
         function createFuzzyParticleTexture() {
             const size = 64;
@@ -706,6 +708,22 @@ document.addEventListener('DOMContentLoaded', () => {
             opacity: 0.7,
             depthWrite: false
         });
+
+        material.onBeforeCompile = (shader) => {
+            shader.vertexShader = shader.vertexShader.replace(
+                'void main() {',
+                'attribute float alpha;\nvarying float vAlpha;\nvoid main() {\nvAlpha = alpha;'
+            );
+            shader.fragmentShader = shader.fragmentShader.replace(
+                'void main() {',
+                'varying float vAlpha;\nvoid main() {'
+            );
+            shader.fragmentShader = shader.fragmentShader.replace(
+                'vec4 diffuseColor = vec4( diffuse, opacity );',
+                'vec4 diffuseColor = vec4( diffuse, opacity * vAlpha );'
+            );
+        };
+
         const points = new THREE.Points(geometry, material);
         scene.add(points);
 
@@ -755,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < numTracers; i++) { oldX[i] = tempX[i]; oldY[i] = tempY[i]; oldZ[i] = tempZ[i]; }
             trailX.push(oldX); trailY.push(oldY); trailZ.push(oldZ);
 
-            const posAttr = geometry.attributes.position, colAttr = geometry.attributes.color;
+            const posAttr = geometry.attributes.position, colAttr = geometry.attributes.color, alphaAttr = geometry.attributes.alpha;
             let zMin = Infinity, zMax = -Infinity;
             for (let t = 0; t < trailLength; t++) {
                 for (let i = 0; i < numTracers; i++) {
@@ -777,14 +795,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const [r, g, b] = blueYellowRedColormap(zNorm);
                     const alpha = (0.5 + 0.5 * (1.0 - Math.abs(zNorm - 0.5) * 2.0)) * trailFade;
                     
-                    colAttr.array[idx*4] = r;
-                    colAttr.array[idx*4+1] = g;
-                    colAttr.array[idx*4+2] = b;
-                    colAttr.array[idx*4+3] = alpha;
+                    colAttr.array[idx*3] = r;
+                    colAttr.array[idx*3+1] = g;
+                    colAttr.array[idx*3+2] = b;
+                    alphaAttr.array[idx] = alpha;
                     idx++;
                 }
             }
-            posAttr.needsUpdate = true; colAttr.needsUpdate = true;
+            posAttr.needsUpdate = true; colAttr.needsUpdate = true; alphaAttr.needsUpdate = true;
         }
 
         let lastTime = 0;
