@@ -207,6 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.getElementById('content-card');
         if (!card) return;
 
+        // Clean up any stale panels from interrupted animations
+        const panels = card.querySelectorAll('.card-panel');
+        if (panels.length > 1) {
+            for (let i = 0; i < panels.length - 1; i++) {
+                panels[i].remove();
+            }
+        }
+
         const content = generatePageContent(page);
 
         // No animation for initial load
@@ -263,69 +271,217 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentRow = 0; // Intro page
         let isAnimating = false;
 
-        // Show first page
-        renderPage(grid[currentCol].items[currentRow], null);
+        // Helper to parse column/row from hash
+        function parseHash(hash) {
+            if (!hash || hash === '#') {
+                return { colId: 'iowyth', rowIdx: 0 };
+            }
+            const parts = hash.replace(/^#\/?/, '').split('/');
+            const colId = parts[0];
+            const rowIdx = parseInt(parts[1], 10) || 0;
+            return { colId, rowIdx };
+        }
 
-        // Keyboard navigation handler
-        document.addEventListener('keydown', (e) => {
-            let direction = null;
+        // Navigate based on URL hash (Single Source of Truth)
+        function navigateToHash(hash) {
+            const { colId, rowIdx } = parseHash(hash);
+            let targetCol = grid.findIndex(g => g.id === colId);
+            if (targetCol === -1) {
+                targetCol = 2; // default to center column (iowyth)
+            }
+            const colLength = grid[targetCol].items.length;
+            const targetRow = Math.max(0, Math.min(rowIdx, colLength - 1));
 
-            switch (e.key) {
-                case 'ArrowLeft': direction = 'left'; break;
-                case 'ArrowRight': direction = 'right'; break;
-                case 'ArrowUp': direction = 'up'; break;
-                case 'ArrowDown': direction = 'down'; break;
+            // If it matches current state exactly, nothing to do
+            if (targetCol === currentCol && targetRow === currentRow) {
+                return;
             }
 
-            if (direction) {
+            isAnimating = true;
+
+            const oldCol = currentCol;
+            const oldRow = currentRow;
+
+            // Determine direction of movement based on coordinate delta
+            let direction = null;
+            if (targetCol !== oldCol) {
+                const diff = (targetCol - oldCol + 5) % 5;
+                if (diff === 1) direction = 'right';
+                else if (diff === 4) direction = 'left';
+            } else if (targetRow !== oldRow) {
+                const diff = (targetRow - oldRow + colLength) % colLength;
+                if (diff === 1) direction = 'down';
+                else if (diff === 4) direction = 'up';
+            }
+
+            currentCol = targetCol;
+            currentRow = targetRow;
+
+            // Update eyeball rotation Y (horizontal)
+            if (oldCol !== currentCol) {
+                let diffY;
+                if (oldCol === 4 && currentCol === 0 && direction === 'right') {
+                    diffY = 6;
+                } else if (oldCol === 0 && currentCol === 4 && direction === 'left') {
+                    diffY = -6;
+                } else {
+                    const currentYMod = ((eyeballStateY % 10) + 10) % 10;
+                    const targetYMod = (currentCol - 2 + 10) % 10;
+                    diffY = (targetYMod - currentYMod) % 10;
+                    if (diffY > 5) diffY -= 10;
+                    else if (diffY < -4) diffY += 10;
+                }
+                eyeballStateY += diffY;
+                targetY = eyeballStateY * (Math.PI / 5);
+
+                // Reset eyeball X (vertical rotation) when changing columns
+                const currentStateX = ((eyeballStateX % 12) + 12) % 12;
+                let diffX = (0 - currentStateX) % 12;
+                if (diffX > 6) diffX -= 12;
+                else if (diffX < -5) diffX += 12;
+                eyeballStateX += diffX;
+                targetX = eyeballStateX * (Math.PI / 6);
+            } else if (oldRow !== currentRow) {
+                // Update eyeball rotation X (vertical) within same column
+                const currentXMod = ((eyeballStateX % 12) + 12) % 12;
+                const targetXMod = (currentRow % 12 + 12) % 12;
+                let diffX;
+                if (oldRow === colLength - 1 && currentRow === 0 && direction === 'down') {
+                    diffX = (12 - (colLength - 1));
+                } else if (oldRow === 0 && currentRow === colLength - 1 && direction === 'up') {
+                    diffX = -(12 - (colLength - 1));
+                } else {
+                    diffX = (targetXMod - currentXMod) % 12;
+                    if (diffX > 6) diffX -= 12;
+                    else if (diffX < -5) diffX += 12;
+                }
+                eyeballStateX += diffX;
+                targetX = eyeballStateX * (Math.PI / 6);
+            }
+
+            renderPage(grid[currentCol].items[currentRow], direction, () => {
+                isAnimating = false;
+            });
+        }
+
+        // Initial Page Load Initialization
+        const initialHash = window.location.hash;
+        const { colId, rowIdx } = parseHash(initialHash);
+        let targetCol = grid.findIndex(g => g.id === colId);
+        if (targetCol === -1) targetCol = 2;
+        const colLength = grid[targetCol].items.length;
+        const targetRow = Math.max(0, Math.min(rowIdx, colLength - 1));
+
+        currentCol = targetCol;
+        currentRow = targetRow;
+
+        // Sync eyeball orientation to initial state
+        eyeballStateY = currentCol - 2;
+        targetY = eyeballStateY * (Math.PI / 5);
+        eyeballStateX = currentRow;
+        targetX = eyeballStateX * (Math.PI / 6);
+
+        renderPage(grid[currentCol].items[currentRow], null);
+
+        // Keyboard navigation handler (updates hash instead of state)
+        document.addEventListener('keydown', (e) => {
+            let keyDirection = null;
+            switch (e.key) {
+                case 'ArrowLeft': keyDirection = 'left'; break;
+                case 'ArrowRight': keyDirection = 'right'; break;
+                case 'ArrowUp': keyDirection = 'up'; break;
+                case 'ArrowDown': keyDirection = 'down'; break;
+            }
+
+            if (keyDirection) {
                 e.preventDefault();
                 if (isAnimating) return;
 
-                const oldCol = currentCol;
-                const oldRow = currentRow;
-                const colLength = grid[currentCol].items.length;
+                let nextCol = currentCol;
+                let nextRow = currentRow;
 
-                if (direction === 'left' || direction === 'right') {
-                    isAnimating = true;
-                    const delta = direction === 'right' ? 1 : -1;
-                    currentCol = (currentCol + delta + 5) % 5;
-                    currentRow = 0; // reset to column title
+                if (keyDirection === 'left' || keyDirection === 'right') {
+                    const delta = keyDirection === 'right' ? 1 : -1;
+                    nextCol = (currentCol + delta + 5) % 5;
+                    nextRow = 0;
+                } else if (keyDirection === 'up' || keyDirection === 'down') {
+                    const delta = keyDirection === 'down' ? 1 : -1;
+                    const len = grid[currentCol].items.length;
+                    nextRow = (currentRow + delta + len) % len;
+                }
 
-                    // Update eyeball Y (horizontal rotation)
-                    const step = (oldCol === 4 && currentCol === 0) ? 6 :
-                                 (oldCol === 0 && currentCol === 4) ? -6 :
-                                 delta;
-                    eyeballStateY += step;
-                    targetY = eyeballStateY * (Math.PI / 5);
+                window.location.hash = `#${grid[nextCol].id}/${nextRow}`;
+            }
+        });
 
-                    // Reset eyeball X (vertical rotation)
-                    const currentStateX = ((eyeballStateX % 12) + 12) % 12;
-                    let diffX = (0 - currentStateX) % 12;
-                    if (diffX > 6) diffX -= 12;
-                    else if (diffX < -5) diffX += 12;
-                    eyeballStateX += diffX;
-                    targetX = eyeballStateX * (Math.PI / 6);
+        // Touch Swipe navigation handler
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchStartTime = 0;
 
-                    renderPage(grid[currentCol].items[currentRow], direction, () => {
-                        isAnimating = false;
-                    });
-                } else if (direction === 'up' || direction === 'down') {
-                    isAnimating = true;
-                    const delta = direction === 'down' ? 1 : -1;
-                    currentRow = (currentRow + delta + colLength) % colLength;
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 1) return; // ignore multi-touch gestures
 
-                    // Update eyeball X (vertical rotation)
-                    const step = (oldRow === colLength - 1 && currentRow === 0) ? (12 - (colLength - 1)) :
-                                 (oldRow === 0 && currentRow === colLength - 1) ? -(12 - (colLength - 1)) :
-                                 delta;
-                    eyeballStateX += step;
-                    targetX = eyeballStateX * (Math.PI / 6);
+            const target = e.target;
+            // Exclude canvas, iframes, audio players, or interactive widgets
+            if (target.closest('iframe') || target.closest('canvas') || target.closest('audio') || target.closest('.interactive-container')) {
+                return;
+            }
 
-                    renderPage(grid[currentCol].items[currentRow], direction, () => {
-                        isAnimating = false;
-                    });
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            if (isAnimating) return;
+
+            const target = e.target;
+            if (target.closest('iframe') || target.closest('canvas') || target.closest('audio') || target.closest('.interactive-container')) {
+                return;
+            }
+
+            const diffX = e.changedTouches[0].clientX - touchStartX;
+            const diffY = e.changedTouches[0].clientY - touchStartY;
+            const duration = Date.now() - touchStartTime;
+
+            const threshold = 50; // minimum swipe distance in pixels
+            const maxDuration = 300; // maximum swipe time in milliseconds
+
+            if (duration > maxDuration) return;
+
+            let swipeDirection = null;
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > threshold) {
+                    swipeDirection = diffX > 0 ? 'left' : 'right'; // Swipe right moves left, swipe left moves right
+                }
+            } else {
+                if (Math.abs(diffY) > threshold) {
+                    swipeDirection = diffY > 0 ? 'up' : 'down'; // Swipe down moves up, swipe up moves down
                 }
             }
+
+            if (swipeDirection) {
+                let nextCol = currentCol;
+                let nextRow = currentRow;
+
+                if (swipeDirection === 'left' || swipeDirection === 'right') {
+                    const delta = swipeDirection === 'right' ? 1 : -1;
+                    nextCol = (currentCol + delta + 5) % 5;
+                    nextRow = 0;
+                } else if (swipeDirection === 'up' || swipeDirection === 'down') {
+                    const delta = swipeDirection === 'down' ? 1 : -1;
+                    const len = grid[currentCol].items.length;
+                    nextRow = (currentRow + delta + len) % len;
+                }
+
+                window.location.hash = `#${grid[nextCol].id}/${nextRow}`;
+            }
+        });
+
+        // Listen for hash changes to trigger animations
+        window.addEventListener('hashchange', () => {
+            navigateToHash(window.location.hash);
         });
     }
 
