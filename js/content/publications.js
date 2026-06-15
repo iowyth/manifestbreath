@@ -10,7 +10,7 @@ const publications = [
         venue: 'Routledge',
         year: '2026',
         description: 'An exploration of international alternative media networks, typologies, and horizontal organizing models.',
-        link: 'https://www.routledge.com/The-Political-Economy-of-Alternative-Media/Jeppesen-Faubert-ulthiin-Petersen/p/book/9781032822457'
+        link: 'https://www.routledge.com/The-Political-Economy-of-Alternative-Media/Jeppesen-Faubert-ulthiin-Petersen/p/book/9781032636375'
     },
     {
         type: 'publication',
@@ -64,7 +64,7 @@ const publications = [
         venue: 'Routledge (Co-edited)',
         year: '2022',
         description: 'Digital Media, Disinformation, and Democracy Under Attack.',
-        link: 'https://www.routledge.com/The-Capitol-Riots-Digital-Media-Disinformation-and-Democracy-Under-Attack/Jeppesen-Hoechsmann-ulthiin-VanDyke-McKee/p/book/9781032246864'
+        link: 'https://www.routledge.com/The-Capitol-Riots-Digital-Media-Disinformation-and-Democracy-Under-Attack/Jeppesen-Hoechsmann-ulthiin-VanDyke-McKee/p/book/9781032160405'
     },
     {
         type: 'publication',
