@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 speed: 0.015,
                 H1: 1.0, H2: 0.5, H3: 2.0,
                 B: 0.5, S: 0.15,
-                couplingPhase: 0.08, couplingVertical: 0.35,
+                couplingPhase: 0.0, couplingVertical: 0.1,
                 color: 'rgba(160, 140, 180, 0.12)'
             },
             {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 speed: 0.025,
                 H1: 1.0, H2: 0.5, H3: 2.0,
                 B: 0.5, S: 0.15,
-                couplingPhase: 0.1, couplingVertical: 0.4,
+                couplingPhase: 0.0, couplingVertical: 0.1,
                 color: 'rgba(200, 180, 220, 0.1)'
             }
         ];
