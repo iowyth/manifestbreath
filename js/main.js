@@ -37,9 +37,30 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resize);
 
         const waves = [
-            { y: 0.5, amplitude: 30, frequency: 0.015, speed: 0.02, color: 'rgba(180, 160, 200, 0.15)' },
-            { y: 0.55, amplitude: 25, frequency: 0.02, speed: 0.015, color: 'rgba(160, 140, 180, 0.12)' },
-            { y: 0.6, amplitude: 20, frequency: 0.025, speed: 0.025, color: 'rgba(200, 180, 220, 0.1)' }
+            {
+                y: 0.5,
+                amplitude: 30,
+                H1: 1.0, H2: 3.0, H3: 5.0,
+                B: 0.3, S: 0.15, twist: 0.4,
+                L: 12.0, speed: 0.5,
+                color: 'rgba(180, 160, 200, 0.15)'
+            },
+            {
+                y: 0.55,
+                amplitude: 25,
+                H1: 1.2, H2: 2.5, H3: 4.0,
+                B: 0.25, S: 0.1, twist: -0.3,
+                L: 10.0, speed: 0.4,
+                color: 'rgba(160, 140, 180, 0.12)'
+            },
+            {
+                y: 0.6,
+                amplitude: 20,
+                H1: 0.8, H2: 3.5, H3: 6.0,
+                B: 0.35, S: 0.2, twist: 0.6,
+                L: 15.0, speed: 0.6,
+                color: 'rgba(200, 180, 220, 0.1)'
+            }
         ];
 
         let time = 0;
@@ -52,9 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.moveTo(0, height);
 
                 for (let x = 0; x <= width; x += 5) {
-                    const y = height * wave.y +
-                        Math.sin(x * wave.frequency + time * wave.speed * 60) * wave.amplitude +
-                        Math.sin(x * wave.frequency * 0.5 + time * wave.speed * 30) * wave.amplitude * 0.5;
+                    const u = x / width;
+                    const t = u * wave.L + time * wave.speed;
+                    
+                    const yLocal = Math.sin(wave.H1 * t) + wave.B * Math.sin(wave.H2 * t) + wave.S * Math.sin(wave.H3 * t);
+                    const zLocal = Math.sin(wave.H2 * t) + wave.S * Math.cos(wave.H3 * t);
+                    const theta = wave.twist * t;
+                    const yTwisted = yLocal * Math.cos(theta) - zLocal * Math.sin(theta);
+                    
+                    const y = height * wave.y + yTwisted * wave.amplitude;
                     ctx.lineTo(x, y);
                 }
 
