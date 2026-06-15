@@ -7,7 +7,7 @@ const interactive = [
         type: 'interactive',
         title: 'Möbius-Klein Attractor',
         interactive: 'mobius-attractor',
-        description: 'Higher-dimensional recursive folding with plasma oscillation.'
+        description: 'Exploratory higher dimensional looping visual.'
     },
     {
         type: 'code',
