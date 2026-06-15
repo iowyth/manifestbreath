@@ -7,7 +7,7 @@ const interactive = [
         type: 'interactive',
         title: 'Möbius-Klein Attractor',
         interactive: 'mobius-attractor',
-        description: 'Exploratory higher dimensional looping visual.'
+        description: 'Higher dimensional looping visual.'
     },
     {
         type: 'code',
