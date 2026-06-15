@@ -3,7 +3,7 @@
  * ======================================
  *
  * Content is organized in a 2D grid:
- *   Columns: papers (0), books (1), iowyth/home (2), videos (3), coding (4)
+ *   Columns: papers (0), books (1), iowyth/home (2), media (3), coding (4)
  *   Rows: Row 0 is the title/intro page of that column, followed by item rows.
  */
 
@@ -62,10 +62,10 @@ const grid = [
         ]
     },
     {
-        id: 'videos',
-        title: 'videos',
+        id: 'media',
+        title: 'media',
         items: [
-            { type: 'column-title', title: 'videos' },
+            { type: 'column-title', title: 'media' },
             ...media
         ]
     },
