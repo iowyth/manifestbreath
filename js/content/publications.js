@@ -118,7 +118,7 @@ const publications = [
         venue: 'The Conversation',
         year: '2022',
         description: 'Explores how far-right women leverage maternal narratives and protective tropes to normalize extremist ideologies and mobilize support.',
-        link: 'https://theconversation.com/mothers-of-the-movement-leadership-by-alt-right-women-paves-the-way-for-violence-189704'
+        link: 'https://theconversation.com/mothers-of-the-movement-leadership-by-alt-right-women-paves-the-way-for-violence-188422'
     },
     {
         type: 'publication',
