@@ -127,6 +127,6 @@ const publications = [
         venue: 'El algoritmo de<br>la incertidumbre',
         year: '2021',
         description: 'An exploration of the tension between freedom of expression and denialism in the post-digital era, published in Spanish.',
-        link: 'https://dialnet.unirioja.es/servlet/libro?codigo=814275'
+        link: 'https://gedisaeditorial.wordpress.com/wp-content/uploads/2021/10/el_algoritmo_de_la_incertidumbre_prensa-extracto.pdf'
     },
 ];
