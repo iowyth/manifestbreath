@@ -41,9 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 y: 0.5,
                 amplitude: 30,
                 frequency: 0.015,
-                speed: 0.005,
+                speed: 0.002,
                 H1: 1.0, H2: 0.5, H3: 2.0,
-                B: 0.5, S: 0.10,
+                B: 0.5, S: 0.07,
                 couplingPhase: 0.0, couplingVertical: 0.0,
                 color: 'rgba(180, 160, 200, 0.15)'
             },
@@ -51,9 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 y: 0.55,
                 amplitude: 25,
                 frequency: 0.02,
-                speed: 0.0035,
+                speed: 0.0015,
                 H1: 1.0, H2: 0.5, H3: 2.0,
-                B: 0.5, S: 0.10,
+                B: 0.5, S: 0.07,
                 couplingPhase: 0.0, couplingVertical: 0.1,
                 color: 'rgba(160, 140, 180, 0.12)'
             },
@@ -61,9 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 y: 0.6,
                 amplitude: 20,
                 frequency: 0.025,
-                speed: 0.006,
+                speed: 0.0025,
                 H1: 1.0, H2: 0.5, H3: 2.0,
-                B: 0.5, S: 0.10,
+                B: 0.5, S: 0.07,
                 couplingPhase: 0.0, couplingVertical: 0.1,
                 color: 'rgba(200, 180, 220, 0.1)'
             }

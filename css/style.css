@@ -121,6 +121,7 @@ body {
     font-family: 'Silkscreen', cursive;
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
+    text-wrap: balance;
 }
 
 .card-panel h2 {
@@ -159,6 +160,7 @@ body {
     color: #666;
     margin-bottom: 0.25rem;
     text-align: center;
+    text-wrap: balance;
 }
 
 .card-panel.publication .year {
