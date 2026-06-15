@@ -84,4 +84,49 @@ const publications = [
         description: 'A collection of essays and articles exploring the intersections of mental health, somatic movement, and trauma-informed spirituality.',
         link: 'https://www.spiralnature.com/author/chrysanthemum-white-alder/'
     },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Dialogical Consent Practices in Research With 2S-LGBTQ+ Youth',
+        venue: 'Diversity & Inclusion Research',
+        year: '2025',
+        description: 'Proposes a methodological framework for dialogical youth self-consent to support agency and participation for intersectional 2S-LGBTQ+ youth in community-engaged research.',
+        link: 'https://doi.org/10.1002/dvr2.70026'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Murmurations in the Swarm: Trolling in the Age of Rhizomatic Reproduction',
+        venue: 'Pygmalion Democracy',
+        year: '2025',
+        description: 'A critique of digital trolling and swarm behavior, exploring how contemporary platforms and communication structures impact democratic spaces and social movements.',
+        link: 'https://doi.org/10.5281/zenodo.16906346'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Couches, Kitchens, and Conspiracy: Lifestyle Marketing in the Midst of a Crisis',
+        venue: 'Media Literacy, Equity, and Justice',
+        year: '2022',
+        description: 'An analysis of how lifestyle and spiritual influencers co-opted conspiracy theories like QAnon during the COVID-19 pandemic.',
+        link: 'https://doi.org/10.4324/9781003175599-3'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Mothers of the movement: Leadership by alt-right women paves the way for violence',
+        venue: 'The Conversation',
+        year: '2022',
+        description: 'Explores how far-right women leverage maternal narratives and protective tropes to normalize extremist ideologies and mobilize support.',
+        link: 'https://theconversation.com/mothers-of-the-movement-leadership-by-alt-right-women-paves-the-way-for-violence-189704'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Entre la libertad y el negacionismo',
+        venue: 'El algoritmo de la incertidumbre',
+        year: '2021',
+        description: 'An exploration of the tension between freedom of expression and denialism in the post-digital era, published in Spanish.',
+        link: 'https://dialnet.unirioja.es/servlet/libro?codigo=814275'
+    },
 ];
