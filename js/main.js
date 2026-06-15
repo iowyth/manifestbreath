@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="venue">${page.venue}</p>
                     <p class="year">${page.year}</p>
                     <p>${page.description}</p>
-                    <a href="${page.link}" target="_blank" rel="noopener noreferrer" class="read-link">Read →</a>
+                    <a href="${page.link}" target="_blank" rel="noopener noreferrer" class="read-link">${page.linkText || 'Read'} →</a>
                 `;
 
             case 'image':

@@ -21,6 +21,15 @@ const media = [
         embedUrl: 'https://player.vimeo.com/video/187204270',
         description: ''
     },
+    {
+        type: 'publication',
+        title: 'SORCE Collective',
+        venue: 'Website',
+        year: '',
+        description: 'Sensory Ethnography and Radical Creative Engagement (SORCE) is a creative and experimental research group at Toronto Metropolitan University.',
+        link: 'https://iowyth.github.io/sorce',
+        linkText: 'Visit'
+    },
 
     // Add more videos:
     // {
