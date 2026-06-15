@@ -81,7 +81,7 @@ const publications = [
         title: 'Essays & Articles',
         venue: 'Spiral Nature Magazine',
         year: '2017–2018',
-        description: 'A collection of essays and articles exploring the intersections of mental health, somatic movement, mirror magic, and trauma-informed meditation.',
+        description: 'A collection of essays and articles exploring the intersections of mental health, somatic movement, and trauma-informed spirituality.',
         link: 'https://www.spiralnature.com/author/chrysanthemum-white-alder/'
     },
 ];
