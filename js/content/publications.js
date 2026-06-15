@@ -5,6 +5,34 @@
 const publications = [
     {
         type: 'publication',
+        category: 'book',
+        title: 'The Political Economy of Alternative Media',
+        venue: 'Routledge',
+        year: '2026',
+        description: 'An exploration of international alternative media networks, typologies, and horizontal organizing models.',
+        link: 'https://www.routledge.com/The-Political-Economy-of-Alternative-Media/Jeppesen-Faubert-ulthiin-Petersen/p/book/9781032822457'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Organizing media: A political economy typology of alternative media',
+        venue: 'Journal of Alternative & Community Media',
+        year: '2025',
+        description: 'A study proposing a new typology for classification of alternative media from a political economy perspective.',
+        link: 'https://intellectdiscover.com/content/journals/jacm'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
+        title: 'Transformative Media: A Critical Approach to Alt-right Media Appropriations',
+        venue: 'tripleC: Communication, Capitalism & Critique',
+        year: '2025',
+        description: 'A critical analysis of digital platforms, alt-right communication methods, and alternative media strategies.',
+        link: 'https://www.triple-c.at/index.php/tripleC'
+    },
+    {
+        type: 'publication',
+        category: 'paper',
         title: 'The Phenomenology of Dissensus',
         venue: 'Review of Education, Pedagogy, and Cultural Studies',
         year: '2024',
@@ -13,6 +41,7 @@ const publications = [
     },
     {
         type: 'publication',
+        category: 'paper',
         title: 'Before and After Gravity',
         venue: 'Canadian Journal of Theology, Mental Health and Disability',
         year: '2024',
@@ -21,6 +50,7 @@ const publications = [
     },
     {
         type: 'publication',
+        category: 'book',
         title: 'The Witch: A Pedagogy of Immanence',
         venue: 'Dio Press (Monograph)',
         year: '2023',
@@ -29,6 +59,7 @@ const publications = [
     },
     {
         type: 'publication',
+        category: 'book',
         title: 'The Capitol Riots',
         venue: 'Routledge (Co-edited)',
         year: '2022',
@@ -37,6 +68,7 @@ const publications = [
     },
     {
         type: 'publication',
+        category: 'paper',
         title: 'Body as Prism',
         venue: 'Canadian Journal of Environmental Education',
         year: '2020',
